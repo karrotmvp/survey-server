@@ -27,6 +27,8 @@ dependencies {
     // API
     implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release"))
     implementation "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter"
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.11'
+
 
     // Database
     runtimeOnly 'com.h2database:h2'

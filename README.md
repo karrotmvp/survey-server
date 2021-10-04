@@ -2,12 +2,15 @@
 
 
 ## 프로젝트 세팅
+### Config
+- [ ] Spring Security
+
 ### API
-- [ ] GraphQL(DGS)
-- [ ] Swagger
+- [x] GraphQL(DGS)
+- [x] Swagger
 
 ### Test
-- [ ] Junit5
+- [x] Junit5
 - [ ] DBUnit
 
 ### Data

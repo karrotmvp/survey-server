@@ -1,0 +1,6 @@
+springdoc:
+  swagger-ui:
+   path: /rest-api/swagger-ui.html
+  paths-to-match: /rest-api
+  api-docs:
+    path: /rest-api
