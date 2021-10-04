@@ -12,6 +12,7 @@
 ### Test
 - [x] Junit5
 - [ ] DBUnit
+- [ ] Fixture Monkey // Entity 조건 검사용
 
 ### Data
 - [x] Spring Data JPA
