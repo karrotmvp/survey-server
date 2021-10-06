@@ -1,4 +1,4 @@
-package com.daangn.survey.config;
+package com.daangn.survey.core.config;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
