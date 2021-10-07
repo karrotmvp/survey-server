@@ -2,10 +2,13 @@ package com.daangn.survey.question.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
 import com.daangn.survey.survey.model.entity.Survey;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Getter
 @Entity
 @Table(name = "question")

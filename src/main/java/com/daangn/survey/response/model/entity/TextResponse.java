@@ -2,15 +2,14 @@ package com.daangn.survey.response.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
 import com.daangn.survey.question.model.entity.Question;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 @Table(name = "text_response")
 public class TextResponse extends BaseEntity {

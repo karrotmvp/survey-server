@@ -9,7 +9,8 @@ import javax.persistence.*;
 
 @Builder
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 @Table(name = "survey_response")
 public class SurveyResponse extends BaseEntity {

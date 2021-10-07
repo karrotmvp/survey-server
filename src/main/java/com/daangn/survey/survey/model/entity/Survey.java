@@ -1,16 +1,15 @@
 package com.daangn.survey.survey.model.entity;
 
 import com.daangn.survey.question.model.entity.Question;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Builder
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 @Table(name = "survey")
 public class Survey {
