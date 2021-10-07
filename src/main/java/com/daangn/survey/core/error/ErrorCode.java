@@ -14,7 +14,13 @@ public enum ErrorCode {
     ENTITY_NOT_FOUND(400, "Entity Not Found"),
     INTERNAL_SERVER_ERROR(500,  "Server Error"),
     INVALID_TYPE_VALUE(400,  " Invalid Type Value"),
-    HANDLE_ACCESS_DENIED(403, "Access is Denied")
+    HANDLE_ACCESS_DENIED(403, "Access is Denied"),
+
+    // Jwt
+    UNSUPPORTED_JWT(401, "Unsupported Jwt"),
+    EXPIRED_JWT(401, "Expired Jwt"),
+    SIGNATURE_INVALID_JWT(401, "Signature Invalid Jwt"),
+    JWT_NOT_FOUND(401, "Jwt Not Found")
     ;
     private final String message;
     private int status;
