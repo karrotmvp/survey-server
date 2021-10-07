@@ -17,16 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String[] EXCLUDED_URLS = {
-            "/api/member/signup",
-            "/api/member/nickname-exists/**",
-            "/api/member/user-exists/**",
-            "/api/test",
-            "/api/test-failure",
-            "/api/jwt",
-            "/api/member/signin",
-            "/api/member/refresh",
-            "/",
-            "/api/fcm-token"
+
     };
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -55,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/api-docs", "/configuration/ui",
+        web.ignoring().antMatchers("/api-docs/**", "/configuration/ui",
                 "/swagger-resources/**", "/configuration/security",
                 "/swagger-ui/**", "/webjars/**","/swagger/**");
     }

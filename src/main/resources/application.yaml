@@ -1,6 +1,7 @@
 springdoc:
   swagger-ui:
    path: /api-docs
+   display-query-params-without-oauth2: true
   paths-to-match: /api-docs
   api-docs:
     path: /api-docs
