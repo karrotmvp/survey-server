@@ -17,3 +17,6 @@ spring:
     url: jdbc:mysql://database-survey.c8zwh9jcttzy.ap-northeast-2.rds.amazonaws.com:3306?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: allen
     password: daangnsurvey
+
+server:
+  port: 5000
