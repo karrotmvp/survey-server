@@ -18,5 +18,6 @@
 - [x] Spring Data JPA
 - [ ] Spring Data Envers
 - [x] MapStruct
+- [ ] QueryDSL
 
 

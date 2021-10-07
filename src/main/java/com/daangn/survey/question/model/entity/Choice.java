@@ -18,7 +18,7 @@ public class Choice {
     private Question question;
 
     @Column(nullable = false)
-    private Integer order;
+    private Integer number;
 
     @Column(nullable = false)
     private String value;

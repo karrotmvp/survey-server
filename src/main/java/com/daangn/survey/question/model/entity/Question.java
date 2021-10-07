@@ -26,9 +26,9 @@ public class Question extends BaseEntity {
     private QuestionType questionType;
 
     @Column(nullable = false)
-    private String text;
+    private Integer number;
 
     @Column(nullable = false)
-    private Integer number;
+    private String text;
 
 }
