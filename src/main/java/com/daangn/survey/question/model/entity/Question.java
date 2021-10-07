@@ -25,6 +25,7 @@ public class Question extends BaseEntity {
     @JoinColumn(name = "question_type_id")
     private QuestionType questionType;
 
+    @Column(nullable = false)
     private String text;
 
     @Column(nullable = false)
