@@ -1,8 +1,11 @@
 springdoc:
   swagger-ui:
    path: /api-docs
-  paths-to-match: /api
+  paths-to-match: /api-docs
   api-docs:
-    path: /api
+    path: /api-docs
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+
+jwt:
+  secret: ssdfasdftest
