@@ -1,6 +1,8 @@
 springdoc:
   swagger-ui:
-   path: /rest-api/swagger-ui.html
-  paths-to-match: /rest-api
+   path: /api-docs
+  paths-to-match: /api
   api-docs:
-    path: /rest-api
+    path: /api
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json

@@ -1,8 +1,6 @@
 package com.daangn.survey.response.model.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
@@ -10,7 +8,8 @@ import java.util.Objects;
 
 @Builder
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Embeddable
 public class ChoiceResponsePK implements Serializable {
     private Long choiceId;

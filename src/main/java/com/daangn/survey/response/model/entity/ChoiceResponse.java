@@ -3,16 +3,14 @@ package com.daangn.survey.response.model.entity;
 import com.daangn.survey.common.entity.BaseEntity;
 import com.daangn.survey.question.model.entity.Choice;
 import com.daangn.survey.question.model.entity.Question;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 @Table(name = "choice_response")
 public class ChoiceResponse extends BaseEntity {
