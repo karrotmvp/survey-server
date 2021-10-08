@@ -14,22 +14,40 @@ import javax.persistence.*;
 @Entity
 @Table(name = "choice_response")
 public class ChoiceResponse extends BaseEntity {
-    @EmbeddedId
-    private ChoiceResponsePK choiceResponsePK;
 
-    @MapsId("surveyResponseId")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "survey_response_id")
-    private SurveyResponse surveyResponse;
+    @JoinColumn(name = "choice_id")
+    private Choice choice;
 
-    @MapsId("questionId")
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @MapsId("choiceId")
     @ManyToOne
-    @JoinColumn(name = "choice_id")
-    private Choice choice;
+    @JoinColumn(name = "survey_response_id")
+    private SurveyResponse surveyResponse;
+    
+//    @EmbeddedId
+//    private ChoiceResponsePK choiceResponsePK;
+//
+//    @MapsId("surveyResponseId")
+//    @ManyToOne
+//    @JoinColumn(name = "survey_response_id")
+//    private SurveyResponse surveyResponse;
+//
+//    @MapsId("questionId")
+//    @ManyToOne
+//    @JoinColumn(name = "question_id")
+//    private Question question;
+//
+//    @MapsId("choiceId")
+//    @ManyToOne
+//    @JoinColumn(name = "choice_id")
+//    private Choice choice;
 
 }
