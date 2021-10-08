@@ -3,7 +3,7 @@
 
 ## 프로젝트 세팅
 ### Config
-- [ ] Spring Security
+- [x] Spring Security
 
 ### API
 - [x] GraphQL(DGS)
@@ -19,5 +19,8 @@
 - [ ] Spring Data Envers
 - [x] MapStruct
 - [ ] QueryDSL
+
+### Plugin
+- [x] JPA Buddy
 
 
