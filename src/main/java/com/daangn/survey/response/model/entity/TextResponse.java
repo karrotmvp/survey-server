@@ -13,20 +13,35 @@ import javax.persistence.*;
 @Entity
 @Table(name = "text_response")
 public class TextResponse extends BaseEntity {
-    @EmbeddedId
-    private TextResponsePK textResponsePK;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
 
     @Column(nullable = false, length = 100)
     private String answer;
 
-    @MapsId("surveyResponseId")
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
+
     @ManyToOne
     @JoinColumn(name = "survey_response_id")
     private SurveyResponse surveyResponse;
 
-    @MapsId("questionId")
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    private Question question;
+//    @EmbeddedId
+//    private TextResponsePK textResponsePK;
+//
+//    @MapsId("surveyResponseId")
+//    @ManyToOne
+//    @JoinColumn(name = "survey_response_id")
+//    private SurveyResponse surveyResponse;
+//
+//    @MapsId("questionId")
+//    @ManyToOne
+//    @JoinColumn(name = "question_id")
+//    private Question question;
 
 }

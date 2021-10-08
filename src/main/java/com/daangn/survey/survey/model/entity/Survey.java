@@ -28,6 +28,10 @@ public class Survey {
     @Column(name = "is_published")
     private boolean isPublished = false;
 
+    @Builder.Default
+    @Column(name = "is_deleted")
+    private boolean isDeleted = false;
+
     @OneToMany(mappedBy = "survey", orphanRemoval = true)
     private List<Question> questions;
     
