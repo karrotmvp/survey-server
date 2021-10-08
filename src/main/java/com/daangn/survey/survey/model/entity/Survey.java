@@ -19,8 +19,8 @@ public class Survey {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 50)
-    private String name;
+    @Column(name = "title", nullable = false, length = 50)
+    private String title;
 
     @Column(name = "description", nullable = false, length = 200)
     private String description;

@@ -5,7 +5,6 @@ import com.daangn.survey.survey.service.SurveyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,7 @@ public class SurveyController {
 
     @Operation(summary = "설문 디테일 조회", description = "description")
     @GetMapping("{surveyId}")
-    public ResponseEntity<ResponseDto<?>> getSurveyDetail(){
+    public ResponseEntity<ResponseDto<?>> getSurveyDetail(@PathVariable Long surveyId){
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED));
     }
 
