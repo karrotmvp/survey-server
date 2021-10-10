@@ -1,5 +1,6 @@
 package com.daangn.survey.domain.survey.model.entity;
 
+import com.daangn.survey.domain.question.model.entity.Question;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package com.daangn.survey.domain.survey.model.dto;
+package com.daangn.survey.domain.question.model.dto;
 
 import lombok.*;
 

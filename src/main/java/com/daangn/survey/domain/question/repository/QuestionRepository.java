@@ -1,6 +1,6 @@
-package com.daangn.survey.domain.survey.repository;
+package com.daangn.survey.domain.question.repository;
 
-import com.daangn.survey.domain.survey.model.entity.Question;
+import com.daangn.survey.domain.question.model.entity.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

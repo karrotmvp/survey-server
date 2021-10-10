@@ -1,8 +1,8 @@
-package com.daangn.survey.domain.survey.model.mapper;
+package com.daangn.survey.domain.question.model.mapper;
 
-import com.daangn.survey.domain.survey.model.dto.QuestionDto;
-import com.daangn.survey.domain.survey.model.entity.Question;
-import com.daangn.survey.domain.survey.model.entity.QuestionType;
+import com.daangn.survey.domain.question.model.dto.QuestionDto;
+import com.daangn.survey.domain.question.model.entity.Question;
+import com.daangn.survey.domain.question.model.entity.QuestionType;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;

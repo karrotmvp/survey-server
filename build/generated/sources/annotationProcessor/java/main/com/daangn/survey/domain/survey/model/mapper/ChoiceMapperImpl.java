@@ -1,6 +1,8 @@
 package com.daangn.survey.domain.survey.model.mapper;
 
 import javax.annotation.processing.Generated;
+
+import com.daangn.survey.domain.question.model.mapper.ChoiceMapper;
 import org.springframework.stereotype.Component;
 
 @Generated(
