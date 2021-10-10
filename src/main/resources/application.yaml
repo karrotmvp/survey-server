@@ -24,6 +24,6 @@ spring:
     username: allen
     password: daangnsurvey
   jpa:
-#    hibernate:
-#      ddl-auto: create
+    hibernate:
+      ddl-auto: update
     show-sql: true

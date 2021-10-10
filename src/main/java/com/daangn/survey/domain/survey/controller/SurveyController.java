@@ -1,7 +1,12 @@
 package com.daangn.survey.domain.survey.controller;
 
 import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.core.annotation.CurrentUser;
+import com.daangn.survey.domain.member.model.entity.BizMember;
+import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
+import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
+import com.daangn.survey.domain.survey.model.entity.Survey;
 import com.daangn.survey.domain.survey.service.SurveyService;
 import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.daangn.survey.common.message.ResponseMessage.SURVEY_SAVED;
@@ -24,32 +30,35 @@ import static com.daangn.survey.common.message.ResponseMessage.SURVEY_SAVED;
 public class SurveyController {
     private final SurveyService surveyService;
 
-    @Operation(summary = "설문 생성", description = "description")
+    @Operation(summary = "설문 생성", description = "설문과 질문들을 저장합니다.")
     @PostMapping
-    public ResponseEntity<ResponseDto<?>> saveSurvey(@RequestBody Map<String, Object> responseBody){
+    public ResponseEntity<ResponseDto<?>> saveSurvey(@CurrentUser Member member, @RequestBody Map<String, Object> responseBody){
 
         Gson gson = new Gson();
 
-        SurveyDto survey = gson.fromJson(responseBody.toString(), SurveyDto.class);
+        SurveyDto surveyDto = gson.fromJson(responseBody.toString(), SurveyDto.class);
 
-        surveyService.saveSurvey(survey);
+        surveyService.saveSurvey(member, surveyDto);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED));
     }
 
-    @Operation(summary = "리스트 조회", description = "description")
+    @Operation(summary = "설문 리스트 조회", description = "설문 리스트를 조회합니다.")
     @GetMapping
-    public ResponseEntity<ResponseDto<?>> getSurveys(){
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED));
+    public ResponseEntity<ResponseDto<List<SurveySummaryDto>>> getSurveys(@CurrentUser Member member){
+        if(member == null){
+            member = BizMember.builder().build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED, surveyService.findAll(1L)));
     }
 
-    @Operation(summary = "설문 디테일 조회", description = "description")
+    @Operation(summary = "설문 디테일 조회", description = "설문 디테일을 조회합니다.")
     @GetMapping("{surveyId}")
     public ResponseEntity<ResponseDto<?>> getSurveyDetail(@PathVariable Long surveyId){
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED));
     }
 
-    @Operation(summary = "설문 삭제", description = "description")
+    @Operation(summary = "설문 삭제", description = "설문을 삭제합니다.")
     @DeleteMapping("{surveyId}")
     public ResponseEntity<ResponseDto<?>> deleteSurvey(){
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED));
