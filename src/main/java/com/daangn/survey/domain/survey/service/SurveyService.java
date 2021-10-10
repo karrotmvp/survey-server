@@ -42,13 +42,15 @@ public class SurveyService {
         for(int idx = 0; idx < surveyDto.getQuestionList().size(); idx++){
             QuestionDto questionDto = surveyDto.getQuestionList().get(idx);
 
-            questions.add(questionMapper.entityBuilder(questionDto, idx, questionTypeRepository.findById(questionDto.getQuestionType()).get()));
+            Question question = questionMapper.entityBuilder(questionDto, idx, questionTypeRepository.findById(questionDto.getQuestionType()).get(), survey);
+
+            questions.add(question);
 
             if(questionDto.getQuestionType() == 2) { // TODO : Enum으로 변경하기
                 for (int number = 0; number < questionDto.getChoiceList().size(); number++) {
                     ChoiceDto choiceDto = questionDto.getChoiceList().get(number);
 
-                    choices.add(choiceMapper.entityBuilder(choiceDto, number));
+                    choices.add(choiceMapper.entityBuilder(choiceDto, number, question));
                 }
             }
         }
