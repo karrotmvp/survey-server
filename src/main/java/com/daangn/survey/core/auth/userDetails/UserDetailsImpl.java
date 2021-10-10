@@ -1,6 +1,6 @@
 package com.daangn.survey.core.auth.userDetails;
 
-import com.daangn.survey.member.model.entity.Member;
+import com.daangn.survey.domain.member.model.entity.Member;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
