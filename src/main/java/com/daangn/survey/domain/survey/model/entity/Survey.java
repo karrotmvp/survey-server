@@ -1,6 +1,8 @@
 package com.daangn.survey.domain.survey.model.entity;
 
+import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Question;
+import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +20,10 @@ public class Survey {
     @Column(name = "id")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member author;
+
     @Column(name = "title", nullable = false, length = 50)
     private String title;
 
@@ -34,5 +40,8 @@ public class Survey {
 
     @OneToMany(mappedBy = "survey", orphanRemoval = true)
     private List<Question> questions;
+
+    @OneToMany(mappedBy = "survey", orphanRemoval = true)
+    private List<SurveyResponse> surveyResponses;
     
 }

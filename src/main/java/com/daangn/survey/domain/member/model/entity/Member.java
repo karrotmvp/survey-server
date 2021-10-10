@@ -17,7 +17,7 @@ public abstract class Member extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "daangn_user_id", nullable = false)
+    @Column(name = "daangn_user_id", nullable = false, unique = true)
     private String daangnUserId;
 
     @Column(name = "nickname", nullable = false)
