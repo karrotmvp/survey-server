@@ -1,10 +1,8 @@
 package com.daangn.survey.survey.model.entity;
 
-import com.daangn.survey.question.model.entity.Question;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder

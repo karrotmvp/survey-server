@@ -1,16 +1,26 @@
 package com.daangn.survey.survey.controller;
 
 import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.survey.model.dto.QuestionDto;
+import com.daangn.survey.survey.model.dto.SurveyDto;
 import com.daangn.survey.survey.service.SurveyService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 import static com.daangn.survey.common.message.ResponseMessage.SURVEY_SAVED;
 
+@Slf4j
 @Tag(name = "설문 엔드포인트")
 @RestController
 @RequestMapping("/api/v1/surveys")
@@ -20,7 +30,14 @@ public class SurveyController {
 
     @Operation(summary = "설문 생성", description = "description")
     @PostMapping
-    public ResponseEntity<ResponseDto<?>> saveSurvey(){
+    public ResponseEntity<ResponseDto<?>> saveSurvey(@RequestBody Map<String, Object> responseBody){
+
+        Gson gson = new Gson();
+
+        SurveyDto survey = gson.fromJson(responseBody.toString(), SurveyDto.class);
+
+        surveyService.saveSurvey(survey);
+
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED));
     }
 

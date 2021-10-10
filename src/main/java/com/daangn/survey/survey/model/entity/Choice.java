@@ -1,4 +1,4 @@
-package com.daangn.survey.question.model.entity;
+package com.daangn.survey.survey.model.entity;
 
 import lombok.*;
 
