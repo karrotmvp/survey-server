@@ -5,6 +5,7 @@ import com.daangn.survey.domain.survey.model.dto.QuestionDto;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.model.entity.Choice;
 import com.daangn.survey.domain.survey.model.entity.Question;
+import com.daangn.survey.domain.survey.model.entity.QuestionTypeCode;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import com.daangn.survey.domain.survey.model.mapper.ChoiceMapper;
 import com.daangn.survey.domain.survey.model.mapper.QuestionMapper;
@@ -40,17 +41,19 @@ public class SurveyService {
         Survey survey = surveyMapper.entityBuilder(surveyDto);
 
         for(int idx = 0; idx < surveyDto.getQuestionList().size(); idx++){
+
             QuestionDto questionDto = surveyDto.getQuestionList().get(idx);
 
-            Question question = questionMapper.entityBuilder(questionDto, idx, questionTypeRepository.findById(questionDto.getQuestionType()).get(), survey);
+            Question question = questionMapper.entityBuilder(questionDto, survey, idx, questionTypeRepository.findById(questionDto.getQuestionType()).get());
 
             questions.add(question);
 
-            if(questionDto.getQuestionType() == 2) { // TODO : Enum으로 변경하기
+            if(QuestionTypeCode.CHOICE_QUESTION.getNumber().equals(questionDto.getQuestionType())) {
+
                 for (int number = 0; number < questionDto.getChoiceList().size(); number++) {
                     ChoiceDto choiceDto = questionDto.getChoiceList().get(number);
 
-                    choices.add(choiceMapper.entityBuilder(choiceDto, number, question));
+                    choices.add(choiceMapper.entityBuilder(choiceDto, question,  number));
                 }
             }
         }

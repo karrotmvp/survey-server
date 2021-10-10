@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface QuestionMapper {
 
-    default Question entityBuilder(QuestionDto questionDto, int number, QuestionType questionType, Survey survey){
+    default Question entityBuilder(QuestionDto questionDto, Survey survey, int number, QuestionType questionType){
         return Question.builder()
                 .survey(survey)
                 .questionType(questionType)
