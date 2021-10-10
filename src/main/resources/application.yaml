@@ -1,12 +1,18 @@
 springdoc:
-  swagger-ui:
-   path: /api-docs
-   display-query-params-without-oauth2: true
-  paths-to-match: /api-docs
+  version: '@project.version@'
   api-docs:
     path: /api-docs
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    display-query-params-without-oauth2: true
+  paths-to-match:
+    - /api/v1/**
+    - /test/**
 
 jwt:
   secret: ssdfasdftest
@@ -14,6 +20,10 @@ jwt:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://database-survey.c8zwh9jcttzy.ap-northeast-2.rds.amazonaws.com:3306?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://database-survey.c8zwh9jcttzy.ap-northeast-2.rds.amazonaws.com:3306/survey?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: allen
     password: daangnsurvey
+  jpa:
+#    hibernate:
+#      ddl-auto: create
+    show-sql: true

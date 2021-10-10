@@ -1,6 +1,6 @@
 package com.daangn.survey.core.auth.userDetails;
 
-import com.daangn.survey.member.model.entity.Member;
+import com.daangn.survey.domain.member.model.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,6 +1,6 @@
 package com.daangn.survey.core.auth.jwt.component;
 
-import com.daangn.survey.member.model.entity.Member;
+import com.daangn.survey.domain.member.model.entity.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
