@@ -3,6 +3,7 @@ package com.daangn.survey.domain.survey.service;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.dto.ChoiceDto;
 import com.daangn.survey.domain.question.model.dto.QuestionDto;
+import com.daangn.survey.domain.question.model.entity.QuestionType;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.question.model.entity.Choice;
 import com.daangn.survey.domain.question.model.entity.Question;
@@ -41,13 +42,15 @@ public class SurveyService {
         List<Question> questions = new LinkedList<>();
         List<Choice> choices = new LinkedList<>();
 
-        Survey survey = surveyMapper.entityBuilder(surveyDto);
+        Survey survey = surveyMapper.entityBuilder(surveyDto, member);
 
         for(int idx = 0; idx < surveyDto.getQuestionList().size(); idx++){
 
             QuestionDto questionDto = surveyDto.getQuestionList().get(idx);
 
-            Question question = questionMapper.entityBuilder(questionDto, survey, idx, questionTypeRepository.findById(questionDto.getQuestionType()).get());
+            QuestionType questionType = questionTypeRepository.findById(questionDto.getQuestionType()).get();
+
+            Question question = questionMapper.entityBuilder(questionDto, survey, idx, questionType);
 
             questions.add(question);
 
@@ -61,15 +64,15 @@ public class SurveyService {
             }
         }
 
-        surveyRepository.save(survey);
-        questionRepository.saveAll(questions);
         choiceRepository.saveAll(choices);
+        questionRepository.saveAll(questions);
+        surveyRepository.save(survey);
     }
 
     @Transactional(readOnly = true)
     public List<SurveySummaryDto> findAll(Long memberId){
         // TODO: 생성날짜로 정렬
-        List<Survey> surveys = surveyRepository.findSurveysByAuthorId(memberId);
+        List<Survey> surveys = surveyRepository.findSurveysByMemberIdOrderByCreatedAtDesc(memberId);
 
         return surveys.stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
     }

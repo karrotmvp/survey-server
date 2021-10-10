@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-import static com.daangn.survey.common.message.ResponseMessage.SURVEY_SAVED;
+import static com.daangn.survey.common.message.ResponseMessage.*;
 
 @Slf4j
 @Tag(name = "설문 엔드포인트")
@@ -34,33 +34,35 @@ public class SurveyController {
     @PostMapping
     public ResponseEntity<ResponseDto<?>> saveSurvey(@CurrentUser Member member, @RequestBody Map<String, Object> responseBody){
 
+        if(member == null) member = BizMember.builder().id(1L).daangnUserId("test").bizName("testBiz").imageUrl("test").nickname("test").phone("tse").build();
+
         Gson gson = new Gson();
 
         SurveyDto surveyDto = gson.fromJson(responseBody.toString(), SurveyDto.class);
 
         surveyService.saveSurvey(member, surveyDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED));
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, CREATE_SURVEY));
     }
 
     @Operation(summary = "설문 리스트 조회", description = "설문 리스트를 조회합니다.")
     @GetMapping
     public ResponseEntity<ResponseDto<List<SurveySummaryDto>>> getSurveys(@CurrentUser Member member){
-        if(member == null){
-            member = BizMember.builder().build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED, surveyService.findAll(1L)));
+
+        if(member == null) member = BizMember.builder().id(1L).daangnUserId("test").bizName("testBiz").imageUrl("test").nickname("test").phone("tse").build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_LIST, surveyService.findAll(member.getId())));
     }
 
     @Operation(summary = "설문 디테일 조회", description = "설문 디테일을 조회합니다.")
     @GetMapping("{surveyId}")
     public ResponseEntity<ResponseDto<?>> getSurveyDetail(@PathVariable Long surveyId){
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED));
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_DETAIL));
     }
 
     @Operation(summary = "설문 삭제", description = "설문을 삭제합니다.")
     @DeleteMapping("{surveyId}")
     public ResponseEntity<ResponseDto<?>> deleteSurvey(){
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, SURVEY_SAVED));
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, CREATE_SURVEY));
     }
 }

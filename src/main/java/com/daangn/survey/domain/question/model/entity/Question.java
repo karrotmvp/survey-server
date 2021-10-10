@@ -17,7 +17,7 @@ public class Question extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "question_id")
     private Long id;
 
     @ManyToOne

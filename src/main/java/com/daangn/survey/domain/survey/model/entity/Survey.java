@@ -1,5 +1,6 @@
 package com.daangn.survey.domain.survey.model.entity;
 
+import com.daangn.survey.common.entity.BaseEntity;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Question;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
@@ -14,15 +15,15 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "survey")
-public class Survey {
+public class Survey extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "survey_id")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member author;
+    private Member member;
 
     @Column(name = "title", nullable = false, length = 50)
     private String title;

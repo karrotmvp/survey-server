@@ -1,5 +1,6 @@
 package com.daangn.survey.domain.question.model.entity;
 
+import com.daangn.survey.common.entity.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,10 +11,10 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "choice")
-public class Choice {
+public class Choice extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "choice_id")
     private Long id;
 
     @ManyToOne

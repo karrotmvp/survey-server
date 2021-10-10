@@ -1,20 +1,25 @@
 package com.daangn.survey.domain.member.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.domain.survey.model.entity.Survey;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "member")
 @DiscriminatorColumn(name = "DTYPE")
 public abstract class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "member_id")
     private Long id;
 
     @Column(name = "daangn_user_id", nullable = false, unique = true)
@@ -28,5 +33,8 @@ public abstract class Member extends BaseEntity {
 
     @Column(name = "phone")
     private String phone;
+
+    @OneToMany(mappedBy = "member")
+    private List<Survey> surveys;
 
 }
