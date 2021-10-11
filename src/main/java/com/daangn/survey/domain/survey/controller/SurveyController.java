@@ -57,6 +57,7 @@ public class SurveyController {
     @Operation(summary = "설문 디테일 조회", description = "설문 디테일을 조회합니다.")
     @GetMapping("{surveyId}")
     public ResponseEntity<ResponseDto<?>> getSurveyDetail(@PathVariable Long surveyId){
+        surveyService.findBySurveyId(surveyId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_DETAIL));
     }
 

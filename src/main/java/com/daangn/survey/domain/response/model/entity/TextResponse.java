@@ -16,7 +16,7 @@ public class TextResponse extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "text_response_id")
     private Long id;
 
 

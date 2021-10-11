@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,9 +72,13 @@ public class SurveyService {
 
     @Transactional(readOnly = true)
     public List<SurveySummaryDto> findAll(Long memberId){
-        // TODO: 생성날짜로 정렬
         List<Survey> surveys = surveyRepository.findSurveysByMemberIdOrderByCreatedAtDesc(memberId);
 
         return surveys.stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public SurveyDto findBySurveyId(Long surveyId){
+        return surveyRepository.findSurveyById(surveyId).orElseThrow(() -> new EntityNotFoundException());
     }
 }
