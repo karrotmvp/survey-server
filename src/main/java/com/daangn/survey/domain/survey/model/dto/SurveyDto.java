@@ -15,5 +15,5 @@ public class SurveyDto {
     private String title;
     private String description;
     private int target;
-    private List<QuestionDto> questionList;
+    private List<QuestionDto> questions;
 }

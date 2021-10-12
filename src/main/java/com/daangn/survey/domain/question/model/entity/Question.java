@@ -5,6 +5,7 @@ import com.daangn.survey.domain.survey.model.entity.Survey;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,5 +34,8 @@ public class Question extends BaseEntity {
 
     @Column(nullable = false)
     private String text;
+
+    @OneToMany(mappedBy = "question", orphanRemoval = true)
+    private List<Choice> choices;
 
 }

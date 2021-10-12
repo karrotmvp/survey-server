@@ -1,5 +1,6 @@
 package com.daangn.survey.domain.question.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import java.util.List;
@@ -12,5 +13,7 @@ import java.util.List;
 public class QuestionDto {
     private Long questionType;
     private String text;
-    private List<ChoiceDto> choiceList;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<ChoiceDto> choices;
 }

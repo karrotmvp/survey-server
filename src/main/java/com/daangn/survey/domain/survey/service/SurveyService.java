@@ -45,9 +45,9 @@ public class SurveyService {
 
         Survey survey = surveyMapper.entityBuilder(surveyDto, member);
 
-        for(int idx = 0; idx < surveyDto.getQuestionList().size(); idx++){
+        for(int idx = 0; idx < surveyDto.getQuestions().size(); idx++){
 
-            QuestionDto questionDto = surveyDto.getQuestionList().get(idx);
+            QuestionDto questionDto = surveyDto.getQuestions().get(idx);
 
             QuestionType questionType = questionTypeRepository.findById(questionDto.getQuestionType()).get();
 
@@ -57,8 +57,8 @@ public class SurveyService {
 
             if(QuestionTypeCode.CHOICE_QUESTION.getNumber().equals(questionDto.getQuestionType())) {
 
-                for (int number = 0; number < questionDto.getChoiceList().size(); number++) {
-                    ChoiceDto choiceDto = questionDto.getChoiceList().get(number);
+                for (int number = 0; number < questionDto.getChoices().size(); number++) {
+                    ChoiceDto choiceDto = questionDto.getChoices().get(number);
 
                     choices.add(choiceMapper.entityBuilder(choiceDto, question,  number));
                 }
@@ -79,6 +79,7 @@ public class SurveyService {
 
     @Transactional(readOnly = true)
     public SurveyDto findBySurveyId(Long surveyId){
-        return surveyRepository.findSurveyById(surveyId).orElseThrow(() -> new EntityNotFoundException());
+        Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException());
+        return surveyMapper.toDetailDto(survey);
     }
 }
