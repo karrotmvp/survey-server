@@ -73,20 +73,20 @@ public class SurveyService {
 
     @Transactional(readOnly = true)
     public List<SurveySummaryDto> findAll(Long memberId){
-        List<Survey> surveys = surveyRepository.findSurveysByMemberIdOrderByCreatedAtDesc(memberId);
+        List<Survey> surveys = surveyRepository.findSurveysByMemberIdAndAndIsDeletedFalseOrderByCreatedAtDesc(memberId);
 
         return surveys.stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public SurveyDto findBySurveyId(Long surveyId){
-        Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
+        Survey survey = surveyRepository.findByIdAndIsDeletedFalse(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
         return surveyMapper.toDetailDto(survey);
     }
 
     @Transactional
-    public void deleteSurvey(Long surveyId){
-        Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
+    public void deleteSurvey(Long surveyId, Long memberId){
+        Survey survey = surveyRepository.findSurveyByIdAndMemberIdAndIsDeletedFalse(surveyId, memberId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
         survey.delete();
     }
 }

@@ -68,7 +68,10 @@ public class SurveyController {
     @Operation(summary = "설문 삭제", description = "설문을 삭제합니다.")
     @DeleteMapping("{surveyId}")
     public ResponseEntity<ResponseDto<?>> deleteSurvey(@CurrentUser Member member, @PathVariable Long surveyId){
-        surveyService.deleteSurvey(surveyId);
+
+        if(member == null) member = BizMember.builder().id(1L).daangnUserId("test").bizName("testBiz").imageUrl("test").nickname("test").phone("tse").build();
+
+        surveyService.deleteSurvey(surveyId, member.getId());
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, DELETE_SURVEY));
     }
 }
