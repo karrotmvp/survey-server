@@ -9,6 +9,8 @@ import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import com.daangn.survey.domain.survey.service.SurveyService;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.json.JsonReader;
+import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +42,7 @@ public class SurveyController {
 
         Gson gson = new Gson();
 
-        SurveyDto surveyDto = gson.fromJson(responseBody.toString(), SurveyDto.class);
+        SurveyDto surveyDto = gson.fromJson(gson.toJson(responseBody), SurveyDto.class);
 
         surveyService.saveSurvey(member, surveyDto);
 
