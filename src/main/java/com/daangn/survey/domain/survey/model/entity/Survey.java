@@ -31,6 +31,9 @@ public class Survey extends BaseEntity {
     @Column(name = "description", nullable = false, length = 200)
     private String description;
 
+    @Column(name = "target", nullable = false)
+    private int target;
+
     @Builder.Default
     @Column(name = "is_published")
     private boolean isPublished = false;

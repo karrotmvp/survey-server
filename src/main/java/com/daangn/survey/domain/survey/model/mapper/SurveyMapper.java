@@ -16,6 +16,7 @@ public interface SurveyMapper {
     default Survey entityBuilder(SurveyDto surveyDto, Member member){
         return Survey.builder()
                 .member(member)
+                .target(surveyDto.getTarget())
                 .title(surveyDto.getTitle())
                 .description(surveyDto.getDescription())
                 .build();
