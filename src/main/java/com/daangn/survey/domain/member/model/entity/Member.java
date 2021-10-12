@@ -2,12 +2,16 @@ package com.daangn.survey.domain.member.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
 import com.daangn.survey.domain.survey.model.entity.Survey;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
