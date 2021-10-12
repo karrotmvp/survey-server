@@ -13,6 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ChoiceMapper {
 
+    @Mapping(target = "choiceId", source = "choice.id")
     ChoiceDto toChoiceDto(Choice choice);
 
     default Choice entityBuilder(ChoiceDto choiceDto,Question question, int number){

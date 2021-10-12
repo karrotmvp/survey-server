@@ -67,7 +67,8 @@ public class SurveyController {
 
     @Operation(summary = "설문 삭제", description = "설문을 삭제합니다.")
     @DeleteMapping("{surveyId}")
-    public ResponseEntity<ResponseDto<?>> deleteSurvey(){
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, CREATE_SURVEY));
+    public ResponseEntity<ResponseDto<?>> deleteSurvey(@CurrentUser Member member, @PathVariable Long surveyId){
+        surveyService.deleteSurvey(surveyId);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, DELETE_SURVEY));
     }
 }

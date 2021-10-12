@@ -13,6 +13,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.persistence.EntityNotFoundException;
 import java.nio.file.AccessDeniedException;
+import java.util.Arrays;
+import java.util.List;
 
 @ControllerAdvice
 @Slf4j
@@ -63,7 +65,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
-        log.error("handleEntityNotFoundException", e);
+        log.error("handleEntityNotFoundException", e.getMessage());
         final ErrorResponse response = ErrorResponse.of(ErrorCode.ENTITY_NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.ENTITY_NOT_FOUND.getStatus()));
     }

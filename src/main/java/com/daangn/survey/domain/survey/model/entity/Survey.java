@@ -1,6 +1,8 @@
 package com.daangn.survey.domain.survey.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.core.error.ErrorCode;
+import com.daangn.survey.core.error.exception.BusinessException;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Question;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
@@ -47,5 +49,10 @@ public class Survey extends BaseEntity {
 
     @OneToMany(mappedBy = "survey", orphanRemoval = true)
     private List<SurveyResponse> surveyResponses;
-    
+
+    public void delete(){
+        if(this.isDeleted == true) throw new BusinessException(ErrorCode.SURVEY_ALREADY_DELETED);
+
+        this.isDeleted = true;
+    }
 }

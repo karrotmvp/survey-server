@@ -11,9 +11,11 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {QuestionMapper.class})
 public interface SurveyMapper {
+    @Mapping(target = "surveyId", source = "survey.id")
     @Mapping(target = "responseCount", expression = "java(survey.getSurveyResponses().size())")
     SurveySummaryDto toSummaryDto(Survey survey);
 
+    @Mapping(target = "surveyId", source = "survey.id")
     SurveyDto toDetailDto(Survey survey);
 
     default Survey entityBuilder(SurveyDto surveyDto, Member member){

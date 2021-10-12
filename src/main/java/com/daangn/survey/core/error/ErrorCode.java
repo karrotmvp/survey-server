@@ -20,7 +20,11 @@ public enum ErrorCode {
     UNSUPPORTED_JWT(401, "Unsupported Jwt"),
     EXPIRED_JWT(401, "Expired Jwt"),
     SIGNATURE_INVALID_JWT(401, "Signature Invalid Jwt"),
-    JWT_NOT_FOUND(401, "Jwt Not Found")
+    JWT_NOT_FOUND(401, "Jwt Not Found"),
+
+    // Survey
+    SURVEY_NOT_FOUND(400, "Survey Not Found"),
+    SURVEY_ALREADY_DELETED(401, "Survey Already Deleted")
     ;
     private final String message;
     private int status;

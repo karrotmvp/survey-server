@@ -13,6 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {ChoiceMapper.class})
 public interface QuestionMapper {
 
+    @Mapping(target = "questionId", source = "question.id")
     @Mapping(target = "questionType", expression = "java(question.getQuestionType().getId())")
     QuestionDto toQuestionDto(Question question);
 

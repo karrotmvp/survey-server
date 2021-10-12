@@ -11,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionDto {
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Long questionId;
     private Long questionType;
     private String text;
 

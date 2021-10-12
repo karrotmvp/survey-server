@@ -1,5 +1,6 @@
 package com.daangn.survey.domain.survey.service;
 
+import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.dto.ChoiceDto;
 import com.daangn.survey.domain.question.model.dto.QuestionDto;
@@ -79,7 +80,13 @@ public class SurveyService {
 
     @Transactional(readOnly = true)
     public SurveyDto findBySurveyId(Long surveyId){
-        Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException());
+        Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
         return surveyMapper.toDetailDto(survey);
+    }
+
+    @Transactional
+    public void deleteSurvey(Long surveyId){
+        Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
+        survey.delete();
     }
 }
