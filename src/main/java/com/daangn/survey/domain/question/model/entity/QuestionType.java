@@ -1,4 +1,4 @@
-package com.daangn.survey.domain.survey.model.entity;
+package com.daangn.survey.domain.question.model.entity;
 
 import lombok.*;
 
@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class QuestionType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "question_type_id")
     private Long id;
 
     @Column(nullable = false, length = 30)

@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class SurveyResponse extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "survey_response_id")
     private Long id;
 
     @ManyToOne

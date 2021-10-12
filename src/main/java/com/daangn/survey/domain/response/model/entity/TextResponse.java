@@ -1,7 +1,7 @@
 package com.daangn.survey.domain.response.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
-import com.daangn.survey.domain.survey.model.entity.Question;
+import com.daangn.survey.domain.question.model.entity.Question;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ public class TextResponse extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "text_response_id")
     private Long id;
 
 

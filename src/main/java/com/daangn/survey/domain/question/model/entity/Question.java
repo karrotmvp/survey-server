@@ -1,9 +1,11 @@
-package com.daangn.survey.domain.survey.model.entity;
+package com.daangn.survey.domain.question.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.domain.survey.model.entity.Survey;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,7 +18,7 @@ public class Question extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "question_id")
     private Long id;
 
     @ManyToOne
@@ -32,5 +34,8 @@ public class Question extends BaseEntity {
 
     @Column(nullable = false)
     private String text;
+
+    @OneToMany(mappedBy = "question", orphanRemoval = true)
+    private List<Choice> choices;
 
 }
