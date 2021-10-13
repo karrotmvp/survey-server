@@ -17,4 +17,7 @@ springdoc:
 jwt:
   secret: ssdfasdftest
 
+spring:
+  profiles:
+    active: dev
 

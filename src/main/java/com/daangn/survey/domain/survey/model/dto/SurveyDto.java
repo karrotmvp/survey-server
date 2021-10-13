@@ -23,10 +23,6 @@ public class SurveyDto {
             example = "example title", required = true)
     private String title;
 
-    @Schema(description = "설문에 대한 설명",
-            example = "example description", required = true)
-    private String description;
-
     @Schema(description = "설문 대상",
             example = "1", required = true, allowableValues = {"0 : 모든 이웃", "1 : 단골 이웃", "2 : 비즈 프로필을 방문한 이웃"})
     private int target;

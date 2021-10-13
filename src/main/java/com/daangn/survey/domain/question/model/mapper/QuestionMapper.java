@@ -23,6 +23,7 @@ public interface QuestionMapper {
                 .questionType(questionType)
                 .number(number)
                 .text(questionDto.getText())
+                .description(questionDto.getDescription())
                 .build();
     }
 }

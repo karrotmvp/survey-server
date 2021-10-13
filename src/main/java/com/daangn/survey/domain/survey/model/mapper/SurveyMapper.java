@@ -23,7 +23,6 @@ public interface SurveyMapper {
                 .member(member)
                 .target(surveyDto.getTarget())
                 .title(surveyDto.getTitle())
-                .description(surveyDto.getDescription())
                 .build();
     }
 }

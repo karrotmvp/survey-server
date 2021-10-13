@@ -22,6 +22,11 @@ public class QuestionDto {
     @Schema(description = "질문 내용", required = true)
     private String text;
 
+    @Schema(description = "질문에 대한 설명",
+            example = "example description")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private String description;
+
     @Schema(description = "선택지", required = true)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<ChoiceDto> choices;

@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum QuestionTypeCode {
-    TEXT_QUESTION(1L), CHOICE_QUESTION(2L)
+    INTRODUCE(1L), TEXT_QUESTION(2L), CHOICE_QUESTION(3L)
     ;
 
     private final Long number;

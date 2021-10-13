@@ -30,9 +30,6 @@ public class Survey extends BaseEntity {
     @Column(name = "title", nullable = false, length = 50)
     private String title;
 
-    @Column(name = "description", nullable = false, length = 200)
-    private String description;
-
     @Column(name = "target", nullable = false)
     private int target;
 
