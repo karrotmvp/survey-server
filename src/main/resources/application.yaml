@@ -14,4 +14,7 @@ springdoc:
     - /api/v1/**
     - /test/**
 
+jwt:
+  secret: ssdfasdftest
+
 
