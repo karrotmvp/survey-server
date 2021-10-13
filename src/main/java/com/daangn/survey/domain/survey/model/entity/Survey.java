@@ -47,6 +47,10 @@ public class Survey extends BaseEntity {
     @OneToMany(mappedBy = "survey", orphanRemoval = true)
     private List<SurveyResponse> surveyResponses;
 
+    public boolean isWriter(Long memberId){
+        return getMember().getId().equals(memberId);
+    }
+
     public void delete(){
         if(this.isDeleted == true) throw new BusinessException(ErrorCode.SURVEY_ALREADY_DELETED);
 

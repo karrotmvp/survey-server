@@ -90,7 +90,12 @@ public class SurveyService {
 
     @Transactional
     public void deleteSurvey(Long surveyId, Long memberId){
-        Survey survey = surveyRepository.findSurveyByIdAndMemberIdAndIsDeletedFalse(surveyId, memberId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
+        memberId = 2L;
+        Survey survey = surveyRepository.findSurveyByIdAndIsDeletedFalse(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
+
+        if(!survey.isWriter(memberId))
+            throw new BusinessException(ErrorCode.NOT_AUTHORIZED_FOR_DELETE);
+
         survey.delete();
     }
 }

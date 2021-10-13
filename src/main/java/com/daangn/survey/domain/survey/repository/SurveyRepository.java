@@ -28,5 +28,5 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
 
     Optional<Survey> findByIdAndIsDeletedFalse(Long surveyId);
 
-    Optional<Survey> findSurveyByIdAndMemberIdAndIsDeletedFalse(Long surveyId, Long memberId);
+    Optional<Survey> findSurveyByIdAndIsDeletedFalse(Long surveyId);
 }
