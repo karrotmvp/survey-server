@@ -35,6 +35,9 @@ public class Question extends BaseEntity {
     @Column(nullable = false)
     private String text;
 
+    @Column(length = 200)
+    private String description;
+
     @OneToMany(mappedBy = "question", orphanRemoval = true)
     private List<Choice> choices;
 
