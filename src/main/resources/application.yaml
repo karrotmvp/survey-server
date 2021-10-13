@@ -14,7 +14,4 @@ springdoc:
     - /api/v1/**
     - /test/**
 
-spring:
-  profiles:
-    active: dev
 
