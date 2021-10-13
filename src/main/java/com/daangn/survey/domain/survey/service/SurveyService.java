@@ -1,6 +1,7 @@
 package com.daangn.survey.domain.survey.service;
 
 import com.daangn.survey.core.error.ErrorCode;
+import com.daangn.survey.core.error.exception.BusinessException;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.dto.ChoiceDto;
 import com.daangn.survey.domain.question.model.dto.QuestionDto;
@@ -49,6 +50,9 @@ public class SurveyService {
         for(int idx = 0; idx < surveyDto.getQuestions().size(); idx++){
 
             QuestionDto questionDto = surveyDto.getQuestions().get(idx);
+
+            if(!questionDto.checkQuestionTypeCondition())
+                throw new BusinessException(ErrorCode.QUESTION_TYPE_CONDITION_NOT_MATCHED);
 
             QuestionType questionType = questionTypeRepository.findById(questionDto.getQuestionType()).get();
 

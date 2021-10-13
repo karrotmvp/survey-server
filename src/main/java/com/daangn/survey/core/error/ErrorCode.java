@@ -24,7 +24,10 @@ public enum ErrorCode {
 
     // Survey
     SURVEY_NOT_FOUND(404, "Survey Not Found"),
-    SURVEY_ALREADY_DELETED(401, "Survey Already Deleted")
+    SURVEY_ALREADY_DELETED(401, "Survey Already Deleted"),
+
+    // Question
+    QUESTION_TYPE_CONDITION_NOT_MATCHED(400, "Question Type Condition Not Matched")
     ;
     private final String message;
     private int status;
