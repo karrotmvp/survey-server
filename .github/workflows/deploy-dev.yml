@@ -1,4 +1,4 @@
-name: survey-server-application
+name: dev-deploy
 
 on:
   push:
