@@ -9,12 +9,15 @@ import java.util.Optional;
 
 @Getter
 public class ResponseDto<T>{
-
+    @Schema(description = "응답상태")
     private final int status;
+    @Schema(description = "응답 메시지")
     private final String message;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @Schema(description = "데이터")
     private final T data;
+    @Schema(description = "타임스탬프")
     private final long timestamp;
 
     public ResponseDto(int status, String message, T data) {
