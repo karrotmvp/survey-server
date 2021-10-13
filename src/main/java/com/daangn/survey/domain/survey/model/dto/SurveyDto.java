@@ -24,7 +24,7 @@ public class SurveyDto {
     private String title;
 
     @Schema(description = "설문 대상",
-            example = "1", required = true, allowableValues = {"0 : 모든 이웃", "1 : 단골 이웃", "2 : 비즈 프로필을 방문한 이웃"})
+            example = "1", required = true, allowableValues = {"1", "2", "3"})
     private int target;
 
     @Schema(description = "질문들", required = true)

@@ -41,4 +41,16 @@ public class Question extends BaseEntity {
     @OneToMany(mappedBy = "question", orphanRemoval = true)
     private List<Choice> choices;
 
+    /**
+     * 질문 타입이 3(객관식)인 경우, 선택지가 있어야 한다.
+     * 질문 타입이 3(객관식)가 아닌 경우, 선택지가 없어야 한다.
+     */
+
+    public boolean checkQuestionTypeCondition(){
+        if(getQuestionType().getId() == QuestionTypeCode.CHOICE_QUESTION.getNumber())
+            return !choices.isEmpty();
+        else
+            return choices.isEmpty();
+    }
+
 }

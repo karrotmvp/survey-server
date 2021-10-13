@@ -6,11 +6,8 @@ import com.daangn.survey.domain.member.model.entity.BizMember;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
-import com.daangn.survey.domain.survey.model.entity.Survey;
-import com.daangn.survey.domain.survey.service.SurveyService;
+import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -25,8 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.json.JsonReader;
-import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 
@@ -38,11 +33,11 @@ import static com.daangn.survey.common.message.ResponseMessage.*;
 @RequestMapping("/api/v1/surveys")
 @RequiredArgsConstructor
 public class SurveyController {
-    private final SurveyService surveyService;
+    private final SurveyServiceImpl surveyService;
 
     @Operation(summary = "설문 생성", description = "설문과 질문들을 저장합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "설문 저장 성공", content = @Content)})
+            @ApiResponse(responseCode = "201", description = "설문 저장 성공", content = @Content)})
     @PostMapping
     public ResponseEntity<ResponseDto<?>> saveSurvey(@Parameter(description = "Member", hidden = true) @CurrentUser Member member,
                                                      @Parameter(description = "responseBody", schema = @Schema(implementation = SurveyDto.class)) @RequestBody Map<String, Object> responseBody){
@@ -55,7 +50,7 @@ public class SurveyController {
 
         surveyService.saveSurvey(member, surveyDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, CREATE_SURVEY));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.OK, CREATE_SURVEY));
     }
 
     @Operation(summary = "설문 리스트 조회", description = "설문 리스트를 조회합니다.")
