@@ -1,11 +1,14 @@
 package com.daangn.survey.domain.survey.model.mapper;
 
+import com.daangn.survey.domain.member.model.entity.BizMember;
+import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Choice;
 import com.daangn.survey.domain.question.model.entity.Question;
 import com.daangn.survey.domain.question.model.entity.QuestionType;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import com.daangn.survey.domain.survey.model.entity.Target;
+import com.google.gson.Gson;
 import net.bytebuddy.build.Plugin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,7 @@ class SurveyMapperTest {
     private SurveyMapper surveyMapper;
 
     @Test
-    void toSummaryDto() {
+    void toDetailDto() {
         QuestionType questionTypeChoice = QuestionType.builder().id(3L).name("단일객관식").build();
 
         QuestionType questionTypeIntroduce = QuestionType.builder().id(1L).name("소개").build();
@@ -60,11 +63,51 @@ class SurveyMapperTest {
     }
 
     @Test
-    void toDetailDto() {
-    }
+    void toEntityUsingMapStruct() {
+        String json = "{\n" +
+                "\t\"title\": \"제목입니다\",\n" +
+                "\t\"target\" : 1,\n" +
+                "\t\"questions\" : [\n" +
+                "\t\t{\n" +
+                "\t\t\t\"questionType\": 1,\n" +
+                "\t\t\t\"text\": \"제목\",\n" +
+                "\t\t\t\"description\": \"제목이에요\"\n" +
+                "\t\t},\n" +
+                "\t\t{\n" +
+                "\t\t\t\"questionType\": 2,\n" +
+                "\t\t\t\"text\": \"첫 번째질문입니다\"\n" +
+                "\t\t},\n" +
+                "\t\t{\n" +
+                "\t\t\t\"questionType\": 3,\n" +
+                "\t\t\t\"text\": \"question\",\n" +
+                "\t\t\t\"description\": \"설명입니다\",\n" +
+                "\t\t\t\"choices\" : [\n" +
+                "\t\t\t\t{\n" +
+                "\t\t\t\t\t\"value\" : \"1\"\n" +
+                "\t\t\t\t},\n" +
+                "\t\t\t\t{\n" +
+                "\t\t\t\t\t\"value\" : \"2\"\n" +
+                "\t\t\t\t}\n" +
+                "\t\t\t]\n" +
+                "\t\t}\n" +
+                "\t]\n" +
+                "}";
 
-    @Test
-    void entityBuilder() {
+        Member member = BizMember.builder()
+                .id(1L)
+                .daangnUserId("test")
+                .bizName("test")
+                .nickname("test")
+                .phone("test")
+                .imageUrl("test")
+                .build();
 
+        Gson gson = new Gson();
+
+        SurveyDto surveyDto = gson.fromJson(json, SurveyDto.class);
+
+        Survey survey = surveyMapper.toEntity(surveyDto, member);
+
+        System.out.println(survey.toString());
     }
 }

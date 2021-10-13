@@ -18,6 +18,9 @@ public interface SurveyMapper {
     @Mapping(target = "surveyId", source = "survey.id")
     SurveyDto toDetailDto(Survey survey);
 
+    @Mapping(target = "member", source = "member")
+    Survey toEntity(SurveyDto surveyDto, Member member);
+
     default Survey entityBuilder(SurveyDto surveyDto, Member member){
         return Survey.builder()
                 .member(member)

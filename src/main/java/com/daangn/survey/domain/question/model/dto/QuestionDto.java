@@ -1,5 +1,6 @@
 package com.daangn.survey.domain.question.model.dto;
 
+import com.daangn.survey.domain.question.model.entity.QuestionType;
 import com.daangn.survey.domain.question.model.entity.QuestionTypeCode;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -37,5 +38,10 @@ public class QuestionDto {
             return choices != null;
         else
             return choices == null;
+    }
+
+    public QuestionType convertToQuestionType(){
+        QuestionTypeCode code = QuestionTypeCode.findByNumber(getQuestionType());
+        return QuestionType.builder().id(code.getNumber()).name(code.getKorean()).build();
     }
 }

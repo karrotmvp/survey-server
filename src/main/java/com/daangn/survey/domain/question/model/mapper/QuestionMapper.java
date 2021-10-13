@@ -10,12 +10,15 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {ChoiceMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {ChoiceMapper.class, QuestionType.class})
 public interface QuestionMapper {
 
     @Mapping(target = "questionId", source = "question.id")
     @Mapping(target = "questionType", expression = "java(question.getQuestionType().getId())")
     QuestionDto toQuestionDto(Question question);
+
+    @Mapping(target = "questionType", expression = "java(questionDto.convertToQuestionType())")
+    Question toEntity(QuestionDto questionDto);
 
     default Question entityBuilder(QuestionDto questionDto, Survey survey, int number, QuestionType questionType){
         return Question.builder()
