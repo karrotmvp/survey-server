@@ -61,7 +61,7 @@ public class SurveyController {
     @Operation(summary = "설문 리스트 조회", description = "설문 리스트를 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "설문 리스트 조회 성공",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = SurveyDto.class)))),
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = SurveySummaryDto.class)))),
             @ApiResponse(responseCode = "401", description = "설문 리스트 조회 실패 (권한 에러)", content = @Content)
     })
     @GetMapping
