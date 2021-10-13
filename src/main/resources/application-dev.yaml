@@ -8,3 +8,7 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+karrot:
+  openapi: https://openapi.alpha.kr.karrotmarket.com
+  oapi: https://oapi.alpha.kr.karrotmarket.com
