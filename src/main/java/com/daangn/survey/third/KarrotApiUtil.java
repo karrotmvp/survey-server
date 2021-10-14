@@ -1,10 +1,14 @@
 package com.daangn.survey.third;
 
 import com.daangn.survey.core.auth.oauth.SocialResolver;
+import com.daangn.survey.core.config.RestTemplateConfig;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Component
+@RequiredArgsConstructor
 public class KarrotApiUtil implements SocialResolver {
 
     @Value("${karrot.openapi}")
@@ -13,6 +17,8 @@ public class KarrotApiUtil implements SocialResolver {
     @Value("${karrot.oapi}")
     private String oApiUrl;
 
+    private final RestTemplate restTemplate;
+
     @Override
     public KarrotUserDetail resolveUserDetails() {
         return null;
@@ -20,15 +26,6 @@ public class KarrotApiUtil implements SocialResolver {
 
     @Override
     public String resolveAccessToken() {
-        return webClient.mutate()
-                .baseUrl("https://some.com/api")
-                .build()
-                .get()
-                .uri("/resource?id={ID}", id)
-                .accept(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .retrieve()
-                .bodyToMono(SomeData.class)
-                ;
+        return null;
     }
 }
