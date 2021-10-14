@@ -1,8 +1,10 @@
 package com.daangn.survey.core.auth.controller;
 
 import com.daangn.survey.common.dto.ResponseDto;
-import com.daangn.survey.core.auth.jwt.model.AccessToken;
+import com.daangn.survey.common.message.ResponseMessage;
+import com.daangn.survey.core.auth.jwt.component.JwtCreator;
 import com.daangn.survey.core.auth.oauth.SocialResolver;
+import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.service.MemberService;
 import com.daangn.survey.third.KarrotAccessToken;
 import com.daangn.survey.third.KarrotUserDetail;
@@ -13,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +31,7 @@ public class AuthController {
 
     private final SocialResolver socialResolver;
     private final MemberService memberService;
+    private final JwtCreator jwtCreator;
 
     @Operation(summary = "액세스 토큰 생성", description = "액세스 토큰을 생성합니다.")
     @ApiResponses(value = {
@@ -37,8 +41,9 @@ public class AuthController {
         KarrotAccessToken karrotAccessToken = (KarrotAccessToken) socialResolver.resolveAccessToken(code);
         KarrotUserDetail karrotUserDetail = (KarrotUserDetail) socialResolver.resolveUserDetails(karrotAccessToken.getAccessToken());
 
+        Member member = memberService.updateMember(karrotUserDetail.getData().getUserId(), karrotUserDetail.getData().getNickname(), "ROLE_USER", null);
+        String jwt = jwtCreator.createAccessToken(member);
 
-
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_JWT, jwt));
     }
 }

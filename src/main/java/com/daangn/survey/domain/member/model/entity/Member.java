@@ -37,7 +37,13 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Survey> surveys;
+
+    public Member updateProfile(String name){
+        this.name = name;
+
+        return this;
+    }
 
 }

@@ -28,7 +28,11 @@ public enum ErrorCode {
     NOT_AUTHORIZED_FOR_DELETE(401, "Member Not Authorized For Delete"),
 
     // Question
-    QUESTION_TYPE_CONDITION_NOT_MATCHED(400, "Question Type Condition Not Matched")
+    QUESTION_TYPE_CONDITION_NOT_MATCHED(400, "Question Type Condition Not Matched"),
+
+
+    // Member
+    MEMBER_NOT_FOUND(404, "Member Not Found")
     ;
     private final String message;
     private int status;
