@@ -16,6 +16,7 @@ class KarrotApiUtilTest {
     private KarrotApiUtil karrotApiUtil;
 
     @Test
+    @Disabled
     void resolveBizProfileDetails() {
         String bizProfileId = "4210";
         KarrotBizProfileDetail karrotBizProfileDetail = karrotApiUtil.resolveBizProfileDetails(bizProfileId);
@@ -24,6 +25,7 @@ class KarrotApiUtilTest {
     }
 
     @Test
+    @Disabled
     void resolveUserDetails() {
         String accessToken = "AZDtQChNJe4KFdvn1kJ3HCkn6t4";
         KarrotUserDetail karrotUserDetail = karrotApiUtil.resolveUserDetails(accessToken);
