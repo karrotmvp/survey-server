@@ -6,10 +6,13 @@ import com.daangn.survey.core.auth.jwt.component.JwtCreator;
 import com.daangn.survey.core.auth.oauth.SocialResolver;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.service.MemberService;
+import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.third.KarrotAccessToken;
+import com.daangn.survey.third.KarrotBizProfileDetail;
 import com.daangn.survey.third.KarrotUserDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,17 +36,30 @@ public class AuthController {
     private final MemberService memberService;
     private final JwtCreator jwtCreator;
 
-    @Operation(summary = "액세스 토큰 생성", description = "액세스 토큰을 생성합니다.")
+    @Operation(summary = "고객 액세스 토큰 생성", description = "고객 액세스 토큰을 생성합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "액세스 토큰 생성", content = @Content)})
+            @ApiResponse(responseCode = "200", description = "액세스 토큰 생성", content = @Content(schema = @Schema(implementation = String.class)))})
     @GetMapping("/customer")
-    public ResponseEntity<ResponseDto<?>> createAccessToken(@RequestParam String code){
+    public ResponseEntity<ResponseDto<?>> createCustomerAccessToken(@RequestParam String code){
         KarrotAccessToken karrotAccessToken = (KarrotAccessToken) socialResolver.resolveAccessToken(code);
         KarrotUserDetail karrotUserDetail = (KarrotUserDetail) socialResolver.resolveUserDetails(karrotAccessToken.getAccessToken());
 
         Member member = memberService.updateMember(karrotUserDetail.getData().getUserId(), karrotUserDetail.getData().getNickname(), "ROLE_USER", null);
         String jwt = jwtCreator.createAccessToken(member);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_JWT, jwt));
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_JWT_CUSTOMER, jwt));
+    }
+
+    @Operation(summary = "비즈니스 액세스 토큰 생성", description = "비즈니스 액세스 토큰을 생성합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "액세스 토큰 생성", content = @Content(schema = @Schema(implementation = String.class)))})
+    @GetMapping("/business")
+    public ResponseEntity<ResponseDto<?>> createBusinessAccessToken(@RequestParam String bizProfileId){
+        KarrotBizProfileDetail karrotBizProfileDetail = (KarrotBizProfileDetail) socialResolver.resolveBizProfileDetails(bizProfileId);
+
+        Member member = memberService.updateMember(karrotBizProfileDetail.getData().getBizProfile().getId(), karrotBizProfileDetail.getData().getBizProfile().getName(), "ROLE_BIZ", karrotBizProfileDetail.getData().getBizProfile().getImageUrl());
+        String jwt = jwtCreator.createAccessToken(member);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_JWT_BUSINESS, jwt));
     }
 }

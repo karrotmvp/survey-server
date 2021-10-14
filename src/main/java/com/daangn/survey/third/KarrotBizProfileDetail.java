@@ -1,5 +1,6 @@
 package com.daangn.survey.third;
 
+import com.daangn.survey.core.auth.oauth.UserDetail;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class KarrotBizProfileDetail {
+public class KarrotBizProfileDetail extends UserDetail {
     private KarrotBizProfileData data;
 
     @Getter

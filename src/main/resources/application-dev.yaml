@@ -6,7 +6,7 @@ spring:
     password: daangnsurvey
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
 
 karrot:

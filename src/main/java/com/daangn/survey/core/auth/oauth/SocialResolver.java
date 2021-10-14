@@ -6,4 +6,5 @@ import com.daangn.survey.third.KarrotAccessToken;
 public interface SocialResolver<T> {
     <T extends UserDetail> T resolveUserDetails(String accessToken);
     <T extends AccessToken> T resolveAccessToken(String code);
+    <T extends UserDetail> T resolveBizProfileDetails(String code);
 }
