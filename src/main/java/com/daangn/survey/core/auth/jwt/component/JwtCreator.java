@@ -25,9 +25,10 @@ public class JwtCreator {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createAccessToken(Member member) {
-        Claims claims = Jwts.claims().setSubject(member.getDaangnUserId());
-        claims.put("DaangnUserId", member.getDaangnUserId());
+    public String createAccessToken(Member member, String type) {
+        Claims claims = Jwts.claims().setSubject(member.getDaangnId());
+        claims.put("DaangnUserId", member.getDaangnId());
+        claims.put("type", type);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)

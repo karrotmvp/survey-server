@@ -13,30 +13,29 @@ import java.util.List;
 import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY;
 
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "member")
-@DiscriminatorColumn(name = "DTYPE")
-public abstract class Member extends BaseEntity {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "daangn_user_id", nullable = false, unique = true)
-    private String daangnUserId;
+    @Column(name = "daangn_id", nullable = false, unique = true)
+    private String daangnId;
 
-    @Column(name = "nickname", nullable = false)
-    private String nickname;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "phone")
-    private String phone;
+    @Column(nullable = false)
+    private String role;
 
     @OneToMany(mappedBy = "member")
     private List<Survey> surveys;
