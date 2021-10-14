@@ -26,9 +26,11 @@ public class JwtCreator {
     }
 
     public String createAccessToken(Member member) {
-        Claims claims = Jwts.claims().setSubject(member.getDaangnUserId());
-        claims.put("DaangnUserId", member.getDaangnUserId());
+        Claims claims = Jwts.claims().setSubject(member.getDaangnId());
+        claims.put("DaangnId", member.getDaangnId());
+        claims.put("Role", member.getRole());
         Date now = new Date();
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)

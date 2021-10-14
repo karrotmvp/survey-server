@@ -1,3 +1,7 @@
 spring:
   jpa:
     show-sql: true
+
+karrot:
+  openapi: https://openapi.kr.karrotmarket.com
+  oapi: https://oapi.kr.karrotmarket.com
