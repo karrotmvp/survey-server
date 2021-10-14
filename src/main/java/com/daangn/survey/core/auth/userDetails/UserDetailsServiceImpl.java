@@ -1,6 +1,6 @@
 package com.daangn.survey.core.auth.userDetails;
 
-import com.daangn.survey.domain.member.model.entity.Member;
+import com.daangn.survey.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,13 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-//    private final MemberService memberService;
+    private final MemberService memberService;
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String daangnUserId) throws UsernameNotFoundException {
-        Member member = new Member() {}; // memberService.findMemberByDaangnUserId(daangnUserId);
+    public UserDetails loadUserByUsername(String daangnId) throws UsernameNotFoundException {
 
-        return new UserDetailsImpl(member);
+        return new UserDetailsImpl(memberService.findByDaangnId(daangnId));
     }
 }
