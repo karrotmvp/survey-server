@@ -1,8 +1,9 @@
 package com.daangn.survey.core.auth.oauth;
 
-import com.daangn.survey.third.KarrotUserDetail;
+import com.daangn.survey.core.auth.jwt.model.AccessToken;
+import com.daangn.survey.third.KarrotAccessToken;
 
-public interface SocialResolver {
-    KarrotUserDetail resolveUserDetails();
-    String resolveAccessToken();
+public interface SocialResolver<T> {
+    <T extends UserDetail> T resolveUserDetails(String accessToken);
+    <T extends AccessToken> T resolveAccessToken(String code);
 }

@@ -12,3 +12,9 @@ spring:
 karrot:
   openapi: https://openapi.alpha.kr.karrotmarket.com
   oapi: https://oapi.alpha.kr.karrotmarket.com
+  app:
+    id: fb99011798b247888a6d4603cb7297dd
+    secret: 2831b9beb83c4027aa196d0a970ea458
+
+
+
