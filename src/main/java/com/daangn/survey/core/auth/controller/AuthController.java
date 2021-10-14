@@ -3,6 +3,7 @@ package com.daangn.survey.core.auth.controller;
 import com.daangn.survey.common.dto.ResponseDto;
 import com.daangn.survey.core.auth.jwt.model.AccessToken;
 import com.daangn.survey.core.auth.oauth.SocialResolver;
+import com.daangn.survey.domain.member.service.MemberService;
 import com.daangn.survey.third.KarrotAccessToken;
 import com.daangn.survey.third.KarrotUserDetail;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final SocialResolver socialResolver;
+    private final MemberService memberService;
 
     @Operation(summary = "액세스 토큰 생성", description = "액세스 토큰을 생성합니다.")
     @ApiResponses(value = {
@@ -34,6 +36,8 @@ public class AuthController {
     public ResponseEntity<ResponseDto<?>> createAccessToken(@RequestParam String code){
         KarrotAccessToken karrotAccessToken = (KarrotAccessToken) socialResolver.resolveAccessToken(code);
         KarrotUserDetail karrotUserDetail = (KarrotUserDetail) socialResolver.resolveUserDetails(karrotAccessToken.getAccessToken());
+
+
 
         return null;
     }

@@ -30,21 +30,43 @@ public class KarrotApiUtil implements SocialResolver {
     @Value("${karrot.app.secret}")
     private String appSecret;
 
+    @Value("${karrot.app.apikey}")
+    private String appApiKey;
+
     private final RestTemplate restTemplate;
+
+    public KarrotBizProfileDetail resolveBizProfileDetails(String bizProfileId){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT, "application/json");
+        headers.set("X-Api-Key", appApiKey);
+
+        HttpEntity request = new HttpEntity(headers);
+
+        String url = "/api/v2/biz_profiles/" + bizProfileId;
+
+        ResponseEntity<KarrotBizProfileDetail> response = restTemplate.exchange(
+                getKarrotOApi(url),
+                HttpMethod.GET,
+                request,
+                KarrotBizProfileDetail.class
+        );
+
+        return response.getBody();
+    }
 
     @Override
     public KarrotUserDetail resolveUserDetails(String karrotAccessToken) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, "application/json");
-        headers.set(HttpHeaders.AUTHORIZATION,"Bearer " + karrotAccessToken);
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + karrotAccessToken);
 
         HttpEntity request = new HttpEntity(headers);
 
         String url = "/api/v1/users/me";
 
         ResponseEntity<KarrotUserDetail> response = restTemplate.exchange(
-                getKarrotApi(url),
+                getKarrotOpenApi(url),
                 HttpMethod.GET,
                 request,
                 KarrotUserDetail.class
@@ -65,7 +87,7 @@ public class KarrotApiUtil implements SocialResolver {
         String url = "/oauth/token?code=" + code + "&scope=account/profile&grant_type=authorization_code&response_type=code";
 
         ResponseEntity<KarrotAccessToken> response = restTemplate.exchange(
-                getKarrotApi(url),
+                getKarrotOpenApi(url),
                 HttpMethod.GET,
                 request,
                 KarrotAccessToken.class
@@ -74,7 +96,7 @@ public class KarrotApiUtil implements SocialResolver {
         return response.getBody();
     }
 
-    public String getKarrotApi(String url){
+    private String getKarrotOpenApi(String url){
         StringBuffer sb = new StringBuffer();
 
         sb.append(openApiUrl);
@@ -82,4 +104,14 @@ public class KarrotApiUtil implements SocialResolver {
 
         return sb.toString();
     }
+
+    private String getKarrotOApi(String url){
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(oApiUrl);
+        sb.append(url);
+
+        return sb.toString();
+    }
+
 }

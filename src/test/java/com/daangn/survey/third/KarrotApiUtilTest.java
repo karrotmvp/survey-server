@@ -16,6 +16,14 @@ class KarrotApiUtilTest {
     private KarrotApiUtil karrotApiUtil;
 
     @Test
+    void resolveBizProfileDetails() {
+        String bizProfileId = "4210";
+        KarrotBizProfileDetail karrotBizProfileDetail = karrotApiUtil.resolveBizProfileDetails(bizProfileId);
+
+        System.out.println(karrotBizProfileDetail.getData());
+    }
+
+    @Test
     void resolveUserDetails() {
         String accessToken = "AZDtQChNJe4KFdvn1kJ3HCkn6t4";
         KarrotUserDetail karrotUserDetail = karrotApiUtil.resolveUserDetails(accessToken);
