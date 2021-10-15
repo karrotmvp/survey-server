@@ -39,13 +39,13 @@ public class SurveyController {
             @ApiResponse(responseCode = "201", description = "설문 저장 성공", content = @Content)})
     @PostMapping
     public ResponseEntity<ResponseDto<?>> saveSurvey(@Parameter(description = "Member", hidden = true) @CurrentUser Member member,
-                                                     @Parameter(description = "responseBody", schema = @Schema(implementation = SurveyDto.class)) @RequestBody Map<String, Object> responseBody){
+                                                     @Parameter(description = "requestBody", schema = @Schema(implementation = SurveyDto.class)) @RequestBody Map<String, Object> requestBody){
 
         if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
 
         Gson gson = new Gson();
 
-        SurveyDto surveyDto = gson.fromJson(gson.toJson(responseBody), SurveyDto.class);
+        SurveyDto surveyDto = gson.fromJson(gson.toJson(requestBody), SurveyDto.class);
 
         surveyService.saveSurvey(member, surveyDto);
 

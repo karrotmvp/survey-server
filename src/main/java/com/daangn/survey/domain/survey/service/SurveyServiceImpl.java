@@ -54,7 +54,8 @@ public class SurveyServiceImpl implements SurveyService{
             if(!questionDto.checkQuestionTypeCondition())
                 throw new BusinessException(ErrorCode.QUESTION_TYPE_CONDITION_NOT_MATCHED);
 
-            QuestionType questionType = questionTypeRepository.findById(questionDto.getQuestionType()).get();
+            QuestionType questionType = questionTypeRepository.findById(questionDto.getQuestionType())
+                                                                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.QUESTION_TYPE_NOT_MATCHED.getMessage()));
 
             Question question = questionMapper.entityBuilder(questionDto, survey, idx, questionType);
 
