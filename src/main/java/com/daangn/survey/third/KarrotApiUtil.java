@@ -2,6 +2,8 @@ package com.daangn.survey.third;
 
 import com.daangn.survey.core.auth.jwt.model.AccessToken;
 import com.daangn.survey.core.auth.oauth.SocialResolver;
+import com.daangn.survey.core.error.ErrorCode;
+import com.daangn.survey.core.error.exception.KarrotAuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
@@ -51,6 +54,9 @@ public class KarrotApiUtil implements SocialResolver {
                 KarrotBizProfileDetail.class
         );
 
+        if(response.getBody().getData().getBizProfile() == null)
+            throw new KarrotAuthenticationException(ErrorCode.KARROT_PROFILE_NOT_FOUND);
+
         return response.getBody();
     }
 
@@ -65,14 +71,19 @@ public class KarrotApiUtil implements SocialResolver {
 
         String url = "/api/v1/users/me";
 
-        ResponseEntity<KarrotUserDetail> response = restTemplate.exchange(
-                getKarrotOpenApi(url),
-                HttpMethod.GET,
-                request,
-                KarrotUserDetail.class
-        );
+        try {
+            ResponseEntity<KarrotUserDetail> response = restTemplate.exchange(
+                    getKarrotOpenApi(url),
+                    HttpMethod.GET,
+                    request,
+                    KarrotUserDetail.class
+            );
 
-        return response.getBody();
+            return response.getBody();
+
+        } catch (HttpClientErrorException e){
+            throw new KarrotAuthenticationException(e.getResponseBodyAsString(), ErrorCode.KARROT_BAD_REQUEST);
+        }
     }
 
     @Override
@@ -85,15 +96,20 @@ public class KarrotApiUtil implements SocialResolver {
         HttpEntity request = new HttpEntity<>(headers);
 
         String url = "/oauth/token?code=" + code + "&scope=account/profile&grant_type=authorization_code&response_type=code";
+        try {
+            ResponseEntity<KarrotAccessToken> response = restTemplate.exchange(
+                    getKarrotOpenApi(url),
+                    HttpMethod.GET,
+                    request,
+                    KarrotAccessToken.class
+            );
 
-        ResponseEntity<KarrotAccessToken> response = restTemplate.exchange(
-                getKarrotOpenApi(url),
-                HttpMethod.GET,
-                request,
-                KarrotAccessToken.class
-        );
+            return response.getBody();
 
-        return response.getBody();
+        } catch (HttpClientErrorException e){
+
+            throw new KarrotAuthenticationException(e.getResponseBodyAsString(), ErrorCode.KARROT_BAD_REQUEST);
+        }
     }
 
     private String getKarrotOpenApi(String url){

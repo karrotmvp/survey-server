@@ -30,12 +30,22 @@ public class ErrorResponse {
         this.errors = new ArrayList<>();
     }
 
+    private ErrorResponse(final String message, final ErrorCode code) {
+        this.message = code.getMessage() + " : " + message;
+        this.status = code.getStatus();
+        this.errors = new ArrayList<>();
+    }
+
     public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {
         return new ErrorResponse(code, FieldError.of(bindingResult));
     }
 
     public static ErrorResponse of(final ErrorCode code) {
         return new ErrorResponse(code);
+    }
+
+    public static ErrorResponse of(final String message, final ErrorCode code) {
+        return new ErrorResponse(message, code);
     }
 
     public static ErrorResponse of(final ErrorCode code, final List<FieldError> errors) {
