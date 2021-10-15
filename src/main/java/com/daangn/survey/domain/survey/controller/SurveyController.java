@@ -2,7 +2,6 @@ package com.daangn.survey.domain.survey.controller;
 
 import com.daangn.survey.common.dto.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
-import com.daangn.survey.domain.member.model.entity.BizMember;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
@@ -42,7 +41,7 @@ public class SurveyController {
     public ResponseEntity<ResponseDto<?>> saveSurvey(@Parameter(description = "Member", hidden = true) @CurrentUser Member member,
                                                      @Parameter(description = "responseBody", schema = @Schema(implementation = SurveyDto.class)) @RequestBody Map<String, Object> responseBody){
 
-        if(member == null) member = BizMember.builder().id(1L).daangnUserId("test").bizName("testBiz").imageUrl("test").nickname("test").phone("tse").build();
+        if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
 
         Gson gson = new Gson();
 
@@ -62,7 +61,7 @@ public class SurveyController {
     @GetMapping
     public ResponseEntity<ResponseDto<List<SurveySummaryDto>>> getSurveys(@Parameter(description = "Member", hidden = true) @CurrentUser Member member){
 
-        if(member == null) member = BizMember.builder().id(1L).daangnUserId("test").bizName("testBiz").imageUrl("test").nickname("test").phone("tse").build();
+        if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_LIST, surveyService.findAll(member.getId())));
     }
@@ -89,7 +88,7 @@ public class SurveyController {
     @DeleteMapping("{surveyId}")
     public ResponseEntity<ResponseDto<?>> deleteSurvey(@Parameter(description = "Member", hidden = true) @CurrentUser Member member, @PathVariable Long surveyId){
 
-        if(member == null) member = BizMember.builder().id(1L).daangnUserId("test").bizName("testBiz").imageUrl("test").nickname("test").phone("tse").build();
+        if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
 
         surveyService.deleteSurvey(surveyId, member.getId());
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, DELETE_SURVEY));

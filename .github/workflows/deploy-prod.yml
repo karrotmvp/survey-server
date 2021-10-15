@@ -18,6 +18,62 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
 
+      - name: Set Profiles Active
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application.properties'
+          property: 'spring.profiles.active'
+          value: prod
+
+      - name: Set jwt secret
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'jwt.secret'
+          value: ${{ secrets.JWT_SECRET }}
+
+      - name: Set mysql url
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.datasource.url'
+          value: ${{ secrets.RDS_PRODUCTION_URL }}
+
+      - name: Set mysql username
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.datasource.username'
+          value: ${{ secrets.RDS_USERNAME }}
+
+      - name: Set mysql password
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.datasource.password'
+          value: ${{ secrets.RDS_PASSWORD }}
+
+      - name: Set daangn app id
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'karrot.app.id'
+          value: ${{ secrets.DAANGN_PRODUCTION_APP_ID }}
+
+      - name: Set daangn app secret
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'karrot.app.secret'
+          value: ${{ secrets.DAANGN_PRODUCTION_APP_SECRET }}
+
+      - name: Set daangn api key
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'karrot.app.apikey'
+          value: ${{ secrets.DAANGN_PRODUCTION_API_KEY }}
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         shell: bash

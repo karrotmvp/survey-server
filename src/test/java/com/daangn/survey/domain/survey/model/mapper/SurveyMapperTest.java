@@ -1,6 +1,5 @@
 package com.daangn.survey.domain.survey.model.mapper;
 
-import com.daangn.survey.domain.member.model.entity.BizMember;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Choice;
 import com.daangn.survey.domain.question.model.entity.Question;
@@ -9,16 +8,15 @@ import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import com.daangn.survey.domain.survey.model.entity.Target;
 import com.google.gson.Gson;
-import net.bytebuddy.build.Plugin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest()
+@SpringBootTest
 class SurveyMapperTest {
     @Autowired
     private SurveyMapper surveyMapper;
@@ -93,12 +91,10 @@ class SurveyMapperTest {
                 "\t]\n" +
                 "}";
 
-        Member member = BizMember.builder()
+        Member member = Member.builder()
                 .id(1L)
-                .daangnUserId("test")
-                .bizName("test")
-                .nickname("test")
-                .phone("test")
+                .daangnId("test")
+                .name("test")
                 .imageUrl("test")
                 .build();
 

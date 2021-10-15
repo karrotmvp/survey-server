@@ -12,5 +12,11 @@ public class ResponseMessage {
     public static final String READ_SURVEY_DETAIL = "설문 디테일을 조회합니다.";
     public static final String DELETE_SURVEY = "설문을 삭제합니다.";
 
+    // Auth
+    public static final String CREATE_JWT_CUSTOMER = "JWT_CUSTOMER를 생성합니다.";
+    public static final String CREATE_JWT_BUSINESS = "JWT_BUSINESS를 생성합니다.";
+
+    // Member
+    public static final String READ_PROFILE = "프로필을 조회합니다.";
 
 }
