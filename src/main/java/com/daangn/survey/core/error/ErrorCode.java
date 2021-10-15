@@ -30,9 +30,13 @@ public enum ErrorCode {
     // Question
     QUESTION_TYPE_CONDITION_NOT_MATCHED(400, "Question Type Condition Not Matched"),
 
-
     // Member
-    MEMBER_NOT_FOUND(404, "Member Not Found")
+    MEMBER_NOT_FOUND(404, "Member Not Found"),
+
+    // Karrot
+    KARROT_FORBIDDEN(403, "Karrot Forbidden"),
+    KARROT_BAD_REQUEST(400, "Karrot Bad Request"),
+    KARROT_PROFILE_NOT_FOUND(404, "Karrot Profile Not Found")
     ;
     private final String message;
     private int status;
