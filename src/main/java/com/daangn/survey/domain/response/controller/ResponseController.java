@@ -2,11 +2,9 @@ package com.daangn.survey.domain.response.controller;
 
 import com.daangn.survey.common.dto.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
-import com.daangn.survey.domain.member.model.entity.BizMember;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.response.model.dto.SurveyResponseDto;
 import com.daangn.survey.domain.response.service.ResponseService;
-import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +34,7 @@ public class ResponseController {
     @PostMapping
     public ResponseEntity<ResponseDto<?>> saveResponse(@CurrentUser Member member, @RequestBody Map<String, Object> responseBody){
 
-        if(member == null) member = BizMember.builder().id(1L).daangnUserId("test").bizName("testBiz").imageUrl("test").nickname("test").phone("tse").build();
+        if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
 
         Gson gson = new Gson();
 

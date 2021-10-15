@@ -1,8 +1,13 @@
 package com.daangn.survey.domain.response.model.dto;
 
-import com.daangn.survey.domain.question.model.entity.QuestionType;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommonResponseDto {
 
     private int questionType;

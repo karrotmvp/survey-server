@@ -26,7 +26,7 @@ public class JwtValidator {
     public boolean validateToken(String jwtToken){
         return validateTokenBefore(jwtToken, new Date());
     }
-
+    // TODO : 인증 예외 잡아내도록 고치기
     public boolean validateTokenBefore(String jwtToken, Date date){
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);

@@ -1,6 +1,7 @@
 package com.daangn.survey.domain.response.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import lombok.*;
 
@@ -22,9 +23,8 @@ public class SurveyResponse extends BaseEntity {
     @JoinColumn(name = "survey_id")
     private Survey survey;
 
-    @Column(name = "user_id", nullable = false)
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    @Column(name = "name", nullable = false)
-    private String name;
 }
