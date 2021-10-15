@@ -38,7 +38,8 @@ public class AuthController {
 
     @Operation(summary = "고객 액세스 토큰 생성", description = "고객 액세스 토큰을 생성합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "액세스 토큰 생성", content = @Content(schema = @Schema(implementation = String.class)))})
+            @ApiResponse(responseCode = "200", description = "액세스 토큰 생성", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content)})
     @GetMapping("/customer")
     public ResponseEntity<ResponseDto<?>> createCustomerAccessToken(@RequestParam String code){
         KarrotAccessToken karrotAccessToken = (KarrotAccessToken) socialResolver.resolveAccessToken(code);
@@ -52,7 +53,8 @@ public class AuthController {
 
     @Operation(summary = "비즈니스 액세스 토큰 생성", description = "비즈니스 액세스 토큰을 생성합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "액세스 토큰 생성", content = @Content(schema = @Schema(implementation = String.class)))})
+            @ApiResponse(responseCode = "200", description = "액세스 토큰 생성", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content)})
     @GetMapping("/business")
     public ResponseEntity<ResponseDto<?>> createBusinessAccessToken(@RequestParam String bizProfileId){
         KarrotBizProfileDetail karrotBizProfileDetail = (KarrotBizProfileDetail) socialResolver.resolveBizProfileDetails(bizProfileId);
