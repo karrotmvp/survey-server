@@ -16,40 +16,44 @@ public class ErrorResponse {
 
     private String message;
     private int status;
+    private String code;
     private List<FieldError> errors;
 
-    private ErrorResponse(final ErrorCode code, final List<FieldError> errors) {
-        this.message = code.getMessage();
-        this.status = code.getStatus();
+    private ErrorResponse(final ErrorCode errorCode, final List<FieldError> errors) {
+        this.message = errorCode.getMessage();
+        this.status = errorCode.getStatus();
+        this.code = errorCode.getCode();
         this.errors = errors;
     }
 
-    private ErrorResponse(final ErrorCode code) {
-        this.message = code.getMessage();
-        this.status = code.getStatus();
+    private ErrorResponse(final ErrorCode errorCode) {
+        this.message = errorCode.getMessage();
+        this.status = errorCode.getStatus();
+        this.code = errorCode.getCode();
         this.errors = new ArrayList<>();
     }
 
-    private ErrorResponse(final String message, final ErrorCode code) {
-        this.message = code.getMessage() + " : " + message;
-        this.status = code.getStatus();
+    private ErrorResponse(final String message, final ErrorCode errorCode) {
+        this.message = errorCode.getMessage() + " : " + message;
+        this.status = errorCode.getStatus();
+        this.code = errorCode.getCode();
         this.errors = new ArrayList<>();
     }
 
-    public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {
-        return new ErrorResponse(code, FieldError.of(bindingResult));
+    public static ErrorResponse of(final ErrorCode errorCode, final BindingResult bindingResult) {
+        return new ErrorResponse(errorCode, FieldError.of(bindingResult));
     }
 
-    public static ErrorResponse of(final ErrorCode code) {
-        return new ErrorResponse(code);
+    public static ErrorResponse of(final ErrorCode errorCode) {
+        return new ErrorResponse(errorCode);
     }
 
-    public static ErrorResponse of(final String message, final ErrorCode code) {
-        return new ErrorResponse(message, code);
+    public static ErrorResponse of(final String message, final ErrorCode errorCode) {
+        return new ErrorResponse(message, errorCode);
     }
 
-    public static ErrorResponse of(final ErrorCode code, final List<FieldError> errors) {
-        return new ErrorResponse(code, errors);
+    public static ErrorResponse of(final ErrorCode errorCode, final List<FieldError> errors) {
+        return new ErrorResponse(errorCode, errors);
     }
 
     public static ErrorResponse of(MethodArgumentTypeMismatchException e) {

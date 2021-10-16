@@ -16,7 +16,7 @@ public class QuestionType {
     @Column(name = "question_type_id")
     private Long id;
 
-    @Column(nullable = false, length = 30)
+    @Column(length = 30)
     private String name;
 
 }

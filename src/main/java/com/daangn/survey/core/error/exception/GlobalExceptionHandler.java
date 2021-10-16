@@ -5,6 +5,7 @@ import com.daangn.survey.core.error.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,9 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.persistence.EntityNotFoundException;
-import java.nio.file.AccessDeniedException;
-import java.util.Arrays;
-import java.util.List;
 
 @ControllerAdvice
 @Slf4j
@@ -66,7 +64,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
         log.error("handleEntityNotFoundException", e.getMessage());
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.ENTITY_NOT_FOUND);
+        final ErrorResponse response = ErrorResponse.of(e.getMessage(), ErrorCode.ENTITY_NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.ENTITY_NOT_FOUND.getStatus()));
     }
 
