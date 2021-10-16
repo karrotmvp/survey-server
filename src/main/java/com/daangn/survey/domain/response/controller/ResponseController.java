@@ -6,9 +6,13 @@ import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.response.model.dto.SurveyResponseDto;
 import com.daangn.survey.domain.response.service.ResponseService;
+import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
+import com.daangn.survey.domain.survey.service.SurveyService;
+import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
 import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,12 +22,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
+
+import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_LIST;
 
 @Slf4j
 @Tag(name = "답변 엔드포인트")
@@ -50,4 +54,23 @@ public class ResponseController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_RESPONSE));
     }
+
+    @Operation(summary = "답변 결과 조회", description = "설문 결과를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "답변 결과 조회 성공",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = SurveySummaryDto.class)))),
+            @ApiResponse(responseCode = "401", description = "답변 결과 조회 실패 (권한 에러)", content = @Content)
+    })
+    @GetMapping("/surveys/{surveyId}/aggregation")
+    public ResponseEntity<ResponseDto<List<SurveySummaryDto>>> getSurveyResponseAggregation(@Parameter(description = "Member", hidden = true) @CurrentUser Member member,
+                                                                          @PathVariable Long surveyId){
+
+        if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
+
+        responseService.getAggregation(surveyId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_LIST));
+    }
+
+    // TODO : 답변 개별 조회
 }

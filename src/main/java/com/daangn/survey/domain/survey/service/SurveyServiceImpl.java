@@ -20,6 +20,7 @@ import com.daangn.survey.domain.question.repository.QuestionRepository;
 import com.daangn.survey.domain.question.repository.QuestionTypeRepository;
 import com.daangn.survey.domain.survey.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,7 @@ public class SurveyServiceImpl implements SurveyService{
     private final QuestionMapper questionMapper;
     private final ChoiceMapper choiceMapper;
 
+    @PreAuthorize("hasRole('ROLE_BIZ')")
     @Transactional
     public void saveSurvey(Member member, SurveyDto surveyDto){
         List<Question> questions = new LinkedList<>();
@@ -91,7 +93,6 @@ public class SurveyServiceImpl implements SurveyService{
 
     @Transactional
     public void deleteSurvey(Long surveyId, Long memberId){
-        memberId = 2L;
         Survey survey = surveyRepository.findSurveyByIdAndIsDeletedFalse(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
 
         if(!survey.isWriter(memberId))
