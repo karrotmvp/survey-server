@@ -1,13 +1,10 @@
 package com.daangn.survey.third;
 
-import com.daangn.survey.core.auth.jwt.model.AccessToken;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.client.RestTemplate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {KarrotApiUtil.class, RestTemplate.class})
 class KarrotApiUtilTest {
