@@ -1,6 +1,5 @@
 package com.daangn.survey.third;
 
-import com.daangn.survey.core.auth.jwt.model.AccessToken;
 import com.daangn.survey.core.auth.oauth.SocialResolver;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.KarrotAuthenticationException;
@@ -48,7 +47,7 @@ public class KarrotApiUtil implements SocialResolver {
         String url = "/api/v2/biz_profiles/" + bizProfileId;
 
         ResponseEntity<KarrotBizProfileDetail> response = restTemplate.exchange(
-                getKarrotOApi(url),
+                getRequestUrl(oApiUrl, url),
                 HttpMethod.GET,
                 request,
                 KarrotBizProfileDetail.class
@@ -73,7 +72,7 @@ public class KarrotApiUtil implements SocialResolver {
 
         try {
             ResponseEntity<KarrotUserDetail> response = restTemplate.exchange(
-                    getKarrotOpenApi(url),
+                    getRequestUrl(openApiUrl, url),
                     HttpMethod.GET,
                     request,
                     KarrotUserDetail.class
@@ -96,9 +95,10 @@ public class KarrotApiUtil implements SocialResolver {
         HttpEntity request = new HttpEntity<>(headers);
 
         String url = "/oauth/token?code=" + code + "&scope=account/profile&grant_type=authorization_code&response_type=code";
+
         try {
             ResponseEntity<KarrotAccessToken> response = restTemplate.exchange(
-                    getKarrotOpenApi(url),
+                    getRequestUrl(openApiUrl, url),
                     HttpMethod.GET,
                     request,
                     KarrotAccessToken.class
@@ -112,19 +112,10 @@ public class KarrotApiUtil implements SocialResolver {
         }
     }
 
-    private String getKarrotOpenApi(String url){
+    private String getRequestUrl(String baseUrl, String url){
         StringBuffer sb = new StringBuffer();
 
-        sb.append(openApiUrl);
-        sb.append(url);
-
-        return sb.toString();
-    }
-
-    private String getKarrotOApi(String url){
-        StringBuffer sb = new StringBuffer();
-
-        sb.append(oApiUrl);
+        sb.append(baseUrl);
         sb.append(url);
 
         return sb.toString();
