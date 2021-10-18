@@ -49,6 +49,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("handleHttpRequestMethodNotSupportedException", e);
+        Sentry.captureException(e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.METHOD_NOT_ALLOWED);
         return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
     }
@@ -85,6 +86,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("handleException", e);
+        Sentry.captureException(e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -92,6 +94,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(KarrotAuthenticationException.class)
     protected ResponseEntity<ErrorResponse> handleKarrotAuthenticationException(KarrotAuthenticationException e) {
         log.error("handleKarrotAuthenticationException", e);
+        Sentry.captureException(e);
         final ErrorResponse response = ErrorResponse.of(e.getMessage(), e.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
