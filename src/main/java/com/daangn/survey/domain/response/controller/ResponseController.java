@@ -52,7 +52,7 @@ public class ResponseController {
 
         responseService.saveResponse(member, surveyResponseDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_RESPONSE));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.CREATE_RESPONSE));
     }
 
     @Operation(summary = "답변 결과 조회", description = "설문 결과를 조회합니다.")

@@ -42,6 +42,6 @@ public class FeedbackController {
 
         feedbackService.saveFeedback(feedbackMapper.toEntity(feedbackDto, member));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.OK, CREATE_FEEDBACK));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.CREATED, CREATE_FEEDBACK));
     }
 }
