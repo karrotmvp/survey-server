@@ -49,7 +49,7 @@ public class SurveyController {
 
         surveyService.saveSurvey(member, surveyDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.OK, CREATE_SURVEY));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.CREATED, CREATE_SURVEY));
     }
 
     @Operation(summary = "설문 리스트 조회", description = "설문 리스트를 조회합니다.")

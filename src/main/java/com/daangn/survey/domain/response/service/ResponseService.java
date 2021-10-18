@@ -93,10 +93,8 @@ public class ResponseService {
                     choice.getValue();
 
                     int count = choiceResponseRepository.countChoiceResponsesByChoiceId(choice.getId());
-
                 }
             }
-
         }
 
         int responseCount = survey.getSurveyResponses().size(); // 좋은 방법은 아님

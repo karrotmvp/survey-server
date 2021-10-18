@@ -22,4 +22,7 @@ public class ResponseMessage {
     // Member
     public static final String READ_PROFILE = "프로필을 조회합니다.";
 
+    // Feedback
+    public static final String CREATE_FEEDBACK = "피드백을 작성합니다.";
+
 }
