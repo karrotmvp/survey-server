@@ -74,6 +74,13 @@ jobs:
           property: 'karrot.app.apikey'
           value: ${{ secrets.DAANGN_ALPHA_API_KEY }}
 
+      - name: Set Sentry DSN
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-dev.properties'
+          property: 'sentry.dsn'
+          value: ${{ secrets.SENTRY_DSN }}
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         shell: bash

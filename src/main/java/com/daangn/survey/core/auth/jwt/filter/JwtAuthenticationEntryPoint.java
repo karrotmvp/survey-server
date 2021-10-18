@@ -2,6 +2,7 @@ package com.daangn.survey.core.auth.jwt.filter;
 
 import com.daangn.survey.core.auth.jwt.component.JwtResolver;
 import com.daangn.survey.core.auth.jwt.component.JwtValidator;
+import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -23,7 +24,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException) throws IOException {
 
         String message = jwtValidator.setInvalidAuthenticationMessage(jwtResolver.resolveToken(request));
-
+        Sentry.captureException(authException);
         response.sendError(HttpServletResponse.SC_FORBIDDEN, message);
     }
 }

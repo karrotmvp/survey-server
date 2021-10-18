@@ -1,5 +1,6 @@
 package com.daangn.survey.core.auth.jwt.filter;
 
+import io.sentry.Sentry;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -16,5 +17,6 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
                        AccessDeniedException accessDeniedException) throws IOException {
 
         response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        Sentry.captureException(accessDeniedException);
     }
 }

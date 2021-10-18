@@ -49,7 +49,9 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     implementation 'mysql:mysql-connector-java:8.0.25'
 
-
+    // Logging
+    implementation 'io.sentry:sentry-spring-boot-starter:5.2.3'
+    implementation 'io.sentry:sentry-logback:5.2.3'
 }
 
 test {
