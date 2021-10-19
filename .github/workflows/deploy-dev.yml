@@ -88,6 +88,17 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build
         shell: bash
+        
+      - name: Gradle 빌드 캐싱 
+        id: gradle-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
