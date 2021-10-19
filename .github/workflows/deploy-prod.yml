@@ -1,0 +1,117 @@
+name: prod-deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # 수동 실행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Set Profiles Active
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application.properties'
+          property: 'spring.profiles.active'
+          value: prod
+
+      - name: Set jwt secret
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'jwt.secret'
+          value: ${{ secrets.JWT_SECRET }}
+
+      - name: Set mysql url
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.datasource.url'
+          value: ${{ secrets.RDS_PRODUCTION_URL }}
+
+      - name: Set mysql username
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.datasource.username'
+          value: ${{ secrets.RDS_USERNAME }}
+
+      - name: Set mysql password
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'spring.datasource.password'
+          value: ${{ secrets.RDS_PASSWORD }}
+
+      - name: Set daangn app id
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'karrot.app.id'
+          value: ${{ secrets.DAANGN_PRODUCTION_APP_ID }}
+
+      - name: Set daangn app secret
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'karrot.app.secret'
+          value: ${{ secrets.DAANGN_PRODUCTION_APP_SECRET }}
+
+      - name: Set daangn api key
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'karrot.app.apikey'
+          value: ${{ secrets.DAANGN_PRODUCTION_API_KEY }}
+
+      - name: Set Sentry DSN
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: './src/main/resources/application-prod.properties'
+          property: 'sentry.dsn'
+          value: ${{ secrets.SENTRY_PRODUCTION_DSN }}
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+        shell: bash
+
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00"
+
+      - name: Generate deployment package # (1)
+        run: |
+          mkdir -p deploy
+          cp build/libs/*.jar deploy/
+          cp Procfile deploy/Procfile
+          cp -r .ebextensions deploy/.ebextensions
+          cp -r .platform deploy/.platform
+          cd deploy && zip -r deploy.zip .
+
+      - name: Deploy to EB # (2)
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: Daangn-survey-prod
+          environment_name: Daangn-survey-prod-env
+          version_label: github-action-${{steps.current-time.outputs.formattedTime}}
+          region: ap-northeast-2
+          deployment_package: deploy/deploy.zip
