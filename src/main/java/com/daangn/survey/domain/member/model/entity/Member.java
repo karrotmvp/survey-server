@@ -25,6 +25,7 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
+    // Todo: biz 계정인 경우, businessId로 변경하기
     @Column(name = "daangn_id", nullable = false, unique = true)
     private String daangnId;
 
@@ -39,6 +40,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Survey> surveys;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<BizProfile> bizProfiles;
 
     public Member updateProfile(String name){
         this.name = name;

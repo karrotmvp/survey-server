@@ -4,8 +4,10 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
+@ActiveProfiles(profiles = "prod")
 @SpringBootTest(classes = {KarrotApiUtil.class, RestTemplate.class})
 class KarrotApiUtilTest {
 
@@ -15,7 +17,7 @@ class KarrotApiUtilTest {
     @Test
     @Disabled
     void resolveBizProfileDetails() {
-        String bizProfileId = "4210";
+        String bizProfileId = "57464";
         KarrotBizProfileDetail karrotBizProfileDetail = karrotApiUtil.resolveBizProfileDetails(bizProfileId);
 
         System.out.println(karrotBizProfileDetail.getData());
