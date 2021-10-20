@@ -2,6 +2,7 @@ package com.daangn.survey.domain.survey.service;
 
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.BusinessException;
+import com.daangn.survey.core.error.exception.EntityNotFoundException;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.dto.ChoiceDto;
 import com.daangn.survey.domain.question.model.dto.QuestionDto;
@@ -24,7 +25,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,7 +57,7 @@ public class SurveyServiceImpl implements SurveyService{
                 throw new BusinessException(ErrorCode.QUESTION_TYPE_CONDITION_NOT_MATCHED);
 
             QuestionType questionType = questionTypeRepository.findById(questionDto.getQuestionType())
-                                                                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.QUESTION_TYPE_NOT_MATCHED.getMessage()));
+                                                                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.QUESTION_TYPE_NOT_MATCHED));
 
             Question question = questionMapper.entityBuilder(questionDto, survey, idx, questionType);
 
@@ -87,13 +87,13 @@ public class SurveyServiceImpl implements SurveyService{
 
     @Transactional(readOnly = true)
     public SurveyDto findBySurveyId(Long surveyId){
-        Survey survey = surveyRepository.findByIdAndIsDeletedFalse(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
+        Survey survey = surveyRepository.findByIdAndIsDeletedFalse(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
         return surveyMapper.toDetailDto(survey);
     }
 
     @Transactional
     public void deleteSurvey(Long surveyId, Long memberId){
-        Survey survey = surveyRepository.findSurveyByIdAndIsDeletedFalse(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND.getMessage()));
+        Survey survey = surveyRepository.findSurveyByIdAndIsDeletedFalse(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
 
         if(!survey.isWriter(memberId))
             throw new BusinessException(ErrorCode.NOT_AUTHORIZED_FOR_DELETE);
