@@ -67,7 +67,7 @@ public class AuthController {
         log.info("비즈니스 멤버 저장");
 
         String jwt = jwtCreator.createAccessToken(member);
-        log.info("JWT: ", jwt);
+        log.info("JWT: " + jwt);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_JWT_BUSINESS, jwt));
     }
