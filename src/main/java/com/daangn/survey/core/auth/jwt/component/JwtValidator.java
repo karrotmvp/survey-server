@@ -3,7 +3,9 @@ package com.daangn.survey.core.auth.jwt.component;
 
 import com.daangn.survey.core.error.ErrorCode;
 import io.jsonwebtoken.*;
+import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,7 @@ import javax.annotation.PostConstruct;
 import java.util.Base64;
 import java.util.Date;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtValidator {
@@ -49,12 +52,20 @@ public class JwtValidator {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwt);
             return "Logic Error : Should Tell to Backend";
         } catch (UnsupportedJwtException | MalformedJwtException e) {
+            log.error("UnsupportedJwtException, MalformedJwtException");
+            Sentry.captureException(e);
             return ErrorCode.UNSUPPORTED_JWT.getMessage();
         } catch (ExpiredJwtException e) {
+            log.error("ExpiredJwtException");
+            Sentry.captureException(e);
             return ErrorCode.EXPIRED_JWT.getMessage();
         } catch (SignatureException e) {
+            log.error("SignatureException");
+            Sentry.captureException(e);
             return ErrorCode.SIGNATURE_INVALID_JWT.getMessage();
         } catch (IllegalArgumentException e) {
+            log.error("IllegalArgumentException");
+            Sentry.captureException(e);
             return ErrorCode.JWT_NOT_FOUND.getMessage();
         }
     }
