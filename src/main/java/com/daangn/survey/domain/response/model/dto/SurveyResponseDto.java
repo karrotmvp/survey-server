@@ -1,6 +1,5 @@
 package com.daangn.survey.domain.response.model.dto;
 
-import com.daangn.survey.domain.question.model.dto.QuestionDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 

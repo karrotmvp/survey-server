@@ -51,6 +51,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_JWT_CUSTOMER, jwt));
     }
 
+    // Todo: @Deprecated
     @Operation(summary = "비즈니스 액세스 토큰 생성", description = "비즈니스 액세스 토큰을 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "액세스 토큰 생성", content = @Content(schema = @Schema(implementation = String.class))),
