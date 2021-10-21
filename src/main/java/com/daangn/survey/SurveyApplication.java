@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,7 +23,12 @@ public class SurveyApplication {
     }
 
     @GetMapping("/")
-    public ResponseEntity<ResponseDto<?>> healthCheck(){
+    public ResponseEntity<ResponseDto<?>> healthCheckForGet(){
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE));
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<ResponseDto<?>> healthCheckForPost(){
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE));
     }
 
