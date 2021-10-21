@@ -10,6 +10,7 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FeedbackMapper {
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "member", source = "member")
     Feedback toEntity(FeedbackDto feedbackDto, Member member);
 

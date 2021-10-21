@@ -29,7 +29,7 @@ public class JwtResolver {
 
     public Authentication getAuthentication(String token){
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserIdentifier(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, "daangn", userDetails.getAuthorities());
     }
 
     public String getUserIdentifier(String token){

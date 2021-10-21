@@ -7,13 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
-import javax.persistence.EntityNotFoundException;
 
 @ControllerAdvice
 @Slf4j
@@ -65,14 +64,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.HANDLE_ACCESS_DENIED.getStatus()));
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    protected ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
-        log.error("handleEntityNotFoundException", e.getMessage());
-        Sentry.captureException(e);
-        final ErrorResponse response = ErrorResponse.of(e.getMessage(), ErrorCode.ENTITY_NOT_FOUND);
-        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.ENTITY_NOT_FOUND.getStatus()));
-    }
-
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
         log.error("handleBusinessException", e);
@@ -82,13 +73,28 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
     }
 
-
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler({RuntimeException.class, Exception.class})
     protected ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("handleException", e);
         Sentry.captureException(e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    protected ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException e) {
+        log.error("handleEntityNotFoundException", e.getMessage());
+        Sentry.captureException(e);
+        final ErrorResponse response = ErrorResponse.of(e.getMessage(), ErrorCode.ENTITY_NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.ENTITY_NOT_FOUND.getStatus()));
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
+        log.error("handleEntityNotFoundException", e.getErrorCode().getMessage());
+        Sentry.captureException(e);
+        final ErrorResponse response = ErrorResponse.of(e.getErrorCode().getMessage(), ErrorCode.ENTITY_NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCode.ENTITY_NOT_FOUND.getStatus()));
     }
 
     @ExceptionHandler(KarrotAuthenticationException.class)
