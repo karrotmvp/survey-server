@@ -1,5 +1,6 @@
 package com.daangn.survey.core.config;
 
+import com.daangn.survey.core.auth.jwt.filter.JwtAccessDeniedHandler;
 import com.daangn.survey.core.auth.jwt.filter.JwtAuthenticationEntryPoint;
 import com.daangn.survey.core.auth.jwt.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -34,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .csrf().disable()
                 .exceptionHandling()
+                .accessDeniedHandler(jwtAccessDeniedHandler)
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
