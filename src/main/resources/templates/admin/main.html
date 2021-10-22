@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table {
+            width: 100%; border: 1px solid #444444; text-align: center;
+        }
+        th, td {
+            border: 1px solid #444444;
+        }
+    </style>
+</head>
+<body>
+<h1>유저 목록</h1>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>이름</th>
+            <th>당근 ID</th>
+            <th>계정 정보</th>
+            <th>가입일</th>
+        </tr>
+        <tr th:each="member , index: ${members}">
+            <td th:text="${index.index}">#</td>
+            <td><a th:href="@{/daangn/admin/members/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.name}">유저 이름</td>
+            <td><a th:href="@{https://town.daangn.com/bp/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.daangnId}">당근 ID</a></td>
+            <td th:text="${member.role}">계정 정보</td>
+            <td th:text="${member.createdAt}">가입일</td>
+        </tr>
+    </table>
+</body>
+</html>
+
