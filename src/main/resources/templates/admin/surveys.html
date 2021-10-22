@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 페이지</title>
+    <style>
+        table {
+            width: 100%; border: 1px solid #444444; text-align: center;
+        }
+        th, td {
+            border: 1px solid #444444;
+        }
+    </style>
+</head>
+<body>
+<h1>설문 목록</h1>
+<table>
+    <tr>
+        <th>#</th>
+        <th>설문 ID</th>
+        <th>제목</th>
+        <th>답변 수</th>
+        <th>생성일</th>
+    </tr>
+    <tr th:each="survey , index: ${surveys}">
+        <td th:text="${index.index}">#</td>
+        <td th:text="${survey.surveyId}">설문 ID</td>
+        <td><a th:href="@{/daangn/admin/surveys/{surveyId}(surveyId=${survey.surveyId})}" th:text="${survey.title}">설문 제목</a></td>
+        <td th:text="${survey.responseCount}">답변 수</td>
+        <td th:text="${survey.createdAt}">생성일</td>
+    </tr>
+</table>
+</body>
+</html>
