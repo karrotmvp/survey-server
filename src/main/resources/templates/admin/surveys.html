@@ -23,7 +23,7 @@
         <th>생성일</th>
     </tr>
     <tr th:each="survey , index: ${surveys}">
-        <td th:text="${index.index}">#</td>
+        <td th:text="${index.index + 1}">#</td>
         <td th:text="${survey.surveyId}">설문 ID</td>
         <td><a th:href="@{/daangn/admin/surveys/{surveyId}(surveyId=${survey.surveyId})}" th:text="${survey.title}">설문 제목</a></td>
         <td th:text="${survey.responseCount}">답변 수</td>
