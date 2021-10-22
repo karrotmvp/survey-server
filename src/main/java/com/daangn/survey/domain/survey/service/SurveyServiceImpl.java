@@ -84,6 +84,13 @@ public class SurveyServiceImpl implements SurveyService{
     }
 
     @Transactional(readOnly = true)
+    public List<SurveySummaryDto> findSurveysByMemberId(Long memberId){
+        List<Survey> surveys = surveyRepository.findSurveysByMemberIdOrderByCreatedAt(memberId);
+
+        return surveys.stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public SurveyDto findBySurveyId(Long surveyId){
         Survey survey = surveyRepository.findByIdAndIsDeletedFalse(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
         return surveyMapper.toDetailDto(survey);

@@ -1,5 +1,6 @@
 package com.daangn.survey.admin;
 
+import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.service.MemberService;
 import com.daangn.survey.domain.survey.service.SurveyService;
 import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
@@ -26,7 +27,14 @@ public class AdminController {
 
     @GetMapping("/members/{daangnId}")
     public String memberSurveyList(@PathVariable String daangnId, Model model){
-        model.addAttribute("members", surveyService.());
-        return "admin/main";
+        Member member = memberService.findByDaangnId(daangnId);
+        model.addAttribute("surveys", surveyService.findSurveysByMemberId(member.getId()));
+        return "admin/surveys";
+    }
+
+    @GetMapping("/surveys/{surveyId}")
+    public String surveyDetail(@PathVariable Long surveyId, Model model){
+        model.addAttribute("survey", surveyService.findBySurveyId(surveyId));
+        return "admin/survey-detail";
     }
 }
