@@ -1,5 +1,6 @@
 package com.daangn.survey.domain.etc.notification.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -14,6 +15,7 @@ public class NotificationDto {
     private String subject;
 
     @Schema(description = "알림 선택")
+    @JsonProperty("notifying")
     private boolean isNotifying;
 }
 

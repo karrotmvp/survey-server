@@ -15,5 +15,6 @@ public interface NotificationMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "member", source = "member")
     @Mapping(target = "type", source = "type")
+    @Mapping(target = "isNotifying", source = "notificationDto.notifying")
     Notification toEntity(NotificationDto notificationDto, Member member, String type);
 }
