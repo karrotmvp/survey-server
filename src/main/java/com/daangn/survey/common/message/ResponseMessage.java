@@ -26,4 +26,7 @@ public class ResponseMessage {
     // Feedback
     public static final String CREATE_FEEDBACK = "피드백을 작성합니다.";
 
+    // Notification
+    public static final String CREATE_NOTIFICATION = "알림을 신청합니다.";
+
 }
