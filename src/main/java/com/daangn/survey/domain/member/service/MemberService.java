@@ -43,7 +43,7 @@ public class MemberService {
 
         if(bizProfile.isPresent())
             return null; // TODO: bizProfile.get().updateProfile();
-        else // TODO:
+        else
             return bizProfileRepository.save(BizProfile.builder().businessId(businessId).build());
     }
 
@@ -56,15 +56,24 @@ public class MemberService {
     // Todo: 캐시 기능 넣기
     @Transactional(readOnly = true)
     public List<Member> getAllMembers(){
-        return memberRepository.findAll();
+        QMember member = QMember.member;
+        QSurvey survey = QSurvey.survey;
+
+        return jpaQueryFactory.selectFrom(member)
+                .leftJoin(member.surveys, survey).distinct()
+                .fetchJoin()
+                .fetch();
     }
 
     // Todo: 유연한 필터 만들기
     @Transactional(readOnly = true)
     public List<Member> getMembersByCondition(){
         QMember member = QMember.member;
+        QSurvey survey = QSurvey.survey;
 
         return jpaQueryFactory.selectFrom(member)
+                .leftJoin(member.surveys, survey).distinct()
+                .fetchJoin()
                 .where(member.surveys.size().gt(0))
                 .fetch();
 
