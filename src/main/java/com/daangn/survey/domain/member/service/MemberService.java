@@ -4,8 +4,12 @@ import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
 import com.daangn.survey.domain.member.model.entity.BizProfile;
 import com.daangn.survey.domain.member.model.entity.Member;
+import com.daangn.survey.domain.member.model.entity.QMember;
 import com.daangn.survey.domain.member.repository.BizProfileRepository;
 import com.daangn.survey.domain.member.repository.MemberRepository;
+import com.daangn.survey.domain.survey.model.entity.QSurvey;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +22,8 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final BizProfileRepository bizProfileRepository;
+    private final JPAQueryFactory jpaQueryFactory;
+
 
     @Transactional
     public Member updateMember(String daangnId, String name, String role, String imageUrl){
@@ -47,8 +53,20 @@ public class MemberService {
                                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
+    // Todo: 캐시 기능 넣기
     @Transactional(readOnly = true)
     public List<Member> getAllMembers(){
         return memberRepository.findAll();
+    }
+
+    // Todo: 유연한 필터 만들기
+    @Transactional(readOnly = true)
+    public List<Member> getMembersByCondition(){
+        QMember member = QMember.member;
+
+        return jpaQueryFactory.selectFrom(member)
+                .where(member.surveys.size().gt(0))
+                .fetch();
+
     }
 }
