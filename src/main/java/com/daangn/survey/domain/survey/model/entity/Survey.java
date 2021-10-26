@@ -7,6 +7,8 @@ import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Question;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
+@SQLDelete(sql = "UPDATE survey SET is_deleted = true WHERE survey_id=?")
+@Where(clause = "is_deleted = false")
 @Table(name = "survey")
 public class Survey extends BaseEntity {
     @Id

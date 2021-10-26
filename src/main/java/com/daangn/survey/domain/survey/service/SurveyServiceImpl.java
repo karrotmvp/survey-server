@@ -14,7 +14,6 @@ import com.daangn.survey.domain.question.model.mapper.ChoiceMapper;
 import com.daangn.survey.domain.question.model.mapper.QuestionMapper;
 import com.daangn.survey.domain.question.repository.ChoiceRepository;
 import com.daangn.survey.domain.question.repository.QuestionRepository;
-import com.daangn.survey.domain.question.repository.QuestionTypeRepository;
 import com.daangn.survey.domain.question.service.QuestionService;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
@@ -78,7 +77,7 @@ public class SurveyServiceImpl implements SurveyService{
 
     @Transactional(readOnly = true)
     public List<SurveySummaryDto> findAll(Long memberId){
-        List<Survey> surveys = surveyRepository.findSurveysByMemberIdAndAndIsDeletedFalseOrderByCreatedAtDesc(memberId);
+        List<Survey> surveys = surveyRepository.findSurveysByMemberIdOrderByCreatedAtDesc(memberId);
 
         return surveys.stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
     }
@@ -92,17 +91,18 @@ public class SurveyServiceImpl implements SurveyService{
 
     @Transactional(readOnly = true)
     public SurveyDto findBySurveyId(Long surveyId){
-        Survey survey = surveyRepository.findByIdAndIsDeletedFalse(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
+        Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
         return surveyMapper.toDetailDto(survey);
     }
 
     @Transactional
     public void deleteSurvey(Long surveyId, Long memberId){
-        Survey survey = surveyRepository.findSurveyByIdAndIsDeletedFalse(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
+        Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
 
         if(!survey.isWriter(memberId))
             throw new BusinessException(ErrorCode.NOT_AUTHORIZED_FOR_DELETE);
 
-        survey.delete();
+        surveyRepository.delete(survey);
+        // survey.delete();
     }
 }

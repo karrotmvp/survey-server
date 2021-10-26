@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface SurveyRepository extends JpaRepository<Survey, Long> {
-    List<Survey> findSurveysByMemberIdAndAndIsDeletedFalseOrderByCreatedAtDesc(Long memberId);
+    List<Survey> findSurveysByMemberIdOrderByCreatedAtDesc(Long memberId);
 
     /**
      * select q.survey_id, title, description, q.question_id, text, choice_id,c.number, value
@@ -25,10 +25,6 @@ public interface SurveyRepository extends JpaRepository<Survey, Long> {
      *     right join question q on survey.survey_id = q.survey_id
      *     left join choice c on q.question_id = c.question_id
      */
-
-    Optional<Survey> findByIdAndIsDeletedFalse(Long surveyId);
-
-    Optional<Survey> findSurveyByIdAndIsDeletedFalse(Long surveyId);
 
     List<Survey> findSurveysByMemberIdOrderByCreatedAt(Long memberId);
 }
