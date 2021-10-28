@@ -53,4 +53,9 @@ public class AdminController {
         return "admin/survey-detail";
     }
 
+    @GetMapping("/redirect")
+    public String redirect(){
+        return "redirect:karrot.alpha://minikarrot/router?navbar=false&scrollable=false&app=https%3A%2F%2Fwebview.alpha.kr.karrotmarket.com%2Fmini-redirect&path=%2FN4IghgDhCSAmIC4S1gBgEboJxbAZgFYiAWWPMLARgFNLjrZ0AOPJ1JlgJhABoQAnBgEtBAYwAuiEAAtx4iAGcEAemWwAXnQBsAW1EB2AgDshldQDpRAGwD2AV1gAzfjaPjzR6pIC%2BQA";
+    }
+
 }
