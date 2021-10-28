@@ -27,7 +27,7 @@ public class Survey extends BaseEntity {
     @Column(name = "survey_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -54,10 +54,5 @@ public class Survey extends BaseEntity {
     public boolean isWriter(Long memberId){
         return getMember().getId().equals(memberId);
     }
-
-    public void delete(){
-        if(this.isDeleted == true) throw new BusinessException(ErrorCode.SURVEY_ALREADY_DELETED);
-
-        this.isDeleted = true;
-    }
+    
 }
