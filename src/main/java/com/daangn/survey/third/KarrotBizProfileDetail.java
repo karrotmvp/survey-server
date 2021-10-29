@@ -14,14 +14,28 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
     private KarrotBizProfileData data;
 
     @Getter
-    public class KarrotBizProfileData {
+    public static class KarrotBizProfileData {
         private KarrotBizProfile bizProfile;
 
         @Getter
-        public class KarrotBizProfile{
+        public static class KarrotBizProfile{
             private String id;
             private String name;
             private String imageUrl;
+            private Region region;
+            private String profileUrl;
+
+            @Getter
+            public static class Region{
+                private String id;
+                private String name;
+                private String name1Id;
+                private String name1;
+                private String name2Id;
+                private String name2;
+                private String name3Id;
+                private String name3;
+            }
         }
     }
 }

@@ -60,7 +60,7 @@ public class AuthController {
     public ResponseEntity<ResponseDto<?>> createBusinessAccessToken(@RequestParam String bizProfileId){
 
         log.info("business 액세스 토큰 생성 호출");
-        KarrotBizProfileDetail karrotBizProfileDetail = (KarrotBizProfileDetail) socialResolver.resolveBizProfileDetails(bizProfileId);
+        KarrotBizProfileDetail karrotBizProfileDetail = socialResolver.resolveBizProfileDetails(bizProfileId);
         log.info("비즈니스 프로필 불러오기 성공");
 
         Member member = memberService.updateMember(karrotBizProfileDetail.getData().getBizProfile().getId(), karrotBizProfileDetail.getData().getBizProfile().getName(), "ROLE_BIZ", karrotBizProfileDetail.getData().getBizProfile().getImageUrl());

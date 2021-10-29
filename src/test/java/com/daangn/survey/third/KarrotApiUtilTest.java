@@ -17,7 +17,7 @@ class KarrotApiUtilTest {
     @Test
     @Disabled
     void resolveBizProfileDetails() {
-        String bizProfileId = "57464";
+        String bizProfileId = "1272507";
         KarrotBizProfileDetail karrotBizProfileDetail = karrotApiUtil.resolveBizProfileDetails(bizProfileId);
 
         System.out.println(karrotBizProfileDetail.getData());
