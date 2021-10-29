@@ -20,6 +20,6 @@ public class UrlController {
     @GetMapping("/path/{shortUrl}")
     public String redirectToOriginUrl(@PathVariable String shortUrl){
 
-        return "redirect:" + urlConverter.getShortenUrl(shortUrl.trim());
+        return "redirect:" + urlConverter.getShortenUrl(shortUrl.trim()).getShortUrl().getOriginUrl();
     }
 }
