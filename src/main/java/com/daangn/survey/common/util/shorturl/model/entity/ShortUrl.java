@@ -24,7 +24,7 @@ public class ShortUrl extends BaseEntity {
     @Column(name = "short_url")
     private String shortUrl;
 
-    @Column(name = "origin_url")
+    @Column(name = "origin_url", length = 1000)
     private String originUrl;
 
     @Builder.Default
