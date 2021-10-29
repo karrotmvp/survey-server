@@ -25,7 +25,7 @@ public class UrlConvertService {
 
         if(urlRepository.existsByShortUrlOrOriginUrl(url, url)){
             shortUrl = urlRepository.findFirstByShortUrlOrOriginUrlOrderByCreatedAt(url, url);
-            shortUrlResult.setShortUrlType(shortUrl.getShortUrl().equals(url) ? ShortUrlType.ORIGIN:ShortUrlType.SHORT);
+            shortUrlResult.setShortUrlType(shortUrl.getShortUrl().equals(url) ? ShortUrlType.SHORT : ShortUrlType.ORIGIN);
             shortUrl.addReqCount();
             shortUrlResult.setShortUrl(shortUrl);
         } else {
