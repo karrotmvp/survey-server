@@ -50,10 +50,4 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<BizProfile> bizProfiles;
 
-    public Member updateProfile(String name){
-        this.name = name;
-
-        return this;
-    }
-
 }
