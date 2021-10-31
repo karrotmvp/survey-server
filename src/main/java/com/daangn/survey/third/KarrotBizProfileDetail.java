@@ -14,11 +14,13 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
     private KarrotBizProfileData data;
 
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class KarrotBizProfileData {
         private KarrotBizProfile bizProfile;
 
         @Getter
+        @NoArgsConstructor
         @AllArgsConstructor
         public static class KarrotBizProfile{
             private String id;
@@ -28,6 +30,7 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
             private String profileUrl;
 
             @Getter
+            @NoArgsConstructor
             @AllArgsConstructor
             public static class Region{
                 private String id;
