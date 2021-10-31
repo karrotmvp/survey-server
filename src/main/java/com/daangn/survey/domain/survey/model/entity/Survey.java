@@ -7,6 +7,8 @@ import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Question;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
+@SQLDelete(sql = "UPDATE survey SET is_deleted = true WHERE survey_id=?")
+@Where(clause = "is_deleted = false")
 @Table(name = "survey")
 public class Survey extends BaseEntity {
     @Id
@@ -23,7 +27,7 @@ public class Survey extends BaseEntity {
     @Column(name = "survey_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -50,10 +54,5 @@ public class Survey extends BaseEntity {
     public boolean isWriter(Long memberId){
         return getMember().getId().equals(memberId);
     }
-
-    public void delete(){
-        if(this.isDeleted == true) throw new BusinessException(ErrorCode.SURVEY_ALREADY_DELETED);
-
-        this.isDeleted = true;
-    }
+    
 }

@@ -16,7 +16,8 @@ public class KarrotUserDetail extends AbstractUserDetail {
     private String timestamp;
 
     @Getter
-    public class KarrotUserData {
+    @AllArgsConstructor
+    public static class KarrotUserData {
         private String nickname;
         @JsonProperty("user_id")
         private String userId;

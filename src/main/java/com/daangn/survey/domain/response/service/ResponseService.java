@@ -74,7 +74,7 @@ public class ResponseService {
 
     @Transactional(readOnly = true)
     public void getAggregation(Long surveyId){
-        Survey survey = surveyRepository.findByIdAndIsDeletedFalse(surveyId)
+        Survey survey = surveyRepository.findById(surveyId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
 
         /**

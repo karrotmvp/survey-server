@@ -16,7 +16,7 @@ import static io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Getter @Setter
 @Entity
 @Table(name = "member")
 public class Member extends BaseEntity {
@@ -37,6 +37,12 @@ public class Member extends BaseEntity {
 
     @Column(nullable = false)
     private String role;
+
+    @Column(nullable = false)
+    private String region;
+
+    @Column(nullable = false, length = 1000)
+    private String profileUrl;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Survey> surveys;
