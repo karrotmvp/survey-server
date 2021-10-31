@@ -25,7 +25,6 @@ public class MemberService {
     private final JPAQueryFactory jpaQueryFactory;
     private final MemberMapper memberMapper;
 
-
     @Transactional
     public Member updateMember(Member newMember){
         Optional<Member> oldMember = memberRepository.findMemberByDaangnId(newMember.getDaangnId());
