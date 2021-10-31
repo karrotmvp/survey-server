@@ -14,10 +14,12 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
     private KarrotBizProfileData data;
 
     @Getter
+    @AllArgsConstructor
     public static class KarrotBizProfileData {
         private KarrotBizProfile bizProfile;
 
         @Getter
+        @AllArgsConstructor
         public static class KarrotBizProfile{
             private String id;
             private String name;
@@ -26,6 +28,7 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
             private String profileUrl;
 
             @Getter
+            @AllArgsConstructor
             public static class Region{
                 private String id;
                 private String name;
@@ -37,5 +40,11 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
                 private String name3;
             }
         }
+    }
+
+    public String parseRegion(){
+        KarrotBizProfileData.KarrotBizProfile.Region region = this.getData().getBizProfile().getRegion();
+
+        return region.getName1() + " " + region.getName2() + " " + region.getName3();
     }
 }

@@ -5,10 +5,10 @@ import com.daangn.survey.core.error.exception.EntityNotFoundException;
 import com.daangn.survey.domain.member.model.entity.BizProfile;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.entity.QMember;
+import com.daangn.survey.domain.member.model.mapper.MemberMapper;
 import com.daangn.survey.domain.member.repository.BizProfileRepository;
 import com.daangn.survey.domain.member.repository.MemberRepository;
 import com.daangn.survey.domain.survey.model.entity.QSurvey;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,16 +23,18 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BizProfileRepository bizProfileRepository;
     private final JPAQueryFactory jpaQueryFactory;
+    private final MemberMapper memberMapper;
 
 
     @Transactional
-    public Member updateMember(String daangnId, String name, String role, String imageUrl){
-        Optional<Member> member = memberRepository.findMemberByDaangnId(daangnId);
+    public Member updateMember(Member newMember){
+        Optional<Member> oldMember = memberRepository.findMemberByDaangnId(newMember.getDaangnId());
 
-        if(member.isPresent())
-            return member.get().updateProfile(name);
-        else
-            return memberRepository.save(Member.builder().daangnId(daangnId).role(role).name(name).imageUrl(imageUrl).build());
+        if(oldMember.isPresent()) {
+            memberMapper.updateMember(oldMember.get(), newMember);
+            return oldMember.get();
+        } else
+            return memberRepository.save(newMember);
     }
 
 
