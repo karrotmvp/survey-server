@@ -19,8 +19,10 @@ public class SurveyInfo {
     @Column(name = "survey_info_id")
     private Long id;
 
+    @Column(name = "writer_daangn_id")
     private String writerDaangnId;
 
+    @Column(name = "writer_type")
     @Convert(converter = WriterTypeConverter.class)
     private WriterType writerType;
 
