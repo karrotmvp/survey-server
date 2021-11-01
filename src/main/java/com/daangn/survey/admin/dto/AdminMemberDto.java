@@ -1,5 +1,6 @@
 package com.daangn.survey.admin.dto;
 
+import com.daangn.survey.domain.etc.notification.repository.NotificationRepository;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminMemberDto {
+
     @Schema(description = "멤버 ID")
     private String memberId;
 
@@ -21,7 +23,7 @@ public class AdminMemberDto {
     @Schema(description = "당근 이름")
     private String name;
 
-    @Schema(description = "프로필 URL")
+    @Schema(description = "이미지 URL")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String imageUrl;
 
@@ -30,6 +32,12 @@ public class AdminMemberDto {
 
     @Schema(description = "설문 수")
     private int surveyCount;
+
+    @Schema(description = "채팅 받기 여부")
+    private boolean isNotifying;
+
+    @Schema(description = "지역")
+    private String region;
 
     @Schema(description = "가입일")
     private LocalDateTime createdAt;

@@ -1,6 +1,7 @@
 package com.daangn.survey.domain.member.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.domain.etc.notification.model.entity.Notification;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -49,5 +50,8 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<BizProfile> bizProfiles;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Notification> notifications;
 
 }
