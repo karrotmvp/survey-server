@@ -18,7 +18,8 @@ class MemberMapperTest {
     @Test
     void toMemberEntityFromBiz() {
         KarrotBizProfileDetail.KarrotBizProfileData.KarrotBizProfile.Region region = new KarrotBizProfileDetail.KarrotBizProfileData.KarrotBizProfile.Region("id", "name", "region1Id", "region1Name", "region2Id", "region2Name", "region3Id", "region3Name");
-        KarrotBizProfileDetail.KarrotBizProfileData.KarrotBizProfile profile = new KarrotBizProfileDetail.KarrotBizProfileData.KarrotBizProfile("id", "name", "imageUrl", region, "profileUrl");
+        KarrotBizProfileDetail.KarrotBizProfileData.KarrotBizProfile.Category category = new KarrotBizProfileDetail.KarrotBizProfileData.KarrotBizProfile.Category("id", "name");
+        KarrotBizProfileDetail.KarrotBizProfileData.KarrotBizProfile profile = new KarrotBizProfileDetail.KarrotBizProfileData.KarrotBizProfile("id", "name", "imageUrl", region, "profileUrl", category);
         KarrotBizProfileDetail.KarrotBizProfileData data = new KarrotBizProfileDetail.KarrotBizProfileData(profile);
         KarrotBizProfileDetail detail = new KarrotBizProfileDetail(data);
 

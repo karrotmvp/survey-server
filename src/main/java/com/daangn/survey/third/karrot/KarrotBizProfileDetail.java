@@ -28,6 +28,7 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
             private String imageUrl;
             private Region region;
             private String profileUrl;
+            private Category category;
 
             @Getter
             @NoArgsConstructor
@@ -41,6 +42,14 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
                 private String name2;
                 private String name3Id;
                 private String name3;
+            }
+
+            @Getter
+            @NoArgsConstructor
+            @AllArgsConstructor
+            public static class Category{
+                private String id;
+                private String name;
             }
         }
     }

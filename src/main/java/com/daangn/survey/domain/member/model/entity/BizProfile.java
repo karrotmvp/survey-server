@@ -28,6 +28,15 @@ public class BizProfile {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Column
+    private String region;
+
+    @Column(name = "profile_url", length = 1000)
+    private String profileUrl;
+
+    @Column(name = "biz_category")
+    private String bizCategory;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
