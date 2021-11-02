@@ -15,6 +15,7 @@ import com.daangn.survey.domain.question.model.mapper.QuestionMapper;
 import com.daangn.survey.domain.question.repository.ChoiceRepository;
 import com.daangn.survey.domain.question.repository.QuestionRepository;
 import com.daangn.survey.domain.question.service.QuestionService;
+import com.daangn.survey.domain.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.domain.survey.model.entity.Survey;
@@ -93,6 +94,12 @@ public class SurveyServiceImpl implements SurveyService{
     public SurveyDto findBySurveyId(Long surveyId){
         Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
         return surveyMapper.toDetailDto(survey);
+    }
+
+    @Transactional(readOnly = true)
+    public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
+        // Todo: SurveyBriefDto로 변환하기
+        return null;
     }
 
     @Transactional

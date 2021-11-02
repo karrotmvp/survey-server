@@ -79,6 +79,19 @@ public class SurveyController {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_DETAIL, surveyService.findBySurveyId(surveyId)));
     }
 
+    @Operation(summary = "설문 요약 조회", description = "설문 요약 정보를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "설문 요약 정보 조회 성공",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = SurveyDto.class)))),
+            @ApiResponse(responseCode = "404", description = "설문 엔티티 조회 실패", content = @Content),
+            @ApiResponse(responseCode = "401", description = "설문 리스트 조회 실패 (권한 에러)", content = @Content(schema = @Schema(hidden = true)))
+    })
+    @GetMapping("{surveyId}/brief")
+    public ResponseEntity<ResponseDto<?>> getSurveyBrief(@PathVariable Long surveyId){
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, surveyService.findBySurveyId(surveyId)));
+    }
+
     @Operation(summary = "설문 삭제", description = "설문을 삭제합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "설문 삭제 성공", content = @Content),
