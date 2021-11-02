@@ -34,7 +34,7 @@ public class AdminMemberDto {
     private int surveyCount;
 
     @Schema(description = "채팅 받기 여부")
-    private boolean isNotifying;
+    private boolean notifying;
 
     @Schema(description = "지역")
     private String region;

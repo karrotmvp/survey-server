@@ -19,4 +19,9 @@ public class QuestionType {
     @Column(length = 30)
     private String name;
 
+    public int getQuestionEstimatedTime(){
+        if(id == 2L) return 20;
+        else if(id == 3L) return 10;
+        return 0;
+    }
 }
