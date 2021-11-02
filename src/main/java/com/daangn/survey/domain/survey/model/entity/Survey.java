@@ -51,6 +51,15 @@ public class Survey extends BaseEntity {
     @OneToMany(mappedBy = "survey", orphanRemoval = true)
     private List<SurveyResponse> surveyResponses;
 
-    @OneToOne(mappedBy = "survey", orphanRemoval = true)
-    private SurveyInfo surveyInfo;
+//    todo: 나중에 업데이트
+//    @OneToOne(mappedBy = "survey", orphanRemoval = true)
+//    private SurveyInfo surveyInfo;
+
+    public boolean isWriter(Long memberId){
+        return getMember().getId().equals(memberId);
+    }
+
+    public String convertTarget(){
+        return Target.findValue(target);
+    }
 }

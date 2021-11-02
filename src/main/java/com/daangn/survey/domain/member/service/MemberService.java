@@ -2,6 +2,7 @@ package com.daangn.survey.domain.member.service;
 
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
+import com.daangn.survey.domain.etc.notification.model.entity.QNotification;
 import com.daangn.survey.domain.member.model.entity.BizProfile;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.entity.QMember;
@@ -60,8 +61,8 @@ public class MemberService {
         QMember member = QMember.member;
         QSurvey survey = QSurvey.survey;
 
-        return jpaQueryFactory.selectFrom(member)
-                .leftJoin(member.surveys, survey).distinct()
+        return jpaQueryFactory.selectFrom(member).distinct()
+                .leftJoin(member.surveys, survey)
                 .fetchJoin()
                 .fetch();
     }
@@ -77,6 +78,6 @@ public class MemberService {
                 .fetchJoin()
                 .where(member.surveys.size().gt(0))
                 .fetch();
-
     }
+
 }

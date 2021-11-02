@@ -20,7 +20,7 @@ public class TextResponse extends BaseEntity {
     private Long id;
 
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String answer;
 
     @ManyToOne
@@ -30,18 +30,5 @@ public class TextResponse extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "survey_response_id")
     private SurveyResponse surveyResponse;
-
-//    @EmbeddedId
-//    private TextResponsePK textResponsePK;
-//
-//    @MapsId("surveyResponseId")
-//    @ManyToOne
-//    @JoinColumn(name = "survey_response_id")
-//    private SurveyResponse surveyResponse;
-//
-//    @MapsId("questionId")
-//    @ManyToOne
-//    @JoinColumn(name = "question_id")
-//    private Question question;
 
 }
