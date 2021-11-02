@@ -58,4 +58,8 @@ public class Survey extends BaseEntity {
     public boolean isWriter(Long memberId){
         return getMember().getId().equals(memberId);
     }
+
+    public String convertTarget(){
+        return Target.findValue(target);
+    }
 }

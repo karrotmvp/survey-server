@@ -22,6 +22,9 @@ public class SurveySummaryDto {
     @Schema(description = "설문 응답 개수", required = true)
     private int responseCount;
 
+    @Schema(description = "설문 대상", required = true)
+    private String target;
+
     @Schema(description = "설문 생성일", required = true)
     private LocalDateTime createdAt;
 }

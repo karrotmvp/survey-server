@@ -39,10 +39,10 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String role;
 
-    @Column(nullable = false)
+    @Column
     private String region;
 
-    @Column(nullable = false, length = 1000)
+    @Column(length = 1000)
     private String profileUrl;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)

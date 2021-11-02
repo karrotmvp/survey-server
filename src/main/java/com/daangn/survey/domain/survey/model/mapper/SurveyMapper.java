@@ -13,6 +13,7 @@ import org.mapstruct.ReportingPolicy;
 public interface SurveyMapper {
     @Mapping(target = "surveyId", source = "survey.id")
     @Mapping(target = "responseCount", expression = "java(survey.getSurveyResponses().size())")
+    @Mapping(target = "target", expression = "java(survey.convertTarget())")
     SurveySummaryDto toSummaryDto(Survey survey);
 
     @Mapping(target = "surveyId", source = "survey.id")
