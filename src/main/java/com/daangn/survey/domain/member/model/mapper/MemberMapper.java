@@ -18,6 +18,7 @@ public interface MemberMapper {
 
     @Mapping(target = "memberId", source = "id")
     @Mapping(target = "surveyCount", expression = "java(member.getSurveys().size())")
+    @Mapping(target = "isNotifying", expression = "java(member.getNotifications().size() == 0 ? false : member.getNotifications().get(0).isNotifying())")
     AdminMemberDto toAdminMemberDto(Member member);
 
     @Mapping(target = "daangnId", source = "profile.data.bizProfile.id")
