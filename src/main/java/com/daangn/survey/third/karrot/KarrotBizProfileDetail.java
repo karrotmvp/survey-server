@@ -1,4 +1,4 @@
-package com.daangn.survey.third;
+package com.daangn.survey.third.karrot;
 
 import com.daangn.survey.core.auth.oauth.AbstractUserDetail;
 import lombok.AllArgsConstructor;

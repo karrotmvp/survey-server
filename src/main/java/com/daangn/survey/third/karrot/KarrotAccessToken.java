@@ -1,4 +1,4 @@
-package com.daangn.survey.third;
+package com.daangn.survey.third.karrot;
 
 import com.daangn.survey.core.auth.jwt.model.AbstractAccessToken;
 import com.fasterxml.jackson.annotation.JsonProperty;
