@@ -42,8 +42,11 @@ public class Member extends BaseEntity {
     @Column
     private String region;
 
-    @Column(length = 1000)
+    @Column(name = "profile_url", length = 1000)
     private String profileUrl;
+
+    @Column(name = "biz_category")
+    private String bizCategory;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Survey> surveys;

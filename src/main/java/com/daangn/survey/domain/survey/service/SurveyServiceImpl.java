@@ -4,6 +4,7 @@ import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.BusinessException;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
 import com.daangn.survey.domain.member.model.entity.Member;
+import com.daangn.survey.domain.member.model.mapper.MemberMapper;
 import com.daangn.survey.domain.question.model.dto.ChoiceDto;
 import com.daangn.survey.domain.question.model.dto.QuestionDto;
 import com.daangn.survey.domain.question.model.entity.Choice;
@@ -30,6 +31,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.reducing;
+
 @Service
 @RequiredArgsConstructor
 public class SurveyServiceImpl implements SurveyService{
@@ -41,6 +44,7 @@ public class SurveyServiceImpl implements SurveyService{
     private final SurveyMapper surveyMapper;
     private final QuestionMapper questionMapper;
     private final ChoiceMapper choiceMapper;
+    private final MemberMapper memberMapper;
 
     @PreAuthorize("hasRole('ROLE_BIZ')")
     @Transactional
@@ -92,24 +96,30 @@ public class SurveyServiceImpl implements SurveyService{
 
     @Transactional(readOnly = true)
     public SurveyDto findBySurveyId(Long surveyId){
-        Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
-        return surveyMapper.toDetailDto(survey);
+
+        return surveyMapper.toDetailDto(findSurvey(surveyId));
     }
 
     @Transactional(readOnly = true)
     public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
-        // Todo: SurveyBriefDto로 변환하기
-        return null;
+        Survey survey = findSurvey(surveyId);
+        // Todo: surveyInfo를 읽어들이고, 거기에 적한 daangnId로 엔티티를 읽어들이고 사용자 정보를 채워야 함
+
+        return surveyMapper.toSurveyBriefDtoWithMember(survey, memberMapper.toBizProfileDtoFromMember(survey.getMember()), survey.getSurveyEstimatedTime());
     }
 
     @Transactional
     public void deleteSurvey(Long surveyId, Long memberId){
-        Survey survey = surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
+        Survey survey = findSurvey(surveyId);
 
         if(!survey.isWriter(memberId))
             throw new BusinessException(ErrorCode.NOT_AUTHORIZED_FOR_DELETE);
 
         surveyRepository.delete(survey);
         // survey.delete();
+    }
+
+    private Survey findSurvey(Long surveyId){
+        return surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
     }
 }

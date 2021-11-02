@@ -89,7 +89,7 @@ public class SurveyController {
     @GetMapping("{surveyId}/brief")
     public ResponseEntity<ResponseDto<?>> getSurveyBrief(@PathVariable Long surveyId){
 
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, surveyService.findBySurveyId(surveyId)));
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, surveyService.findSurveyBriefBySurveyId(surveyId)));
     }
 
     @Operation(summary = "설문 삭제", description = "설문을 삭제합니다.")
