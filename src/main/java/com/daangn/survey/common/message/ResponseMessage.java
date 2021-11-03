@@ -20,6 +20,7 @@ public class ResponseMessage {
 
     // Response
     public static final String CREATE_RESPONSE = "답변을 작성합니다.";
+    public static final String READ_USER_SURVEY_RESPONDED = "해당 유저가 이전에 답변을 했는 지 조회합니다.";
 
     // Member
     public static final String READ_PROFILE = "프로필을 조회합니다.";
