@@ -42,8 +42,6 @@ public class SurveyController {
     public ResponseEntity<ResponseDto<?>> saveSurvey(@Parameter(description = "Member", hidden = true) @CurrentUser Member member,
                                                      @Parameter(description = "requestBody", schema = @Schema(implementation = SurveyDto.class)) @RequestBody Map<String, Object> requestBody){
 
-        if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
-
         Gson gson = new Gson();
 
         SurveyDto surveyDto = gson.fromJson(gson.toJson(requestBody), SurveyDto.class);
@@ -61,8 +59,6 @@ public class SurveyController {
     })
     @GetMapping
     public ResponseEntity<ResponseDto<List<SurveySummaryDto>>> getSurveys(@Parameter(description = "Member", hidden = true) @CurrentUser Member member){
-
-        if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_LIST, surveyService.findAll(member.getId())));
     }
@@ -101,8 +97,6 @@ public class SurveyController {
     })
     @DeleteMapping("{surveyId}")
     public ResponseEntity<ResponseDto<?>> deleteSurvey(@Parameter(description = "Member", hidden = true) @CurrentUser Member member, @PathVariable Long surveyId){
-
-        if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
 
         surveyService.deleteSurvey(surveyId, member.getId());
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, DELETE_SURVEY));
