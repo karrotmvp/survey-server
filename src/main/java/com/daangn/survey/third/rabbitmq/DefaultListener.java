@@ -1,6 +1,6 @@
 package com.daangn.survey.third.rabbitmq;
 
-import com.daangn.survey.core.config.RabbitMQConfig;
+import com.daangn.survey.core.config.RabbitConfig;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.LinkedHashMap;
 
 @Component
-@RabbitListener(queues = RabbitMQConfig.queueName)
+@RabbitListener(queues = RabbitConfig.queueName)
 public class DefaultListener {
 
     @RabbitHandler

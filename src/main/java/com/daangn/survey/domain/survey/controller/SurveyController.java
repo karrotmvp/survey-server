@@ -3,6 +3,7 @@ package com.daangn.survey.domain.survey.controller;
 import com.daangn.survey.common.dto.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.member.model.entity.Member;
+import com.daangn.survey.domain.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
@@ -82,7 +83,7 @@ public class SurveyController {
     @Operation(summary = "설문 요약 조회", description = "설문 요약 정보를 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "설문 요약 정보 조회 성공",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = SurveyDto.class)))),
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = SurveyBriefDto.class)))),
             @ApiResponse(responseCode = "404", description = "설문 엔티티 조회 실패", content = @Content),
             @ApiResponse(responseCode = "401", description = "설문 리스트 조회 실패 (권한 에러)", content = @Content(schema = @Schema(hidden = true)))
     })
