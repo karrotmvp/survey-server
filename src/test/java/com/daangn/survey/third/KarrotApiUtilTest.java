@@ -1,5 +1,9 @@
 package com.daangn.survey.third;
 
+import com.daangn.survey.third.karrot.KarrotAccessToken;
+import com.daangn.survey.third.karrot.KarrotApiUtil;
+import com.daangn.survey.third.karrot.KarrotBizProfileDetail;
+import com.daangn.survey.third.karrot.KarrotUserDetail;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

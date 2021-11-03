@@ -6,9 +6,6 @@ import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.member.model.dto.MemberDto;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.mapper.MemberMapper;
-import com.daangn.survey.domain.member.service.MemberService;
-import com.daangn.survey.third.KarrotAccessToken;
-import com.daangn.survey.third.KarrotUserDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j

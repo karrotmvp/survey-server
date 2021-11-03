@@ -44,8 +44,6 @@ public class ResponseController {
     public ResponseEntity<ResponseDto<?>> saveResponse(@Parameter(description = "Member", hidden = true) @CurrentUser Member member,
                 @Parameter(description = "requestBody", schema = @Schema(implementation = SurveyResponseDto.class)) @RequestBody Map<String, Object> requestBody){
 
-        if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
-
         Gson gson = new Gson();
 
         SurveyResponseDto surveyResponseDto = gson.fromJson(gson.toJson(requestBody), SurveyResponseDto.class);
@@ -64,8 +62,6 @@ public class ResponseController {
     @GetMapping("/surveys/{surveyId}/aggregation")
     public ResponseEntity<ResponseDto<List<SurveySummaryDto>>> getSurveyResponseAggregation(@Parameter(description = "Member", hidden = true) @CurrentUser Member member,
                                                                           @PathVariable Long surveyId){
-
-        if(member == null) member = Member.builder().id(1L).daangnId("test").name("testBiz").imageUrl("test").build();
 
         responseService.getAggregation(surveyId);
 
