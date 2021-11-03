@@ -110,4 +110,9 @@ public class ResponseService {
          */
 
     }
+
+    @Transactional(readOnly = true)
+    public boolean respondedPrevious(Member member, Long surveyId) {
+        return surveyResponseRepository.existsSurveyResponseBySurveyIdAndMemberId(surveyId, member.getId());
+    }
 }
