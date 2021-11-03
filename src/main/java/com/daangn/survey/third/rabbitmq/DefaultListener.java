@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 
-@Component
+//@Component
 @RabbitListener(queues = RabbitConfig.queueName)
 public class DefaultListener {
 
