@@ -1,4 +1,4 @@
-package com.daangn.survey.third.rabbitmq;
+package com.daangn.survey.third.messaging.rabbitmq;
 
 import com.daangn.survey.core.config.RabbitConfig;
 import com.rabbitmq.client.Channel;
@@ -6,7 +6,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 
