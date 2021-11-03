@@ -1,23 +1,14 @@
-package com.daangn.survey.third;
+package com.daangn.survey.third.karrot;
 
 import com.daangn.survey.core.auth.jwt.model.AbstractAccessToken;
-import com.daangn.survey.core.auth.oauth.AbstractUserDetail;
 import com.daangn.survey.core.auth.oauth.SocialResolver;
-import com.daangn.survey.core.config.WebClientConfig;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.KarrotAuthenticationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 //@Component
 @RequiredArgsConstructor

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SurveyResponseRepository extends JpaRepository<SurveyResponse, Long> {
+    boolean existsSurveyResponseBySurveyIdAndMemberId(Long surveyId, Long memberId);
 }

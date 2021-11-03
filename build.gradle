@@ -57,6 +57,9 @@ dependencies {
     // Web
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.5.5'
 
+    // Event
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
 }
 
 test {

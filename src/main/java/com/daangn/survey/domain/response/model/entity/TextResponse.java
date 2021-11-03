@@ -20,7 +20,7 @@ public class TextResponse extends BaseEntity {
     private Long id;
 
 
-    @Column(length = 100)
+    @Column(length = 1000)
     private String answer;
 
     @ManyToOne
