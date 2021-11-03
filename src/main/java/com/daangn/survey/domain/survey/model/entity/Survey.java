@@ -1,8 +1,6 @@
 package com.daangn.survey.domain.survey.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
-import com.daangn.survey.core.error.ErrorCode;
-import com.daangn.survey.core.error.exception.BusinessException;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Question;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
@@ -12,6 +10,8 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
+
+import static java.util.stream.Collectors.reducing;
 
 @Builder
 @Getter
@@ -51,8 +51,19 @@ public class Survey extends BaseEntity {
     @OneToMany(mappedBy = "survey", orphanRemoval = true)
     private List<SurveyResponse> surveyResponses;
 
+//    todo: 나중에 업데이트
+//    @OneToOne(mappedBy = "survey", orphanRemoval = true)
+//    private SurveyInfo surveyInfo;
+
     public boolean isWriter(Long memberId){
         return getMember().getId().equals(memberId);
     }
-    
+
+    public String convertTarget(){
+        return Target.findValue(target);
+    }
+
+    public int getSurveyEstimatedTime(){
+        return getQuestions().stream().map(el -> el.getQuestionType().getQuestionEstimatedTime()).collect(reducing(Integer::sum)).get();
+    }
 }

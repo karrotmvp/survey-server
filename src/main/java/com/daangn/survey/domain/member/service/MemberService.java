@@ -2,6 +2,8 @@ package com.daangn.survey.domain.member.service;
 
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
+import com.daangn.survey.domain.etc.notification.model.entity.Notification;
+import com.daangn.survey.domain.etc.notification.repository.NotificationRepository;
 import com.daangn.survey.domain.member.model.entity.BizProfile;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.entity.QMember;
@@ -24,6 +26,7 @@ public class MemberService {
     private final BizProfileRepository bizProfileRepository;
     private final JPAQueryFactory jpaQueryFactory;
     private final MemberMapper memberMapper;
+    private final NotificationRepository notificationRepository;
 
     @Transactional
     public Member updateMember(Member newMember){
@@ -60,6 +63,8 @@ public class MemberService {
         QMember member = QMember.member;
         QSurvey survey = QSurvey.survey;
 
+        notificationRepository.findAll();
+
         return jpaQueryFactory.selectFrom(member)
                 .leftJoin(member.surveys, survey).distinct()
                 .fetchJoin()
@@ -71,6 +76,8 @@ public class MemberService {
     public List<Member> getMembersByCondition(){
         QMember member = QMember.member;
         QSurvey survey = QSurvey.survey;
+
+        notificationRepository.findAll(); // Todo: 이건 너무 비효율적인 거 아닐까?
 
         return jpaQueryFactory.selectFrom(member)
                 .leftJoin(member.surveys, survey).distinct()

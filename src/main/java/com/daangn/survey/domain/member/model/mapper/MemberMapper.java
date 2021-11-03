@@ -1,6 +1,7 @@
 package com.daangn.survey.domain.member.model.mapper;
 
 import com.daangn.survey.admin.dto.AdminMemberDto;
+import com.daangn.survey.domain.member.model.dto.BizProfileDto;
 import com.daangn.survey.domain.member.model.dto.MemberDto;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.third.KarrotBizProfileDetail;
@@ -18,6 +19,7 @@ public interface MemberMapper {
 
     @Mapping(target = "memberId", source = "id")
     @Mapping(target = "surveyCount", expression = "java(member.getSurveys().size())")
+    @Mapping(target = "notifying", expression = "java(member.getNotifications().size() == 0 ? false : member.getNotifications().get(0).isNotifying())")
     AdminMemberDto toAdminMemberDto(Member member);
 
     @Mapping(target = "daangnId", source = "profile.data.bizProfile.id")
@@ -26,6 +28,7 @@ public interface MemberMapper {
     @Mapping(target = "imageUrl", source = "profile.data.bizProfile.imageUrl")
     @Mapping(target = "region", expression = "java(profile.parseRegion())")
     @Mapping(target = "profileUrl", source = "profile.data.bizProfile.profileUrl")
+    @Mapping(target = "bizCategory", source = "profile.data.bizProfile.category.name")
     Member toMemberEntityFromBiz(KarrotBizProfileDetail profile, String role);
 
     void updateMember(@MappingTarget Member member, Member newMember);
@@ -35,4 +38,5 @@ public interface MemberMapper {
     @Mapping(target = "role", source = "role")
     Member toMemberEntityFromUser(KarrotUserDetail profile, String role);
 
+    BizProfileDto toBizProfileDtoFromMember(Member member);
 }

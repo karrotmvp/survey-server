@@ -31,23 +31,5 @@ public class ChoiceResponse extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "survey_response_id")
     private SurveyResponse surveyResponse;
-    
-//    @EmbeddedId
-//    private ChoiceResponsePK choiceResponsePK;
-//
-//    @MapsId("surveyResponseId")
-//    @ManyToOne
-//    @JoinColumn(name = "survey_response_id")
-//    private SurveyResponse surveyResponse;
-//
-//    @MapsId("questionId")
-//    @ManyToOne
-//    @JoinColumn(name = "question_id")
-//    private Question question;
-//
-//    @MapsId("choiceId")
-//    @ManyToOne
-//    @JoinColumn(name = "choice_id")
-//    private Choice choice;
 
 }
