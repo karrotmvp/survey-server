@@ -4,6 +4,7 @@ import com.daangn.survey.common.util.csv.CsvUtils;
 import com.daangn.survey.third.messaging.sqs.ChatMessage;
 import com.daangn.survey.third.messaging.sqs.SqsSender;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ public class SqsSenderTest {
     private SqsSender sqsSender;
 
     @Test
+    @Disabled
     public void sqsSendTest() throws JsonProcessingException {
         List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId.csv");
 
@@ -35,6 +37,7 @@ public class SqsSenderTest {
     }
 
     @Test
+    @Disabled
     public void csv읽기(){
         List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId.csv");
 
