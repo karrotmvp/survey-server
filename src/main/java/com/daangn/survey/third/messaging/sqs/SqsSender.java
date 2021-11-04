@@ -5,5 +5,5 @@ import com.amazonaws.services.sqs.model.SendMessageResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface SqsSender {
-    SendMessageResult sendMessage(Message message) throws JsonProcessingException;
+    SendMessageResult sendMessage(ChatMessage message) throws JsonProcessingException;
 }

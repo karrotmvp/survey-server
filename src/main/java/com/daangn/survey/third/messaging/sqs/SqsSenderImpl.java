@@ -17,7 +17,7 @@ public class SqsSenderImpl implements SqsSender{
     private final SqsProperties properties;
 
     @Override
-    public SendMessageResult sendMessage(Message msg) throws JsonProcessingException {
+    public SendMessageResult sendMessage(ChatMessage msg) throws JsonProcessingException {
         SendMessageRequest sendMessageRequest = new SendMessageRequest(properties.getUrl(), objectMapper.writeValueAsString(msg));
         return amazonSQS.sendMessage(sendMessageRequest);
     }
