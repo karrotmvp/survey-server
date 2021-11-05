@@ -36,8 +36,6 @@ public class ResponseService {
     private final TextResponseRepository textResponseRepository;
     private final ChoiceResponseRepository choiceResponseRepository;
 
-    // TODO: 한 번 응답한 유저는 응답 불가
-    @PreAuthorize("hasRole('ROLE_USER')")
     @Transactional
     public void saveResponse(Member member, SurveyResponseDto surveyResponseDto){
         List<ChoiceResponse> choiceResponses = new LinkedList<>();
