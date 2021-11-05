@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.reducing;
@@ -37,9 +38,8 @@ public class Survey extends BaseEntity {
     @Column(name = "target", nullable = false)
     private int target;
 
-    @Builder.Default
-    @Column(name = "is_published")
-    private boolean isPublished = false;
+    @Column(name = "published_at")
+    private LocalDateTime publishedAt;
 
     @Builder.Default
     @Column(name = "is_deleted")
