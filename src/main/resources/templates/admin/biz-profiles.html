@@ -34,6 +34,7 @@
             <th>계정 정보</th>
             <th>알림 받기 여부</th>
             <th>가입일</th>
+            <th>정보 업데이트</th>
         </tr>
         <tr th:each="member , index: ${members}">
             <td th:text="${index.index + 1}">#</td>
@@ -45,6 +46,7 @@
             <td th:if="${member.isNotifying} == true" th:text="O">알림 받기</td>
             <td th:unless="${member.isNotifying} == true" th:text="X">알림 받기</td>
             <td th:text="${member.createdAt}">가입일</td>
+            <td><button></button></td>
         </tr>
     </table>
 </body>

@@ -4,7 +4,6 @@ import com.daangn.survey.admin.dto.AdminMemberDto;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.mapper.MemberMapper;
 import com.daangn.survey.domain.member.service.MemberService;
-import com.daangn.survey.domain.survey.service.SurveyService;
 import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -28,16 +27,16 @@ public class AdminController {
     private final MemberMapper memberMapper;
 
     @GetMapping
-    public String adminIndex(Model model, @RequestParam(required = false) String filter){
+    public String bizProfiles(Model model, @RequestParam(required = false) String filter){
         List<AdminMemberDto> memberDtoList = new LinkedList<>();
         if(filter == null)
-             memberDtoList = memberService.getAllMembers().stream().map(memberMapper::toAdminMemberDto).collect(Collectors.toList());
+             memberDtoList = memberService.getAllBizProfiles().stream().map(memberMapper::toAdminMemberDto).collect(Collectors.toList());
         else if(filter.equalsIgnoreCase("counting")){
             memberDtoList = memberService.getMembersByCondition().stream().map(memberMapper::toAdminMemberDto).collect(Collectors.toList());
         }
 
         model.addAttribute("members", memberDtoList);
-        return "admin/main";
+        return "admin/biz-profiles";
     }
 
     @GetMapping("/members/{daangnId}")
