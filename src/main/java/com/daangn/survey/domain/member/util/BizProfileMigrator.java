@@ -7,6 +7,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
  * 현재의 멤버를 BizProfile 테이블로 옮겨주는 도구
  */
 @Lazy
-@Component
+@Service
 @RequiredArgsConstructor
 public class BizProfileMigrator {
 
@@ -22,6 +24,7 @@ public class BizProfileMigrator {
     private final BizProfileRepository bizProfileRepository;
     private final JPAQueryFactory jpaQueryFactory;
 
+    @Transactional(readOnly = true)
     public List<String> getMembersDaangnId(){
         QMember member = QMember.member;
         return jpaQueryFactory.select(member.daangnId).from(member).fetch();
