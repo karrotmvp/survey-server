@@ -116,7 +116,6 @@ public class SurveyServiceImpl implements SurveyService{
             throw new BusinessException(ErrorCode.NOT_AUTHORIZED_FOR_DELETE);
 
         surveyRepository.delete(survey);
-        // survey.delete();
     }
 
     private Survey findSurvey(Long surveyId){

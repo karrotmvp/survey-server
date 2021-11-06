@@ -1,9 +1,13 @@
 package com.daangn.survey.admin;
 
 import com.daangn.survey.admin.dto.AdminMemberDto;
+import com.daangn.survey.admin.service.AdminService;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.mapper.MemberMapper;
 import com.daangn.survey.domain.member.service.MemberService;
+import com.daangn.survey.domain.response.model.entity.SurveyResponse;
+import com.daangn.survey.domain.response.service.ResponseService;
+import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,6 +28,9 @@ public class AdminController {
 
     private final MemberService memberService;
     private final SurveyServiceImpl surveyService;
+    private final ResponseService responseService;
+    private final AdminService adminService;
+
     private final MemberMapper memberMapper;
 
     @GetMapping
@@ -39,8 +46,28 @@ public class AdminController {
         return "admin/biz-profiles";
     }
 
+    @GetMapping("/responses/surveys/{surveyId}")
+    public String surveyResponses(@PathVariable Long surveyId, Model model){
+        SurveyDto survey = surveyService.findBySurveyId(surveyId);
+
+        model.addAttribute("survey", survey);
+        model.addAttribute("responses", adminService.getAdminResponses(surveyId));
+
+        return "admin/responses";
+    }
+
+    @GetMapping("/responses/{responseId}")
+    public String getResponseDetail(@PathVariable Long responseId, Model model){
+        SurveyResponse surveyResponse = responseService.
+
+        model.addAttribute("survey", );
+        model.addAttribute("responses", adminService.getAdminResponseDetail());
+
+        return "admin/response-detail";
+    }
+
     @GetMapping("/members/{daangnId}")
-    public String memberSurveyList(@PathVariable String daangnId, Model model){
+    public String memberSurveys(@PathVariable String daangnId, Model model){
         Member member = memberService.findByDaangnId(daangnId);
         model.addAttribute("surveys", surveyService.findSurveysByMemberId(member.getId()));
         return "admin/surveys";
@@ -51,10 +78,5 @@ public class AdminController {
         model.addAttribute("survey", surveyService.findBySurveyId(surveyId));
         return "admin/survey-detail";
     }
-
-//    @GetMapping("/redirect")
-//    public String redirect(){
-//        return "redirect:karrot.alpha://minikarrot/router?navbar=false&scrollable=false&app=https%3A%2F%2Fwebview.alpha.kr.karrotmarket.com%2Fmini-redirect&path=%2FN4IghgDhCSAmIC4S1gBgEboJxbAZgFYiAWWPMLARgFNLjrZ0AOPJ1JlgJhABoQAnBgEtBAYwAuiEAAtx4iAGcEAemWwAXnQBsAW1EB2AgDshldQDpRAGwD2AV1gAzfjaPjzR6pIC%2BQA";
-//    }
 
 }

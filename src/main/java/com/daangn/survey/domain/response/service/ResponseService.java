@@ -19,7 +19,6 @@ import com.daangn.survey.domain.response.repository.TextResponseRepository;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import com.daangn.survey.domain.survey.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

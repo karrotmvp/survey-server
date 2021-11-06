@@ -17,7 +17,7 @@ public class ChatMessage extends Message {
     private String content;
     private String image;
 
-    @Getter
+    @Getter @Setter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Receiver {

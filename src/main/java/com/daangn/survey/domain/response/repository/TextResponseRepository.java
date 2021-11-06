@@ -5,8 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TextResponseRepository extends JpaRepository<TextResponse, Long> {
     List<TextResponse> findTextResponsesByQuestionId(Long questionId);
+    List<TextResponse> findTextResponsesBySurveyResponseId(Long surveyResponseId);
+    Optional<TextResponse> findTextResponseBySurveyResponseId(Long surveyResponseId);
 }
