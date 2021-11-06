@@ -16,6 +16,6 @@ public interface ChoiceResponseRepository extends JpaRepository<ChoiceResponse, 
 
     List<ChoiceResponse> findChoiceResponsesBySurveyResponseId(Long surveyResponseId);
 
-    Optional<ChoiceResponse> findChoiceResponseBySurveyResponseId(Long surveyResponseId);
+    Optional<ChoiceResponse> findChoiceResponseByQuestionIdAndSurveyResponseId(Long questionId, Long surveyResponseId);
 
 }

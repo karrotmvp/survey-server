@@ -112,4 +112,9 @@ public class ResponseService {
     public boolean respondedPrevious(Member member, Long surveyId) {
         return surveyResponseRepository.existsSurveyResponseBySurveyIdAndMemberId(surveyId, member.getId());
     }
+
+    @Transactional(readOnly = true)
+    public SurveyResponse getSurveyResponse(Long responseId){
+        return surveyResponseRepository.findById(responseId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.RESPONSE_NOT_FOUND));
+    }
 }

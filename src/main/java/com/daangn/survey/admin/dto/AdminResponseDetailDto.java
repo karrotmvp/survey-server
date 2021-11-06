@@ -1,6 +1,5 @@
 package com.daangn.survey.admin.dto;
 
-import com.daangn.survey.domain.question.model.dto.QuestionResponseDto;
 import com.daangn.survey.domain.response.model.entity.Answerable;
 import lombok.*;
 

@@ -32,6 +32,9 @@ public enum ErrorCode {
     QUESTION_NOT_FOUND(404, "Q002","Question Not Found"),
     QUESTION_TYPE_NOT_MATCHED(400, "Q003","Question Type Not Matched"),
 
+    // Response
+    RESPONSE_NOT_FOUND(404, "R001", "Response Not Found"),
+
     // Choice
     CHOICE_NOT_FOUND(404, "C101","Choice Not Found"),
 
