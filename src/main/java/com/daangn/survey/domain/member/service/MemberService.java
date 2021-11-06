@@ -59,15 +59,28 @@ public class MemberService {
 
     // Todo: 캐시 기능 넣기
     @Transactional(readOnly = true)
-    public List<Member> getAllMembers(){
+    public List<Member> getAllBizProfiles(){
         QMember member = QMember.member;
         QSurvey survey = QSurvey.survey;
 
-        notificationRepository.findAll();
+//        notificationRepository.findAll();
 
         return jpaQueryFactory.selectFrom(member)
                 .leftJoin(member.surveys, survey).distinct()
                 .fetchJoin()
+                .where(member.role.eq("ROLE_BIZ"))
+                .fetch();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Member> getAllUsers(){
+        QMember member = QMember.member;
+        QSurvey survey = QSurvey.survey;
+
+        return jpaQueryFactory.selectFrom(member)
+                .leftJoin(member.surveys, survey).distinct()
+                .fetchJoin()
+                .where(member.role.eq("ROLE_USER"))
                 .fetch();
     }
 

@@ -27,7 +27,7 @@
         <td th:text="${index.index + 1}">#</td>
         <td th:text="${survey.surveyId}">설문 ID</td>
         <td><a th:href="@{/daangn/admin/surveys/{surveyId}(surveyId=${survey.surveyId})}" th:text="${survey.title}">설문 제목</a></td>
-        <td th:text="${survey.responseCount}">답변 수</td>
+        <td><a th:href="@{/daangn/admin/responses/surveys/{surveyId}(surveyId=${survey.surveyId})}" th:text="${survey.responseCount}">답변 수</a></td>
         <td th:text="${survey.target}">설문 대상</td>
         <td th:text="${survey.createdAt}">생성일</td>
     </tr>
