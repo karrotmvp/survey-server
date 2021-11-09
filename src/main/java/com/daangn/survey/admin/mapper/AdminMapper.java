@@ -18,9 +18,9 @@ public interface AdminMapper {
     @Mapping(target = "member", source = "surveyResponse.member.name")
     AdminResponseDto toAdminResponseDtoFromSurveyResponse(SurveyResponse surveyResponse);
 
-    @Mapping(target = "surveyId", source = "survey.id")
-    @Mapping(target = "responseCount", expression = "java(survey.getSurveyResponses().size())")
-    @Mapping(target = "target", expression = "java(survey.convertTarget())")
-    @Mapping(target = "writer", source = "survey.member.name")
-    AdminSurveyDto toAdminSurveyDto(Survey survey);
+//    @Mapping(target = "surveyId", source = "survey.id")
+//    @Mapping(target = "responseCount", expression = "java(survey.getSurveyResponses().size())")
+//    @Mapping(target = "target", expression = "java(survey.convertTarget())")
+//    @Mapping(target = "writer", source = "survey.member.name")
+//    AdminSurveyDto toAdminSurveyDto(Survey survey);
 }

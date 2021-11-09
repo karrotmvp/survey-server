@@ -1,6 +1,7 @@
 package com.daangn.survey.admin;
 
 import com.daangn.survey.admin.dto.AdminMemberDto;
+import com.daangn.survey.admin.dto.AdminSurveyDto;
 import com.daangn.survey.admin.service.AdminService;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.mapper.MemberMapper;
@@ -36,9 +37,11 @@ public class AdminController {
 
     @GetMapping
     public String getSurveys(Model model, @RequestParam(required = false) String filter){
-        List<SurveySummaryDto> surveys = filter != null && filter.equalsIgnoreCase("all")
-                                        ? adminService.findAll()
-                                        : adminService.findSurveysAboutPublished();
+        List<AdminSurveyDto> surveys = adminService.getAdminSurveyDtos();
+
+//        List<SurveySummaryDto> surveys = filter != null && filter.equalsIgnoreCase("all")
+//                                        ? adminService.findAll()
+//                                        : adminService.findSurveysAboutPublished();
 
         model.addAttribute("surveys", surveys);
         return "admin/surveys";

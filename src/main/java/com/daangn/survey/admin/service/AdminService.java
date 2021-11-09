@@ -84,6 +84,11 @@ public class AdminService {
         return surveyRepository.findSurveysByPublishedAtNotNull().stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<AdminSurveyDto> getAdminSurveyDtos(){
+        return queryRepository.getSurveysAboutPublished();
+    }
+
     // Responses
     @Transactional(readOnly = true)
     public List<AdminResponseDetailDto> getAdminResponseDetail(SurveyResponse surveyResponse){
