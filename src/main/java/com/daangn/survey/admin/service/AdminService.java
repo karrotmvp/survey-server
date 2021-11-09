@@ -82,6 +82,11 @@ public class AdminService {
         return queryRepository.getAdminSurveys();
     }
 
+    @Transactional(readOnly = true)
+    public List<AdminSurveyDto> getAdminSurveysByMemberId(Long memberId){
+        return queryRepository.getAdminSurveysByMemberId(memberId);
+    }
+
     // Responses
     @Transactional(readOnly = true)
     public List<AdminResponseDetailDto> getAdminResponseDetail(SurveyResponse surveyResponse){
@@ -122,9 +127,6 @@ public class AdminService {
 
     @Transactional(readOnly = true)
     public List<AdminResponseDto> getAdminResponses(Long surveyId){
-        return surveyResponseRepository.findSurveyResponsesBySurveyId(surveyId)
-                .stream()
-                .map(adminMapper::toAdminResponseDtoFromSurveyResponse)
-                .collect(Collectors.toList());
+        return queryRepository.getAdminResponses(surveyId);
     }
 }

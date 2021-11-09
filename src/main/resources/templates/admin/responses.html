@@ -8,7 +8,7 @@
 <body>
 <div th:replace="/fragments/nav.html :: fragment-nav"></div>
 <div class="section">
-    <h1>설문 목록</h1>
+    <h1>답변 목록</h1>
     <table>
         <tr>
             <th>#</th>
@@ -20,7 +20,7 @@
             <td th:text="${index.index + 1}">#</td>
             <td><a th:href="@{/daangn/admin/responses/{responseId}(responseId=${response.responseId})}" th:text="${response.responseId}">답변 ID</a></td>
             <td th:text="${response.member}">답변자 명</td>
-            <td th:text="${response.createdAt}">생성일</td>
+            <td th:text="${#temporals.format(response.createdAt, 'yyyy-MM-dd   HH:mm')}">생성일</td>
         </tr>
     </table>
 </div>

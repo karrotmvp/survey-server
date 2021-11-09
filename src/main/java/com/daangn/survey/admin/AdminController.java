@@ -55,9 +55,7 @@ public class AdminController {
 
     @GetMapping("/responses/surveys/{surveyId}")
     public String surveyResponses(@PathVariable Long surveyId, Model model){
-        SurveyDto survey = surveyService.findBySurveyId(surveyId);
 
-        model.addAttribute("survey", survey);
         model.addAttribute("responses", adminService.getAdminResponses(surveyId));
 
         return "admin/responses";
@@ -73,10 +71,9 @@ public class AdminController {
         return "admin/response-detail";
     }
 
-    @GetMapping("/members/{daangnId}")
-    public String memberSurveys(@PathVariable String daangnId, Model model){
-        Member member = memberService.findByDaangnId(daangnId);
-        model.addAttribute("surveys", surveyService.findSurveysByMemberId(member.getId()));
+    @GetMapping("/members/{memberId}")
+    public String memberSurveys(@PathVariable Long memberId, Model model){
+        model.addAttribute("surveys", adminService.getAdminSurveysByMemberId(memberId));
         return "admin/surveys";
     }
 

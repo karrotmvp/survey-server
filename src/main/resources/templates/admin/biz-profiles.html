@@ -14,6 +14,7 @@
     <table>
         <tr>
             <th>#</th>
+            <th>멤버 ID</th>
             <th>이름 - 당근 Admin</th>
             <th>당근 ID</th>
             <th>설문 수</th>
@@ -23,9 +24,10 @@
         </tr>
         <tr th:each="member , index: ${members}">
             <td th:text="${index.index + 1}">#</td>
+            <td th:text="${member.memberId}">멤버 ID</td>
             <td><a th:href="@{https://ba-admin.kr.karrotmarket.com/accounts/{daangnId}(daangnId=${member.daangnId})}" th:text="${#strings.abbreviate(member.name,10)}">유저 이름</a></td>
             <td><a th:href="@{https://town.daangn.com/bp/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.daangnId}">당근 ID</a></td>
-            <td><a th:href="@{/daangn/admin/members/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.surveyCount}">설문 수</a></td>
+            <td><a th:href="@{/daangn/admin/members/{memberId}(memberId=${member.memberId})}" th:text="${member.surveyCount}">설문 수</a></td>
             <td th:text="${member.region}">지역 정보</td>
 <!--            <td th:if="${member.isNotifying} == true" th:text="O">알림 받기</td>-->
 <!--            <td th:unless="${member.isNotifying} == true" th:text="X">알림 받기</td>-->

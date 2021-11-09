@@ -1,6 +1,7 @@
 package com.daangn.survey.admin.repository;
 
 import com.daangn.survey.admin.dto.AdminMemberDto;
+import com.daangn.survey.admin.dto.AdminResponseDto;
 import com.daangn.survey.admin.dto.AdminSurveyDto;
 import com.daangn.survey.domain.etc.notification.model.entity.QNotification;
 import com.daangn.survey.domain.member.model.entity.Member;
@@ -26,6 +27,7 @@ public class QueryRepository {
 
         return queryFactory
                 .select(Projections.fields(AdminMemberDto.class,
+                        member.id.as("memberId"),
                         member.daangnId.as("daangnId"),
                         member.name,
                         member.surveys.size().as("surveyCount"),
@@ -41,6 +43,7 @@ public class QueryRepository {
 
         return queryFactory
                 .select(Projections.fields(AdminMemberDto.class,
+                        member.id.as("memberId"),
                         member.daangnId.as("daangnId"),
                         member.name,
                         member.surveys.size().as("surveyCount"),
@@ -57,6 +60,7 @@ public class QueryRepository {
 
         return queryFactory
                 .select(Projections.fields(AdminMemberDto.class,
+                        member.id.as("memberId"),
                         member.daangnId.as("daangnId"),
                         member.name,
                         member.surveys.size().as("surveyCount"),
@@ -84,6 +88,23 @@ public class QueryRepository {
                 .fetch();
     }
 
+    public List<AdminSurveyDto> getAdminSurveysByMemberId(Long memberId){
+        QSurvey survey = QSurvey.survey;
+
+        return queryFactory
+                .select(Projections.fields(AdminSurveyDto.class,
+                        survey.id.as("surveyId"),
+                        survey.member.name.as("writer"),
+                        survey.title,
+                        survey.target,
+                        survey.surveyResponses.size().as("responseCount"),
+                        survey.publishedAt
+                ))
+                .from(survey)
+                .where(survey.member.id.eq(memberId))
+                .fetch();
+    }
+
     public List<AdminSurveyDto> getAdminSurveysAboutPublished(){
         QSurvey survey = QSurvey.survey;
 
@@ -98,6 +119,20 @@ public class QueryRepository {
                 ))
                 .from(survey)
                 .where(survey.publishedAt.isNotNull())
+                .fetch();
+    }
+
+    public List<AdminResponseDto> getAdminResponses(Long surveyId){
+        QSurveyResponse surveyResponse = QSurveyResponse.surveyResponse;
+
+        return queryFactory
+                .select(Projections.fields(AdminResponseDto.class,
+                        surveyResponse.id.as("responseId"),
+                        surveyResponse.member.name.as("member"),
+                        surveyResponse.createdAt
+                        ))
+                .from(surveyResponse)
+                .where(surveyResponse.survey.id.eq(surveyId))
                 .fetch();
     }
 }

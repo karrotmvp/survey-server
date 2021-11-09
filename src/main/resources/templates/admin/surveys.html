@@ -26,7 +26,7 @@
             <td th:text="${survey.writer}">작성자</td>
             <td><a th:href="@{/daangn/admin/responses/surveys/{surveyId}(surveyId=${survey.surveyId})}" th:text="${survey.responseCount}">답변 수</a></td>
             <td th:text="${survey.target}">설문 대상</td>
-            <td th:text="${survey.publishedAt}">배포날짜</td>
+            <td th:text="${#temporals.format(survey.publishedAt, 'yyyy-MM-dd   HH:mm')}">배포날짜</td>
         </tr>
     </table>
 </div>
