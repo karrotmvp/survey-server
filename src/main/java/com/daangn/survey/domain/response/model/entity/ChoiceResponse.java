@@ -20,15 +20,15 @@ public class ChoiceResponse extends BaseEntity {
     @Column(name = "choice_response_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "choice_id")
     private Choice choice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_response_id")
     private SurveyResponse surveyResponse;
 

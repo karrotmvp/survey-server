@@ -1,6 +1,7 @@
 package com.daangn.survey.admin;
 
 import com.daangn.survey.admin.dto.AdminMemberDto;
+import com.daangn.survey.admin.dto.AdminSurveyDto;
 import com.daangn.survey.admin.service.AdminService;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.mapper.MemberMapper;
@@ -17,9 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/daangn/admin")
@@ -34,13 +33,21 @@ public class AdminController {
     private final MemberMapper memberMapper;
 
     @GetMapping
+    public String getSurveys(Model model, @RequestParam(required = false) String filter){
+        List<AdminSurveyDto> surveys = filter != null && filter.equalsIgnoreCase("all")
+                                        ? adminService.getAdminSurveyDtos()
+                                        : adminService.getSurveysAboutPublished();
+
+        model.addAttribute("surveys", surveys);
+        return "admin/surveys";
+    }
+
+    @GetMapping("/biz-profiles")
     public String bizProfiles(Model model, @RequestParam(required = false) String filter){
-        List<AdminMemberDto> memberDtoList = new LinkedList<>();
-        if(filter == null)
-             memberDtoList = memberService.getAllBizProfiles().stream().map(memberMapper::toAdminMemberDto).collect(Collectors.toList());
-        else if(filter.equalsIgnoreCase("counting")){
-            memberDtoList = memberService.getMembersByCondition().stream().map(memberMapper::toAdminMemberDto).collect(Collectors.toList());
-        }
+
+        List<AdminMemberDto> memberDtoList = filter != null && filter.equalsIgnoreCase("counting")
+                ? adminService.getMembersByCondition()
+                : adminService.getAllBizProfiles();
 
         model.addAttribute("members", memberDtoList);
         return "admin/biz-profiles";
@@ -48,11 +55,15 @@ public class AdminController {
 
     @GetMapping("/responses/surveys/{surveyId}")
     public String surveyResponses(@PathVariable Long surveyId, Model model){
-        SurveyDto survey = surveyService.findBySurveyId(surveyId);
 
-        model.addAttribute("survey", survey);
         model.addAttribute("responses", adminService.getAdminResponses(surveyId));
+        return "admin/responses";
+    }
 
+    @GetMapping("/responses")
+    public String getAllSurveyResponses(Model model){
+
+        model.addAttribute("responses", adminService.getAllAdminResponses());
         return "admin/responses";
     }
 
@@ -66,10 +77,9 @@ public class AdminController {
         return "admin/response-detail";
     }
 
-    @GetMapping("/members/{daangnId}")
-    public String memberSurveys(@PathVariable String daangnId, Model model){
-        Member member = memberService.findByDaangnId(daangnId);
-        model.addAttribute("surveys", surveyService.findSurveysByMemberId(member.getId()));
+    @GetMapping("/members/{memberId}")
+    public String memberSurveys(@PathVariable Long memberId, Model model){
+        model.addAttribute("surveys", adminService.getAdminSurveysByMemberId(memberId));
         return "admin/surveys";
     }
 

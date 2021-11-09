@@ -19,7 +19,6 @@ public class SqsSenderTest {
     private SqsSender sqsSender;
 
     @Test
-    @Disabled
     public void sqsSendTest() throws JsonProcessingException {
         List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId_test.csv");
 
@@ -34,7 +33,7 @@ public class SqsSenderTest {
                 .image("https://survey-asset-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail.png")
                 .build();
 
-        for(int i = 1 ; i < csv.size() ; i++){
+        for(int i = 1 ; i < 5 ; i++){
             message.getReceiver().setId(Integer.parseInt(csv.get(i).get(0)));
             sqsSender.sendMessage(message);
         }

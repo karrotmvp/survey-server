@@ -23,11 +23,11 @@ public class TextResponse extends BaseEntity {
     @Column(length = 1000)
     private String answer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "survey_response_id")
     private SurveyResponse surveyResponse;
 

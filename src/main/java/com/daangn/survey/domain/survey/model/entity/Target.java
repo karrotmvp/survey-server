@@ -8,7 +8,7 @@ import java.util.Arrays;
 @Getter
 @AllArgsConstructor
 public enum Target {
-    ALL(1, "모든 이웃"), BIZ_PROFILE_VISITED(2, "비즈 프로필을 방문한 이웃"), CUSTOMER(3, "단골 이웃")
+    ALL(1, "모든 이웃"), BIZ_PROFILE_VISITED(2, "비즈 프로필 방문 이웃"), CUSTOMER(3, "단골")
     ;
 
     private int code;

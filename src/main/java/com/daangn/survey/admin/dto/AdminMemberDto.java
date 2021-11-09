@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class AdminMemberDto {
 
     @Schema(description = "멤버 ID")
-    private String memberId;
+    private Long memberId;
 
     @Schema(description = "당근 ID")
     private String daangnId;

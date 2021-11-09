@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="fragment-nav">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/daangn/admin">관리자 페이지</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/daangn/admin" id="navbarDropdownSurvey" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        배포 설문 목록
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="nav-link nav-link-text" href="/daangn/admin" >설문 목록</a>
+                        <a class="nav-link nav-link-text" href="/daangn/admin?filter=all">모든 설문 목록</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBiz" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:href="@{/daangn/admin/biz-profiles?filter=counting}">
+                        모든 사장님 목록
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="nav-link nav-link-text" href="/daangn/admin/biz-profiles?filter=counting" >설문을 작성하신 사장님 목록</a>
+                        <a class="nav-link nav-link-text" href="/daangn/admin/biz-profiles">모든 사장님 목록</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/daangn/admin/responses}">답변 목록</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+</html>
