@@ -22,9 +22,7 @@
             <th>당근 ID</th>
             <th>설문 수</th>
             <th>지역</th>
-            <th>계정 정보</th>
 <!--            <th>알림 받기 여부</th>-->
-            <th>가입일</th>
             <th>정보 업데이트</th>
         </tr>
         <tr th:each="member , index: ${members}">
@@ -33,10 +31,8 @@
             <td><a th:href="@{https://town.daangn.com/bp/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.daangnId}">당근 ID</a></td>
             <td><a th:href="@{/daangn/admin/members/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.surveyCount}">설문 수</a></td>
             <td th:text="${member.region}">지역 정보</td>
-            <td th:text="${member.role}">계정 정보</td>
 <!--            <td th:if="${member.isNotifying} == true" th:text="O">알림 받기</td>-->
 <!--            <td th:unless="${member.isNotifying} == true" th:text="X">알림 받기</td>-->
-            <td th:text="${member.createdAt}">가입일</td>
             <td><button></button></td>
         </tr>
     </table>

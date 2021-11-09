@@ -1,6 +1,8 @@
 package com.daangn.survey.admin.repository;
 
+import com.daangn.survey.admin.dto.AdminMemberDto;
 import com.daangn.survey.admin.dto.AdminSurveyDto;
+import com.daangn.survey.domain.etc.notification.model.entity.QNotification;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.entity.QMember;
 import com.daangn.survey.domain.response.model.entity.QSurveyResponse;
@@ -18,44 +20,56 @@ import java.util.List;
 public class QueryRepository {
     private final JPAQueryFactory queryFactory;
 
-    public List<Member> getAllBizProfiles(){
+    public List<AdminMemberDto> getAllBizProfiles(){
         QMember member = QMember.member;
-        QSurvey survey = QSurvey.survey;
+        QNotification notification = QNotification.notification;
 
-        return queryFactory.selectFrom(member)
-                .leftJoin(member.surveys, survey).distinct()
-                .fetchJoin()
+        return queryFactory
+                .select(Projections.fields(AdminMemberDto.class,
+                        member.daangnId.as("daangnId"),
+                        member.name,
+                        member.surveys.size().as("surveyCount"),
+                        member.region
+                ))
+                .from(member)
                 .where(member.role.eq("ROLE_BIZ"))
                 .fetch();
     }
 
-    public List<Member> getAllUsers(){
+    public List<AdminMemberDto> getAllUsers(){
         QMember member = QMember.member;
-        QSurvey survey = QSurvey.survey;
 
-        return queryFactory.selectFrom(member)
-                .leftJoin(member.surveys, survey).distinct()
-                .fetchJoin()
+        return queryFactory
+                .select(Projections.fields(AdminMemberDto.class,
+                        member.daangnId.as("daangnId"),
+                        member.name,
+                        member.surveys.size().as("surveyCount"),
+                        member.region
+                ))
+                .from(member)
                 .where(member.role.eq("ROLE_USER"))
                 .fetch();
+
     }
 
-    public List<Member> getMembersByCondition(){
+    public List<AdminMemberDto> getMembersByCondition(){
         QMember member = QMember.member;
-        QSurvey survey = QSurvey.survey;
 
-        return queryFactory.selectFrom(member)
-                .leftJoin(member.surveys, survey).distinct()
-                .fetchJoin()
-                .where(member.surveys.size().gt(0))
+        return queryFactory
+                .select(Projections.fields(AdminMemberDto.class,
+                        member.daangnId.as("daangnId"),
+                        member.name,
+                        member.surveys.size().as("surveyCount"),
+                        member.region
+                        ))
+                .from(member)
+                .where(member.surveys.size().gt(0).and(member.role.eq("ROLE_BIZ")))
                 .fetch();
 
     }
 
-    public List<AdminSurveyDto> getSurveysAboutPublished(){
-        QMember member = QMember.member;
+    public List<AdminSurveyDto> getAdminSurveys(){
         QSurvey survey = QSurvey.survey;
-        QSurveyResponse surveyResponse = QSurveyResponse.surveyResponse;
 
         return queryFactory
                 .select(Projections.fields(AdminSurveyDto.class,
@@ -70,10 +84,20 @@ public class QueryRepository {
                 .fetch();
     }
 
-    /**
-     * select  s.survey_id, m.name, s.title, s.target, s.published_at, COUNT(sr.survey_id) from survey as s
-     *     left join member m on s.member_id = m.member_id
-     *     inner join survey_response sr on s.survey_id = sr.survey_id
-     * group by sr.survey_id
-     */
+    public List<AdminSurveyDto> getAdminSurveysAboutPublished(){
+        QSurvey survey = QSurvey.survey;
+
+        return queryFactory
+                .select(Projections.fields(AdminSurveyDto.class,
+                        survey.id.as("surveyId"),
+                        survey.member.name.as("writer"),
+                        survey.title,
+                        survey.target,
+                        survey.surveyResponses.size().as("responseCount"),
+                        survey.publishedAt
+                ))
+                .from(survey)
+                .where(survey.publishedAt.isNotNull())
+                .fetch();
+    }
 }

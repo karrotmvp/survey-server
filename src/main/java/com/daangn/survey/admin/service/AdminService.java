@@ -1,20 +1,13 @@
 package com.daangn.survey.admin.service;
 
-import com.daangn.survey.admin.dto.AdminResponseDetailDto;
-import com.daangn.survey.admin.dto.AdminResponseDto;
-import com.daangn.survey.admin.dto.AdminSurveyDto;
-import com.daangn.survey.admin.dto.QuestionResponseDto;
+import com.daangn.survey.admin.dto.*;
 import com.daangn.survey.admin.mapper.AdminMapper;
 import com.daangn.survey.admin.repository.QueryRepository;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
-import com.daangn.survey.domain.etc.notification.repository.NotificationRepository;
-import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Question;
 import com.daangn.survey.domain.question.model.entity.QuestionTypeCode;
 import com.daangn.survey.domain.question.model.mapper.ChoiceMapper;
-import com.daangn.survey.domain.question.repository.ChoiceRepository;
-import com.daangn.survey.domain.question.repository.QuestionRepository;
 import com.daangn.survey.domain.response.model.entity.ChoiceResponse;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.response.model.entity.TextResponse;
@@ -53,20 +46,20 @@ public class AdminService {
     // Members
     // Todo: 캐시 기능 넣기
     @Transactional(readOnly = true)
-    public List<Member> getAllBizProfiles(){
+    public List<AdminMemberDto> getAllBizProfiles(){
 
         return queryRepository.getAllBizProfiles();
     }
 
     @Transactional(readOnly = true)
-    public List<Member> getAllUsers(){
+    public List<AdminMemberDto> getAllUsers(){
 
         return queryRepository.getAllUsers();
     }
 
     // Todo: 유연한 필터 만들기
     @Transactional(readOnly = true)
-    public List<Member> getMembersByCondition(){
+    public List<AdminMemberDto> getMembersByCondition(){
         return queryRepository.getMembersByCondition();
 
     }
@@ -80,13 +73,13 @@ public class AdminService {
     }
 
     @Transactional(readOnly = true)
-    public List<SurveySummaryDto> findSurveysAboutPublished(){
-        return surveyRepository.findSurveysByPublishedAtNotNull().stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
+    public List<AdminSurveyDto> getSurveysAboutPublished(){
+        return queryRepository.getAdminSurveysAboutPublished();
     }
 
     @Transactional(readOnly = true)
     public List<AdminSurveyDto> getAdminSurveyDtos(){
-        return queryRepository.getSurveysAboutPublished();
+        return queryRepository.getAdminSurveys();
     }
 
     // Responses
