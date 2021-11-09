@@ -13,6 +13,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+
 }
 
 repositories {
@@ -45,6 +46,7 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
     implementation 'com.google.code.gson:gson:2.8.8'
     implementation 'com.querydsl:querydsl-jpa'
+    implementation 'com.querydsl:querydsl-core'
 
     // Database
     runtimeOnly 'com.h2database:h2'
@@ -76,15 +78,16 @@ querydsl { // (4)
     querydslSourcesDir = querydslDir
 }
 
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
 sourceSets { // (5)
     main.java.srcDir querydslDir
 }
 
-configurations { // (6)
-    querydsl.extendsFrom compileClasspath
-}
-
 compileQuerydsl { // (7)
+    outputs.upToDateWhen { false }
     options.annotationProcessorPath = configurations.querydsl
 }
 

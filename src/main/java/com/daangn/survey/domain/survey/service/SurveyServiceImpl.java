@@ -81,15 +81,8 @@ public class SurveyServiceImpl implements SurveyService{
     }
 
     @Transactional(readOnly = true)
-    public List<SurveySummaryDto> findAll(Long memberId){
-        List<Survey> surveys = surveyRepository.findSurveysByMemberIdOrderByCreatedAtDesc(memberId);
-
-        return surveys.stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
     public List<SurveySummaryDto> findSurveysByMemberId(Long memberId){
-        List<Survey> surveys = surveyRepository.findSurveysByMemberIdOrderByCreatedAt(memberId);
+        List<Survey> surveys = surveyRepository.findSurveysByMemberIdOrderByCreatedAtDesc(memberId);
 
         return surveys.stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
     }
