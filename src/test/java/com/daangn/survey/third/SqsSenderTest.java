@@ -19,6 +19,7 @@ public class SqsSenderTest {
     private SqsSender sqsSender;
 
     @Test
+    @Disabled
     public void sqsSendTest() throws JsonProcessingException {
         List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId_test.csv");
 
