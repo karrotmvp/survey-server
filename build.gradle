@@ -87,6 +87,7 @@ sourceSets { // (5)
 }
 
 compileQuerydsl { // (7)
+    outputs.upToDateWhen { false }
     options.annotationProcessorPath = configurations.querydsl
 }
 
