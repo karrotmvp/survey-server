@@ -129,4 +129,9 @@ public class AdminService {
     public List<AdminResponseDto> getAdminResponses(Long surveyId){
         return queryRepository.getAdminResponses(surveyId);
     }
+
+    @Transactional(readOnly = true)
+    public List<AdminResponseDto> getAllAdminResponses(){
+        return queryRepository.getAllAdminResponses();
+    }
 }

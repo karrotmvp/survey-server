@@ -135,4 +135,18 @@ public class QueryRepository {
                 .where(surveyResponse.survey.id.eq(surveyId))
                 .fetch();
     }
+
+    public List<AdminResponseDto> getAllAdminResponses(){
+        QSurveyResponse surveyResponse = QSurveyResponse.surveyResponse;
+
+        return queryFactory
+                .select(Projections.fields(AdminResponseDto.class,
+                        surveyResponse.id.as("responseId"),
+                        surveyResponse.member.name.as("member"),
+                        surveyResponse.createdAt
+                ))
+                .from(surveyResponse)
+                .fetch();
+    }
+
 }

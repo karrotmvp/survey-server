@@ -57,7 +57,13 @@ public class AdminController {
     public String surveyResponses(@PathVariable Long surveyId, Model model){
 
         model.addAttribute("responses", adminService.getAdminResponses(surveyId));
+        return "admin/responses";
+    }
 
+    @GetMapping("/responses")
+    public String getAllSurveyResponses(Model model){
+
+        model.addAttribute("responses", adminService.getAllAdminResponses());
         return "admin/responses";
     }
 
