@@ -3,54 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <div th:replace="./fragments/header.html::fragment-header"></div>
-
-    <style>
-        table {
-            width: 100%; border: 1px solid #444444; text-align: center;
-        }
-        th, td {
-            border: 1px solid #444444;
-        }
-        .nav {
-            display: flex; width: 50%; justify-content: space-between; align-items: center;
-        }
-
-    </style>
 </head>
 <body>
 <div th:replace="/fragments/nav.html :: fragment-nav"></div>
-
-<div class="nav">
-    <h1>유저 목록</h1>
-    <div class="filter">
-        <button name="button" onclick="location.href='?filter=counting'">설문 수가 1개 이상인 유저</button>
-        <button name="button" onclick="location.href='/daangn/admin'">모든 유저</button>
+<div class="section">
+    <div class="nav">
+        <h1>유저 목록</h1>
+        <div class="filter">
+            <button name="button" onclick="location.href='?filter=counting'">설문 수가 1개 이상인 유저</button>
+            <button name="button" onclick="location.href='/daangn/admin'">모든 유저</button>
+        </div>
     </div>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>이름 - 당근 Admin</th>
+            <th>당근 ID</th>
+            <th>설문 수</th>
+            <th>지역</th>
+            <th>계정 정보</th>
+            <th>알림 받기 여부</th>
+            <th>가입일</th>
+        </tr>
+        <tr th:each="member , index: ${members}">
+            <td th:text="${index.index + 1}">#</td>
+            <td><a th:href="@{https://ba-admin.kr.karrotmarket.com/accounts/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.name}">유저 이름</a></td>
+            <td><a th:href="@{https://town.daangn.com/bp/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.daangnId}">당근 ID</a></td>
+            <td><a th:href="@{/daangn/admin/members/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.surveyCount}">설문 수</a></td>
+            <td th:text="${member.region}">지역 정보</td>
+            <td th:text="${member.role}">계정 정보</td>
+            <td th:if="${member.isNotifying} == true" th:text="O">알림 받기</td>
+            <td th:unless="${member.isNotifying} == true" th:text="X">알림 받기</td>
+            <td th:text="${member.createdAt}">가입일</td>
+            <td><button></button></td>
+        </tr>
+    </table>
 </div>
-<table>
-    <tr>
-        <th>#</th>
-        <th>이름 - 당근 Admin</th>
-        <th>당근 ID</th>
-        <th>설문 수</th>
-        <th>지역</th>
-        <th>계정 정보</th>
-        <th>알림 받기 여부</th>
-        <th>가입일</th>
-    </tr>
-    <tr th:each="member , index: ${members}">
-        <td th:text="${index.index + 1}">#</td>
-        <td><a th:href="@{https://ba-admin.kr.karrotmarket.com/accounts/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.name}">유저 이름</a></td>
-        <td><a th:href="@{https://town.daangn.com/bp/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.daangnId}">당근 ID</a></td>
-        <td><a th:href="@{/daangn/admin/members/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.surveyCount}">설문 수</a></td>
-        <td th:text="${member.region}">지역 정보</td>
-        <td th:text="${member.role}">계정 정보</td>
-        <td th:if="${member.isNotifying} == true" th:text="O">알림 받기</td>
-        <td th:unless="${member.isNotifying} == true" th:text="X">알림 받기</td>
-        <td th:text="${member.createdAt}">가입일</td>
-        <td><button></button></td>
-    </tr>
-</table>
 </body>
 <script>
 

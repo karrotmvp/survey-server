@@ -1,0 +1,17 @@
+table {
+    width: 100%; border: 1px solid #444444; text-align: center;
+}
+th, td {
+    border: 1px solid #444444;
+}
+
+.navbar {
+    padding: 0 10px;
+}
+
+.section {
+    padding: 0 10px;
+}
+
+
+

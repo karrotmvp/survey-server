@@ -2,6 +2,7 @@ package com.daangn.survey.admin.service;
 
 import com.daangn.survey.admin.dto.AdminResponseDetailDto;
 import com.daangn.survey.admin.dto.AdminResponseDto;
+import com.daangn.survey.admin.dto.AdminSurveyDto;
 import com.daangn.survey.admin.dto.QuestionResponseDto;
 import com.daangn.survey.admin.mapper.AdminMapper;
 import com.daangn.survey.admin.repository.QueryRepository;

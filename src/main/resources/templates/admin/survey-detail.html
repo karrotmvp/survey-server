@@ -4,50 +4,43 @@
     <meta charset="UTF-8">
     <div th:replace="./fragments/header.html::fragment-header"></div>
 
-    <style>
-        tale {
-            width: 100%; border: 1px solid #444444; text-align: center;
-        }
-        th, td {
-            border: 1px solid #444444;
-        }
-    </style>
 </head>
 <body>
 <div th:replace="/fragments/nav.html :: fragment-nav"></div>
-
-<h1>설문 디테일</h1>
-설문 제목 : <span th:text="${survey.title}">설문 제목</span> <br>
-설문 대상 : <th:block th:switch="${survey.target}">
-    <span th:case="1">모든 이웃</span>
-    <span th:case="2">비즈프로필 방문 이웃</span>
-    <span th:case="3">단골</span>
-</th:block>
-<br><br>
-
-<div th:each="question, index: ${survey.questions}">
-
-   <th:block th:switch="${question.questionType}" >
-        <div th:case="1">
-            <span> 질문 타입 : 소개</span> <br>
-            질문 내용 : <span th:text="${question.text}">질문 내용</span> <br>
-            질문 설명 : <span th:text="${question.description}">질문 설명</span>
-        </div>
-        <div th:case="2">
-            <span> 질문 타입 : 주관식</span> <br>
-            질문 내용 : <span th:text="${question.text}">질문 내용</span> <br>
-            질문 설명 :<span th:text="${question.description}">질문 설명</span>
-        </div>
-        <div th:case="3">
-            <span> 질문 타입 : 객관식</span> <br>
-            질문 내용 : <span th:text="${question.text}">질문 내용</span> <br>
-            질문 설명 : <span th:text="${question.description}">질문 설명</span> <br>
-            선택지 : <span th:each="choice, index: ${question.choices}">
-                </t> <span th:text="${choice.value}">선택지 값</span> /
-            </span>
-        </div>
-    <br>
+<div class="section">
+    <h1>설문 디테일</h1>
+    설문 제목 : <span th:text="${survey.title}">설문 제목</span> <br>
+    설문 대상 : <th:block th:switch="${survey.target}">
+        <span th:case="1">모든 이웃</span>
+        <span th:case="2">비즈프로필 방문 이웃</span>
+        <span th:case="3">단골</span>
     </th:block>
+    <br><br>
+
+    <div th:each="question, index: ${survey.questions}">
+
+       <th:block th:switch="${question.questionType}" >
+            <div th:case="1">
+                <span> 질문 타입 : 소개</span> <br>
+                질문 내용 : <span th:text="${question.text}">질문 내용</span> <br>
+                질문 설명 : <span th:text="${question.description}">질문 설명</span>
+            </div>
+            <div th:case="2">
+                <span> 질문 타입 : 주관식</span> <br>
+                질문 내용 : <span th:text="${question.text}">질문 내용</span> <br>
+                질문 설명 :<span th:text="${question.description}">질문 설명</span>
+            </div>
+            <div th:case="3">
+                <span> 질문 타입 : 객관식</span> <br>
+                질문 내용 : <span th:text="${question.text}">질문 내용</span> <br>
+                질문 설명 : <span th:text="${question.description}">질문 설명</span> <br>
+                선택지 : <span th:each="choice, index: ${question.choices}">
+                    </t> <span th:text="${choice.value}">선택지 값</span> /
+                </span>
+            </div>
+        <br>
+        </th:block>
+    </div>
 </div>
 </body>
 </html>

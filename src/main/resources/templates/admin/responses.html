@@ -3,32 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <div th:replace="./fragments/header.html::fragment-header"></div>
-    <style>
-        table {
-            width: 100%; border: 1px solid #444444; text-align: center;
-        }
-        th, td {
-            border: 1px solid #444444;
-        }
-    </style>
+
 </head>
 <body>
 <div th:replace="/fragments/nav.html :: fragment-nav"></div>
-
-<h1>설문 목록</h1>
-<table>
-    <tr>
-        <th>#</th>
-        <th>답변 ID</th>
-        <th>답변자 명</th>
-        <th>생성일</th>
-    </tr>
-    <tr th:each="response , index: ${responses}">
-        <td th:text="${index.index + 1}">#</td>
-        <td><a th:href="@{/daangn/admin/responses/{responseId}(responseId=${response.responseId})}" th:text="${response.responseId}">답변 ID</a></td>
-        <td th:text="${response.member}">답변자 명</td>
-        <td th:text="${response.createdAt}">생성일</td>
-    </tr>
-</table>
+<div class="section">
+    <h1>설문 목록</h1>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>답변 ID</th>
+            <th>답변자 명</th>
+            <th>생성일</th>
+        </tr>
+        <tr th:each="response , index: ${responses}">
+            <td th:text="${index.index + 1}">#</td>
+            <td><a th:href="@{/daangn/admin/responses/{responseId}(responseId=${response.responseId})}" th:text="${response.responseId}">답변 ID</a></td>
+            <td th:text="${response.member}">답변자 명</td>
+            <td th:text="${response.createdAt}">생성일</td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
