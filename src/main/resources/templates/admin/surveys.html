@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>관리자 페이지</title>
+    <div th:replace="./fragments/header.html::fragment-header"></div>
+
     <style>
         table {
             width: 100%; border: 1px solid #444444; text-align: center;
@@ -13,6 +14,8 @@
     </style>
 </head>
 <body>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+
 <h1>설문 목록</h1>
 <table>
     <tr>

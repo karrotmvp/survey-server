@@ -2,10 +2,13 @@ package com.daangn.survey.admin.service;
 
 import com.daangn.survey.admin.dto.AdminResponseDetailDto;
 import com.daangn.survey.admin.dto.AdminResponseDto;
+import com.daangn.survey.admin.dto.QuestionResponseDto;
 import com.daangn.survey.admin.mapper.AdminMapper;
+import com.daangn.survey.admin.repository.QueryRepository;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
-import com.daangn.survey.admin.dto.QuestionResponseDto;
+import com.daangn.survey.domain.etc.notification.repository.NotificationRepository;
+import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Question;
 import com.daangn.survey.domain.question.model.entity.QuestionTypeCode;
 import com.daangn.survey.domain.question.model.mapper.ChoiceMapper;
@@ -18,6 +21,9 @@ import com.daangn.survey.domain.response.model.mapper.ResponseMapper;
 import com.daangn.survey.domain.response.repository.ChoiceResponseRepository;
 import com.daangn.survey.domain.response.repository.SurveyResponseRepository;
 import com.daangn.survey.domain.response.repository.TextResponseRepository;
+import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
+import com.daangn.survey.domain.survey.model.entity.Survey;
+import com.daangn.survey.domain.survey.model.mapper.SurveyMapper;
 import com.daangn.survey.domain.survey.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,22 +38,52 @@ import java.util.stream.Collectors;
 public class AdminService {
     private final SurveyResponseRepository surveyResponseRepository;
     private final SurveyRepository surveyRepository;
-    private final QuestionRepository questionRepository;
-    private final ChoiceRepository choiceRepository;
     private final TextResponseRepository textResponseRepository;
     private final ChoiceResponseRepository choiceResponseRepository;
 
     private final ChoiceMapper choiceMapper;
     private final ResponseMapper responseMapper;
     private final AdminMapper adminMapper;
+    private final SurveyMapper surveyMapper;
 
-    /**
-     * surveyId를 통해 응답을 가져온다
-     * 그리고 질문을 가져온다
-     * 질문을 통해 QuestionResponseDto를 만든다(선택지도 추가한다)
-     * 질문에 대한 답변을 가져온다
-     * AdminResponseDto를 채운다
-     */
+    private final QueryRepository queryRepository;
+
+
+    // Members
+    // Todo: 캐시 기능 넣기
+    @Transactional(readOnly = true)
+    public List<Member> getAllBizProfiles(){
+
+        return queryRepository.getAllBizProfiles();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Member> getAllUsers(){
+
+        return queryRepository.getAllUsers();
+    }
+
+    // Todo: 유연한 필터 만들기
+    @Transactional(readOnly = true)
+    public List<Member> getMembersByCondition(){
+        return queryRepository.getMembersByCondition();
+
+    }
+
+    // Surveys
+    @Transactional(readOnly = true)
+    public List<SurveySummaryDto> findAll(){
+        List<Survey> surveys = surveyRepository.findAll();
+
+        return surveys.stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<SurveySummaryDto> findSurveysAboutPublished(){
+        return surveyRepository.findSurveysByPublishedAtNotNull().stream().map(surveyMapper::toSummaryDto).collect(Collectors.toList());
+    }
+
+    // Responses
     @Transactional(readOnly = true)
     public List<AdminResponseDetailDto> getAdminResponseDetail(SurveyResponse surveyResponse){
 
@@ -64,7 +100,7 @@ public class AdminService {
                 case TEXT_QUESTION:
 
                     TextResponse textResponse = textResponseRepository.findTextResponseByQuestionIdAndSurveyResponseId(question.getId(), surveyResponse.getId())
-                                                                        .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
+                            .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
                     adminResponseDetailDto.setResponse(responseMapper.toDtoFromTextResponse(textResponse));
                     break;
 
@@ -73,7 +109,7 @@ public class AdminService {
                     questionResponse.setChoices(question.getChoices().stream().map(choiceMapper::toChoiceDto).collect(Collectors.toList()));
 
                     ChoiceResponse choiceResponse = choiceResponseRepository.findChoiceResponseByQuestionIdAndSurveyResponseId(question.getId(), surveyResponse.getId())
-                                                                            .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
+                            .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
                     adminResponseDetailDto.setResponse(responseMapper.toDtoFromChoiceResponse(choiceResponse));
                     break;
             }
@@ -88,8 +124,8 @@ public class AdminService {
     @Transactional(readOnly = true)
     public List<AdminResponseDto> getAdminResponses(Long surveyId){
         return surveyResponseRepository.findSurveyResponsesBySurveyId(surveyId)
-                                        .stream()
-                                        .map(adminMapper::toAdminResponseDtoFromSurveyResponse)
-                                        .collect(Collectors.toList());
+                .stream()
+                .map(adminMapper::toAdminResponseDtoFromSurveyResponse)
+                .collect(Collectors.toList());
     }
 }

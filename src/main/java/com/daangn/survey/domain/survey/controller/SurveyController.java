@@ -60,7 +60,7 @@ public class SurveyController {
     @GetMapping
     public ResponseEntity<ResponseDto<List<SurveySummaryDto>>> getSurveys(@Parameter(description = "Member", hidden = true) @CurrentUser Member member){
 
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_LIST, surveyService.findAll(member.getId())));
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_LIST, surveyService.findSurveysByMemberId(member.getId())));
     }
 
     @Operation(summary = "설문 상세 조회", description = "설문 상세를 조회합니다.")

@@ -8,6 +8,7 @@ import com.daangn.survey.domain.member.service.MemberService;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.response.service.ResponseService;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
+import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -34,13 +35,27 @@ public class AdminController {
     private final MemberMapper memberMapper;
 
     @GetMapping
+    public String getSurveys(Model model, @RequestParam(required = false) String filter){
+        List<SurveySummaryDto> surveys = filter != null && filter.equalsIgnoreCase("all")
+                                        ? adminService.findAll()
+                                        : adminService.findSurveysAboutPublished();
+
+        model.addAttribute("surveys", surveys);
+        return "admin/surveys";
+    }
+
+    @GetMapping("/biz-profiles")
     public String bizProfiles(Model model, @RequestParam(required = false) String filter){
-        List<AdminMemberDto> memberDtoList = new LinkedList<>();
-        if(filter == null)
-             memberDtoList = memberService.getAllBizProfiles().stream().map(memberMapper::toAdminMemberDto).collect(Collectors.toList());
-        else if(filter.equalsIgnoreCase("counting")){
-            memberDtoList = memberService.getMembersByCondition().stream().map(memberMapper::toAdminMemberDto).collect(Collectors.toList());
-        }
+
+        List<AdminMemberDto> memberDtoList = filter != null && filter.equalsIgnoreCase("counting")
+                ? adminService.getAllBizProfiles()
+                                .stream()
+                                .map(memberMapper::toAdminMemberDto)
+                                .collect(Collectors.toList())
+                : adminService.getMembersByCondition()
+                                .stream()
+                                .map(memberMapper::toAdminMemberDto)
+                                .collect(Collectors.toList());
 
         model.addAttribute("members", memberDtoList);
         return "admin/biz-profiles";
