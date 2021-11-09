@@ -48,11 +48,11 @@ public class AdminController {
     public String bizProfiles(Model model, @RequestParam(required = false) String filter){
 
         List<AdminMemberDto> memberDtoList = filter != null && filter.equalsIgnoreCase("counting")
-                ? adminService.getAllBizProfiles()
-                                .stream()
-                                .map(memberMapper::toAdminMemberDto)
-                                .collect(Collectors.toList())
-                : adminService.getMembersByCondition()
+                ? adminService.getMembersByCondition()
+                .stream()
+                .map(memberMapper::toAdminMemberDto)
+                .collect(Collectors.toList())
+                : adminService.getAllBizProfiles()
                                 .stream()
                                 .map(memberMapper::toAdminMemberDto)
                                 .collect(Collectors.toList());
