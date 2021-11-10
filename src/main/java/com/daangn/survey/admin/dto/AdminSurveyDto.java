@@ -13,7 +13,7 @@ public class AdminSurveyDto {
     private long surveyId;
     private String writer;
     private String title;
-    private int responseCount;
+    private long responseCount;
     private int target;
     private LocalDateTime publishedAt;
 }

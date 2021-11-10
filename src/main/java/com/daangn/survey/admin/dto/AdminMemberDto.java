@@ -31,7 +31,7 @@ public class AdminMemberDto {
     private String role;
 
     @Schema(description = "설문 수")
-    private int surveyCount;
+    private long surveyCount;
 
     @Schema(description = "채팅 받기 여부")
     private boolean notifying;
