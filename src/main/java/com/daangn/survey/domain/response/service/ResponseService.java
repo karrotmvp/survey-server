@@ -70,45 +70,6 @@ public class ResponseService {
     }
 
     @Transactional(readOnly = true)
-    public void getAggregation(Long surveyId){
-        Survey survey = surveyRepository.findById(surveyId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
-
-        /**
-         * 질문 리스트 가져오기
-         * 질문에 해당하는 선택지 가정과
-         * 선택지와 질문 id를 통해 객관식
-         */
-        List<Question> questions = survey.getQuestions();
-
-        for(Question question : questions){
-            if(question.getQuestionType().getId() == QuestionTypeCode.TEXT_QUESTION.getNumber()){
-
-                textResponseRepository.findTextResponsesByQuestionId(question.getId());
-
-            } else if(question.getQuestionType().getId() == QuestionTypeCode.CHOICE_QUESTION.getNumber()){
-
-                for(Choice choice : question.getChoices()){
-                    choice.getValue();
-
-                    int count = choiceResponseRepository.countChoiceResponsesByChoiceId(choice.getId());
-                }
-            }
-        }
-
-        int responseCount = survey.getSurveyResponses().size(); // 좋은 방법은 아님
-
-        survey.getSurveyResponses();
-
-
-        /**
-         * 설문의 질문 별로 답변 리스트 가져오기
-         * 객관식의 경우, 통계를 위해
-         */
-
-    }
-
-    @Transactional(readOnly = true)
     public boolean respondedPrevious(Member member, Long surveyId) {
         return surveyResponseRepository.existsSurveyResponseBySurveyIdAndMemberId(surveyId, member.getId());
     }

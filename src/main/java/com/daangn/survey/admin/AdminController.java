@@ -3,6 +3,7 @@ package com.daangn.survey.admin;
 import com.daangn.survey.admin.dto.AdminMemberDto;
 import com.daangn.survey.admin.dto.AdminSurveyDto;
 import com.daangn.survey.admin.service.AdminService;
+import com.daangn.survey.domain.aggregation.service.AggregationService;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.mapper.MemberMapper;
 import com.daangn.survey.domain.member.service.MemberService;
@@ -25,12 +26,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
 
-    private final MemberService memberService;
     private final SurveyServiceImpl surveyService;
     private final ResponseService responseService;
     private final AdminService adminService;
+    private final AggregationService aggregationService;
 
-    private final MemberMapper memberMapper;
 
     @GetMapping
     public String getSurveys(Model model, @RequestParam(required = false) String filter){
@@ -70,8 +70,8 @@ public class AdminController {
     @GetMapping("/responses/{responseId}")
     public String getResponseDetail(@PathVariable Long responseId, Model model){
         SurveyResponse surveyResponse = responseService.getSurveyResponse(responseId);
-
-        model.addAttribute("responses", adminService.getAdminResponseDetail(surveyResponse));
+        model.addAttribute("survey", surveyService.findBySurveyId(surveyResponse.getSurvey().getId()));
+        model.addAttribute("responses", aggregationService.getIndividualSurveyResponse(surveyResponse));
 
         return "admin/response-detail";
     }
