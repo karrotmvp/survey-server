@@ -23,6 +23,7 @@ public class AggregateRepository {
 
     public List<QuestionAggregation> getQuestions(Long surveyId){
         return queryFactory.select(Projections.fields(QuestionAggregation.class,
+
                     question.id.as("questionId"),
                     question.number.as("order"),
                     question.questionType.id.as("questionType"),
@@ -53,6 +54,7 @@ public class AggregateRepository {
         QQuestion question = QQuestion.question;
 
         return queryFactory.select(Projections.fields(TextResponseAggregation.class,
+                        textResponse.surveyResponse.id.as("surveyResponseId"),
                         textResponse.answer.as("answer")
                 ))
                 .from(question)

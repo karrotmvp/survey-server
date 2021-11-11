@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TextResponseAggregation implements Aggregatable{
+public class TextResponseAggregation implements Aggregatable {
+    private Long surveyResponseId;
     private String answer;
 }

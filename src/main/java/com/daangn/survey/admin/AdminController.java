@@ -71,7 +71,6 @@ public class AdminController {
     public String getResponseDetail(@PathVariable Long responseId, Model model){
         SurveyResponse surveyResponse = responseService.getSurveyResponse(responseId);
 
-        model.addAttribute("survey", surveyResponse.getSurvey());
         model.addAttribute("responses", adminService.getAdminResponseDetail(surveyResponse));
 
         return "admin/response-detail";
