@@ -8,7 +8,7 @@
 <body>
 <div th:replace="./fragments/nav.html :: fragment-nav"></div>
 <div class="section">
-    <h1>설문 디테일</h1>
+    <h1>답변 디테일</h1>
     설문 제목 : <span th:text="${survey.title}">설문 제목</span> <br>
     설문 대상 : <th:block th:switch="${survey.target}">
         <span th:case="1">모든 이웃</span>

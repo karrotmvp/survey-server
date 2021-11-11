@@ -21,35 +21,42 @@ import java.util.List;
 public class QueryRepository {
     private final JPAQueryFactory queryFactory;
 
+    // Member
     public List<AdminMemberDto> getAllBizProfiles(){
         QMember member = QMember.member;
         QNotification notification = QNotification.notification;
+        QSurvey survey = QSurvey.survey;
 
         return queryFactory
                 .select(Projections.fields(AdminMemberDto.class,
                         member.id.as("memberId"),
                         member.daangnId.as("daangnId"),
                         member.name,
-                        member.surveys.size().as("surveyCount"),
+                        survey.member.id.count().as("surveyCount"),
                         member.region
                 ))
                 .from(member)
+                .innerJoin(member.surveys, survey)
+                .groupBy(survey.member.id)
                 .where(member.role.eq("ROLE_BIZ"))
                 .fetch();
     }
 
     public List<AdminMemberDto> getAllUsers(){
         QMember member = QMember.member;
+        QSurvey survey = QSurvey.survey;
 
         return queryFactory
                 .select(Projections.fields(AdminMemberDto.class,
                         member.id.as("memberId"),
                         member.daangnId.as("daangnId"),
                         member.name,
-                        member.surveys.size().as("surveyCount"),
+                        survey.member.id.count().as("surveyCount"),
                         member.region
                 ))
                 .from(member)
+                .innerJoin(member.surveys, survey)
+                .groupBy(survey.member.id)
                 .where(member.role.eq("ROLE_USER"))
                 .fetch();
 
@@ -57,23 +64,29 @@ public class QueryRepository {
 
     public List<AdminMemberDto> getMembersByCondition(){
         QMember member = QMember.member;
+        QSurvey survey = QSurvey.survey;
 
         return queryFactory
                 .select(Projections.fields(AdminMemberDto.class,
                         member.id.as("memberId"),
                         member.daangnId.as("daangnId"),
                         member.name,
-                        member.surveys.size().as("surveyCount"),
+                        survey.member.id.count().as("surveyCount"),
                         member.region
                         ))
                 .from(member)
+                .innerJoin(member.surveys, survey)
+                .groupBy(survey.member.id)
                 .where(member.surveys.size().gt(0).and(member.role.eq("ROLE_BIZ")))
                 .fetch();
 
     }
 
+    // Survey
     public List<AdminSurveyDto> getAdminSurveys(){
         QSurvey survey = QSurvey.survey;
+        QMember member = QMember.member;
+        QSurveyResponse surveyResponse = QSurveyResponse.surveyResponse;
 
         return queryFactory
                 .select(Projections.fields(AdminSurveyDto.class,
@@ -81,15 +94,20 @@ public class QueryRepository {
                     survey.member.name.as("writer"),
                     survey.title,
                     survey.target,
-                    survey.surveyResponses.size().as("responseCount"),
+                    surveyResponse.id.count().as("responseCount"),
                     survey.publishedAt
                 ))
                 .from(survey)
+                .innerJoin(survey.member, member)
+                .innerJoin(survey.surveyResponses, surveyResponse)
+                .groupBy(surveyResponse.survey.id)
                 .fetch();
     }
 
     public List<AdminSurveyDto> getAdminSurveysByMemberId(Long memberId){
         QSurvey survey = QSurvey.survey;
+        QMember member = QMember.member;
+        QSurveyResponse surveyResponse = QSurveyResponse.surveyResponse;
 
         return queryFactory
                 .select(Projections.fields(AdminSurveyDto.class,
@@ -97,16 +115,21 @@ public class QueryRepository {
                         survey.member.name.as("writer"),
                         survey.title,
                         survey.target,
-                        survey.surveyResponses.size().as("responseCount"),
+                        surveyResponse.id.count().as("responseCount"),
                         survey.publishedAt
                 ))
                 .from(survey)
+                .innerJoin(survey.member, member)
+                .innerJoin(survey.surveyResponses, surveyResponse)
                 .where(survey.member.id.eq(memberId))
+                .groupBy(surveyResponse.survey.id)
                 .fetch();
     }
 
     public List<AdminSurveyDto> getAdminSurveysAboutPublished(){
         QSurvey survey = QSurvey.survey;
+        QMember member = QMember.member;
+        QSurveyResponse surveyResponse = QSurveyResponse.surveyResponse;
 
         return queryFactory
                 .select(Projections.fields(AdminSurveyDto.class,
@@ -114,38 +137,52 @@ public class QueryRepository {
                         survey.member.name.as("writer"),
                         survey.title,
                         survey.target,
-                        survey.surveyResponses.size().as("responseCount"),
+                        surveyResponse.id.count().as("responseCount"),
                         survey.publishedAt
                 ))
                 .from(survey)
+                .innerJoin(survey.member, member)
+                .innerJoin(survey.surveyResponses, surveyResponse)
                 .where(survey.publishedAt.isNotNull())
+                .groupBy(surveyResponse.survey.id)
                 .fetch();
     }
 
+    // Response
     public List<AdminResponseDto> getAdminResponses(Long surveyId){
         QSurveyResponse surveyResponse = QSurveyResponse.surveyResponse;
+        QMember member = QMember.member;
+        QSurvey survey = QSurvey.survey;
 
         return queryFactory
                 .select(Projections.fields(AdminResponseDto.class,
                         surveyResponse.id.as("responseId"),
                         surveyResponse.member.name.as("member"),
+                        survey.title.as("surveyTitle"),
                         surveyResponse.createdAt
                         ))
                 .from(surveyResponse)
+                .innerJoin(surveyResponse.member, member)
+                .innerJoin(surveyResponse.survey, survey)
                 .where(surveyResponse.survey.id.eq(surveyId))
                 .fetch();
     }
 
     public List<AdminResponseDto> getAllAdminResponses(){
         QSurveyResponse surveyResponse = QSurveyResponse.surveyResponse;
+        QMember member = QMember.member;
+        QSurvey survey = QSurvey.survey;
 
         return queryFactory
                 .select(Projections.fields(AdminResponseDto.class,
                         surveyResponse.id.as("responseId"),
                         surveyResponse.member.name.as("member"),
+                        survey.title.as("surveyTitle"),
                         surveyResponse.createdAt
                 ))
                 .from(surveyResponse)
+                .innerJoin(surveyResponse.member, member)
+                .innerJoin(surveyResponse.survey, survey)
                 .fetch();
     }
 
