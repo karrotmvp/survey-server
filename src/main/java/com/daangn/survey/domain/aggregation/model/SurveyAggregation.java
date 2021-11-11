@@ -13,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class SurveyAggregation {
     private Long surveyId;
-    private List<Aggregatable> aggregation;
+    private List<QuestionAggregation> questionAggregations;
 
 }

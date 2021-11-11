@@ -10,11 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChoiceResponseAggregation implements Aggregatable {
-    private Long surveyId;
-    private String question;
-    private int order;
     private String value;
-    private long count;
+    private Long count;
 
     /**
      * "questionId" : int,

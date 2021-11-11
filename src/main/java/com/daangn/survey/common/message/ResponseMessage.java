@@ -31,4 +31,7 @@ public class ResponseMessage {
     // Notification
     public static final String CREATE_NOTIFICATION = "알림을 신청합니다.";
 
+    // Aggregation
+    public static final String READ_AGGREGATION = "설문 집계 결과를 조회합니다.";
+
 }
