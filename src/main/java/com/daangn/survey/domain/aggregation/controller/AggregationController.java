@@ -3,9 +3,8 @@ package com.daangn.survey.domain.aggregation.controller;
 import com.daangn.survey.common.dto.ResponseDto;
 import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.domain.aggregation.model.*;
-import com.daangn.survey.domain.aggregation.repository.AggregateRepository;
+import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
 import com.daangn.survey.domain.aggregation.service.AggregationService;
-import com.daangn.survey.domain.question.model.entity.QuestionTypeCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +26,12 @@ public class AggregationController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_AGGREGATION, aggregationService.getSurveyAggregations(surveyId)));
 
+    }
+
+    @GetMapping("/{surveyId}/responses/brief")
+    public ResponseEntity<ResponseDto<SurveyResponsesBrief>> getResponsesBrief(@PathVariable Long surveyId){
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_RESPONSES_BRIEF, aggregationService.getSurveyResponsesBrief(surveyId)));
     }
 }

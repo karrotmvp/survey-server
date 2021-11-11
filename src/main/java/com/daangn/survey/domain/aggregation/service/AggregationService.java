@@ -1,11 +1,10 @@
 package com.daangn.survey.domain.aggregation.service;
 
-import com.daangn.survey.domain.aggregation.model.Aggregatable;
 import com.daangn.survey.domain.aggregation.model.QuestionAggregation;
 import com.daangn.survey.domain.aggregation.model.SurveyAggregation;
+import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
 import com.daangn.survey.domain.aggregation.repository.AggregateRepository;
 import com.daangn.survey.domain.question.model.entity.QuestionTypeCode;
-import com.daangn.survey.domain.survey.model.entity.Survey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,5 +30,15 @@ public class AggregationService {
         });
 
         return new SurveyAggregation(surveyId, questions);
+    }
+
+    @Transactional(readOnly = true)
+    public SurveyResponsesBrief getSurveyResponsesBrief(Long surveyId){
+        SurveyResponsesBrief brief = SurveyResponsesBrief.builder()
+                                                        .responseIds(aggregateRepository.getSurveyResponseIds(surveyId))
+                                                        .build();
+        brief.setCount(brief.getResponseIds().size());
+
+        return brief;
     }
 }

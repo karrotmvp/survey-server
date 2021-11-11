@@ -14,6 +14,7 @@ import java.util.List;
 import static com.daangn.survey.domain.question.model.entity.QChoice.choice;
 import static com.daangn.survey.domain.question.model.entity.QQuestion.question;
 import static com.daangn.survey.domain.response.model.entity.QChoiceResponse.choiceResponse;
+import static com.daangn.survey.domain.response.model.entity.QSurveyResponse.surveyResponse;
 import static com.daangn.survey.domain.response.model.entity.QTextResponse.textResponse;
 
 @RequiredArgsConstructor
@@ -61,6 +62,14 @@ public class AggregateRepository {
                 .leftJoin(textResponse).on(textResponse.question.id.eq(question.id))
                 .where(question.id.eq(questionId))
                 .orderBy(textResponse.createdAt.asc())
+                .fetch();
+    }
+
+    public List<Long> getSurveyResponseIds(Long survyeyId){
+        return queryFactory.select(
+                    surveyResponse.id
+                ).from(surveyResponse)
+                .where(surveyResponse.survey.id.eq(survyeyId))
                 .fetch();
     }
 
