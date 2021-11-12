@@ -37,8 +37,9 @@ public class QueryRepository {
                         member.imageUrl
                 ))
                 .from(member)
-                .innerJoin(member.surveys, survey)
-                .groupBy(survey.member.id)
+                .leftJoin(survey).on(member.id.eq(survey.member.id))
+                .groupBy(member.member.id)
+                .orderBy(member.createdAt.asc())
                 .where(member.role.eq("ROLE_BIZ"))
                 .fetch();
     }
@@ -59,6 +60,7 @@ public class QueryRepository {
                 .from(member)
                 .innerJoin(member.surveys, survey)
                 .groupBy(survey.member.id)
+                .orderBy(member.createdAt.asc())
                 .where(member.role.eq("ROLE_USER"))
                 .fetch();
 
@@ -79,7 +81,8 @@ public class QueryRepository {
                 ))
                 .from(member)
                 .innerJoin(member.surveys, survey)
-                .groupBy(survey.member.id)
+                .groupBy(member.member.id)
+                .orderBy(member.createdAt.asc())
                 .where(member.surveys.size().gt(0).and(member.role.eq("ROLE_BIZ")))
                 .fetch();
 
@@ -104,6 +107,7 @@ public class QueryRepository {
                 .innerJoin(survey.member, member)
                 .innerJoin(survey.surveyResponses, surveyResponse)
                 .groupBy(surveyResponse.survey.id)
+                .orderBy(survey.publishedAt.desc())
                 .fetch();
     }
 
@@ -148,6 +152,7 @@ public class QueryRepository {
                 .innerJoin(survey.surveyResponses, surveyResponse)
                 .where(survey.publishedAt.isNotNull())
                 .groupBy(surveyResponse.survey.id)
+                .orderBy(survey.publishedAt.desc())
                 .fetch();
     }
 
