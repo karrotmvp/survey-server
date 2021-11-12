@@ -1,6 +1,6 @@
 package com.daangn.survey.third.karrot;
 
-import com.daangn.survey.core.auth.jwt.model.AbstractAccessToken;
+import com.daangn.survey.core.auth.oauth.AbstractAccessToken;
 import com.daangn.survey.core.auth.oauth.SocialResolver;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.KarrotAuthenticationException;

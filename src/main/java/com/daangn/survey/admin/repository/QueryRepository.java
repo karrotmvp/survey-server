@@ -148,9 +148,9 @@ public class QueryRepository {
                 ))
                 .from(survey)
                 .innerJoin(survey.member, member)
-                .innerJoin(survey.surveyResponses, surveyResponse)
+                .leftJoin(survey.surveyResponses, surveyResponse)
                 .where(survey.publishedAt.isNotNull())
-                .groupBy(surveyResponse.survey.id)
+                .groupBy(survey.survey.id)
                 .orderBy(survey.publishedAt.desc())
                 .fetch();
     }
