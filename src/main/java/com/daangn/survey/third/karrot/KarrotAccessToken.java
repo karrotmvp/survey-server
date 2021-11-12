@@ -1,6 +1,6 @@
 package com.daangn.survey.third.karrot;
 
-import com.daangn.survey.core.auth.jwt.model.AbstractAccessToken;
+import com.daangn.survey.core.auth.oauth.AbstractAccessToken;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
