@@ -19,6 +19,7 @@
             <th>당근 ID</th>
             <th>설문 수</th>
             <th>지역</th>
+            <th>이미지 URL</th>
 <!--            <th>알림 받기 여부</th>-->
             <th>정보 업데이트</th>
         </tr>
@@ -29,7 +30,8 @@
             <td><a th:href="@{https://town.daangn.com/bp/{daangnId}(daangnId=${member.daangnId})}" th:text="${member.daangnId}">당근 ID</a></td>
             <td><a th:href="@{/daangn/admin/members/{memberId}(memberId=${member.memberId})}" th:text="${member.surveyCount}">설문 수</a></td>
             <td th:text="${member.region}">지역 정보</td>
-<!--            <td th:if="${member.isNotifying} == true" th:text="O">알림 받기</td>-->
+            <td><a th:href="${#uris.unescapePath(member.imageUrl)}">이미지 URL</a></td>
+            <!--            <td th:if="${member.isNotifying} == true" th:text="O">알림 받기</td>-->
 <!--            <td th:unless="${member.isNotifying} == true" th:text="X">알림 받기</td>-->
             <td><button></button></td>
         </tr>

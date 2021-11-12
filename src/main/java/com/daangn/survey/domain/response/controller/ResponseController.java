@@ -57,21 +57,6 @@ public class ResponseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.CREATE_RESPONSE));
     }
 
-    @Operation(summary = "답변 결과 조회", description = "설문 결과를 조회합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "답변 결과 조회 성공",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = SurveySummaryDto.class)))),
-            @ApiResponse(responseCode = "401", description = "답변 결과 조회 실패 (권한 에러)", content = @Content)
-    })
-    @GetMapping("/surveys/{surveyId}/aggregation")
-    public ResponseEntity<ResponseDto<List<SurveySummaryDto>>> getSurveyResponseAggregation(@Parameter(description = "Member", hidden = true) @CurrentUser Member member,
-                                                                          @PathVariable Long surveyId){
-
-        responseService.getAggregation(surveyId);
-
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_LIST));
-    }
-
     @Operation(summary = "유저 답변 이력 조회", description = "유저의 답변 이력을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 답변 이력 조회 성공",

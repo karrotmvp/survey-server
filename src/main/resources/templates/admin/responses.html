@@ -13,12 +13,14 @@
         <tr>
             <th>#</th>
             <th>답변 ID</th>
+            <th>설문</th>
             <th>답변자 명</th>
             <th>생성일</th>
         </tr>
         <tr th:each="response , index: ${responses}">
             <td th:text="${index.index + 1}">#</td>
             <td><a th:href="@{/daangn/admin/responses/{responseId}(responseId=${response.responseId})}" th:text="${response.responseId}">답변 ID</a></td>
+            <td th:text="${response.surveyTitle}">설문</td>
             <td th:text="${response.member}">답변자 명</td>
             <td th:text="${#temporals.format(response.createdAt, 'yyyy-MM-dd   HH:mm')}">생성일</td>
         </tr>
