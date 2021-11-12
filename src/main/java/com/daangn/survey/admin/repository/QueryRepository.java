@@ -33,7 +33,8 @@ public class QueryRepository {
                         member.daangnId.as("daangnId"),
                         member.name,
                         survey.member.id.count().as("surveyCount"),
-                        member.region
+                        member.region,
+                        member.imageUrl
                 ))
                 .from(member)
                 .innerJoin(member.surveys, survey)
@@ -52,7 +53,8 @@ public class QueryRepository {
                         member.daangnId.as("daangnId"),
                         member.name,
                         survey.member.id.count().as("surveyCount"),
-                        member.region
+                        member.region,
+                        member.imageUrl
                 ))
                 .from(member)
                 .innerJoin(member.surveys, survey)
@@ -72,8 +74,9 @@ public class QueryRepository {
                         member.daangnId.as("daangnId"),
                         member.name,
                         survey.member.id.count().as("surveyCount"),
-                        member.region
-                        ))
+                        member.region,
+                        member.imageUrl
+                ))
                 .from(member)
                 .innerJoin(member.surveys, survey)
                 .groupBy(survey.member.id)
