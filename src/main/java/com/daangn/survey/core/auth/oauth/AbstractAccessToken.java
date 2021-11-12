@@ -1,6 +1,4 @@
-package com.daangn.survey.core.auth.jwt.model;
-
-import lombok.Getter;
+package com.daangn.survey.core.auth.oauth;
 
 public abstract class AbstractAccessToken {
     public abstract String getAccessToken();
