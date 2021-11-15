@@ -52,6 +52,7 @@ class KarrotApiUtilTest {
     }
 
     @Test
+    @Disabled
     void resolveSchemeUrl(){
         KarrotSchemeUrl schemeUrl = karrotApiUtil.resolveSchemeUrl(frontUrl + "/survey/23");
 
