@@ -1,8 +1,15 @@
 package com.daangn.survey.common.util.shorturl.component;
 
+import com.daangn.survey.core.error.ErrorCode;
+import com.daangn.survey.core.error.exception.BusinessException;
+import com.daangn.survey.core.error.exception.UrlEncodeError;
+import com.google.common.hash.Hashing;
+import io.sentry.Sentry;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 
 @Slf4j
@@ -22,25 +29,24 @@ public class UrlEncoder {
         return sb.toString();
     }
 
-    public long decodeUrl(String param){
-        long sum = 0;
-        long power = 1;
-        for (int i = 0; i < param.length(); i++) {
-            sum += BASE62_CHAR.indexOf(param.charAt(i)) * power;
-            power *= BASE62;
+    public String urlEncoder(String seqStr) {
+        String encodeStr = "";
+        try {
+            encodeStr = encodeUrl(Long.parseLong(urlHashing(seqStr), 16));
+        } catch (Exception e){
+            Sentry.captureException(e);
+            throw new UrlEncodeError(ErrorCode.SHORT_URL_ENCODE_FAILURE);
         }
-        return sum;
-    }
-
-    public String urlEncoder(String seqStr) throws NoSuchAlgorithmException {
-        String encodeStr = encodeUrl(Integer.valueOf(seqStr));
-        log.info("base62 encode result:" + encodeStr);
+            log.info("base62 encode result:" + encodeStr);
         return encodeStr;
     }
 
-    public long urlDecoder(String encodeStr) throws NoSuchAlgorithmException {
-        long decodeVal = decodeUrl(encodeStr);
-        log.info("base62 decode result:" + decodeVal);
-        return decodeVal;
+
+    public String urlHashing(String originalString){
+        String sha256hex = Hashing.sha256()
+                .hashString(originalString, StandardCharsets.UTF_8)
+                .toString();
+
+        return sha256hex.substring(0, 10);
     }
 }
