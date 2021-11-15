@@ -3,6 +3,10 @@ package com.daangn.survey.third.karrot;
 import com.daangn.survey.core.auth.oauth.SocialResolver;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.KarrotAuthenticationException;
+import com.daangn.survey.third.karrot.member.KarrotAccessToken;
+import com.daangn.survey.third.karrot.member.KarrotBizProfileDetail;
+import com.daangn.survey.third.karrot.member.KarrotUserDetail;
+import com.daangn.survey.third.karrot.scheme.KarrotSchemeUrl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -119,6 +123,28 @@ public class KarrotApiUtil implements SocialResolver {
         sb.append(url);
 
         return sb.toString();
+    }
+
+    public KarrotSchemeUrl resolveSchemeUrl(String toUrl){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT, "application/json");
+        headers.set("X-Api-Key", appApiKey);
+
+        HttpEntity request = new HttpEntity(headers);
+
+        String url = "/api/v2/widget/entry_target_uri?to=" + toUrl;
+
+        ResponseEntity<KarrotSchemeUrl> response = restTemplate.exchange(
+                getRequestUrl(oApiUrl, url),
+                HttpMethod.GET,
+                request,
+                KarrotSchemeUrl.class
+        );
+
+        if(response.getBody().getData() == null)
+            throw new KarrotAuthenticationException(ErrorCode.KARROT_SCHEME_RESOLVE_FAILURE);
+
+        return response.getBody();
     }
 
 }
