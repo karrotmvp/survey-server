@@ -26,6 +26,7 @@ public enum ErrorCode {
     SURVEY_NOT_FOUND(404, "S001","Survey Not Found"),
     SURVEY_ALREADY_DELETED(401, "S002","Survey Already Deleted"),
     NOT_AUTHORIZED_FOR_DELETE(401, "S003","Member Not Authorized For Delete"),
+    PATCH_ABOUT_PUBLISHING_NOT_ALLOWED(400, "S004", "Patch About Publishing Not Allowed"),
 
     // Question
     QUESTION_TYPE_CONDITION_NOT_MATCHED(400, "Q001","Question Type Condition Not Matched"),

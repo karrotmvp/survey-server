@@ -1,6 +1,8 @@
 package com.daangn.survey.domain.survey.model.entity;
 
 import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.core.error.ErrorCode;
+import com.daangn.survey.core.error.exception.BusinessException;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.question.model.entity.Question;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
@@ -10,6 +12,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static java.util.stream.Collectors.reducing;
@@ -68,5 +71,15 @@ public class Survey extends BaseEntity {
 
     public int getSurveyEstimatedTime(){
         return getQuestions().stream().map(el -> el.getQuestionType().getQuestionEstimatedTime()).collect(reducing(Integer::sum)).get();
+    }
+
+    public void patchAboutPublishing(){
+        if(this.publishedAt == null)
+            this.publishedAt = LocalDateTime.now();
+        else if(ChronoUnit.HOURS.between(this.publishedAt, LocalDateTime.now()) <= 24)
+            this.publishedAt = null;
+        else
+            throw new BusinessException(ErrorCode.PATCH_ABOUT_PUBLISHING_NOT_ALLOWED);
+
     }
 }

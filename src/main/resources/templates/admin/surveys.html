@@ -18,6 +18,7 @@
             <th>답변 수</th>
             <th>설문 대상</th>
             <th>배포날짜</th>
+            <th>배포하기</th>
         </tr>
         <tr th:each="survey , index: ${surveys}">
             <td th:text="${index.index + 1}">#</td>
@@ -27,8 +28,22 @@
             <td><a th:href="@{/daangn/admin/responses/surveys/{surveyId}(surveyId=${survey.surveyId})}" th:text="${survey.responseCount}">답변 수</a></td>
             <td th:text="${survey.target}">설문 대상</td>
             <td th:text="${#temporals.format(survey.publishedAt, 'yyyy-MM-dd   HH:mm')}">배포날짜</td>
+            <td><button type="button" class="btn btn-secondary btn-sm" th:data-surveyId="${survey.surveyId}" onclick="patchSurveyToPublished(this.getAttribute('data-surveyId'))">배포</button></td>
         </tr>
     </table>
 </div>
 </body>
+<script>
+    function patchSurveyToPublished(surveyId) {
+        fetch(location.origin + '/daangn/admin/surveys/' + surveyId + "/publish", {
+            method: 'PATCH',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if(response.status == 200) alert("설문 배포 정보를 업데이트합니다");
+            else alert("배포 정보 업데이트에 실패했습니다.");
+        })
+    }
+</script>
 </html>

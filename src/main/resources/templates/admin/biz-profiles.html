@@ -33,7 +33,7 @@
             <td><a th:href="${#uris.unescapePath(member.imageUrl)}">이미지 URL</a></td>
             <!--            <td th:if="${member.isNotifying} == true" th:text="O">알림 받기</td>-->
 <!--            <td th:unless="${member.isNotifying} == true" th:text="X">알림 받기</td>-->
-            <td><button type="button" class="btn btn-secondary" th:data-daangnId="${member.daangnId}" onclick="update(this.getAttribute('data-daangnId'))">업데이트</button></td>
+            <td><button type="button" class="btn btn-secondary btn-sm" th:data-daangnId="${member.daangnId}" onclick="update(this.getAttribute('data-daangnId'))">업데이트</button></td>
         </tr>
     </table>
 </div>
@@ -49,9 +49,7 @@
         }).then(response => {
             if(response.status == 200) alert("정보가 업데이트되었습니다.");
             else alert("업데이트에 실패했습니다.");
-
         })
-
     }
 </script>
 </html>
