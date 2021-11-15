@@ -3,6 +3,7 @@ package com.daangn.survey.common.util.shorturl.controller;
 import com.daangn.survey.common.dto.ResponseDto;
 import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.common.util.shorturl.component.UrlConvertService;
+import com.daangn.survey.common.util.shorturl.model.dto.ShortUrlResponse;
 import com.daangn.survey.common.util.shorturl.model.dto.ShortUrlResult;
 import com.daangn.survey.third.karrot.KarrotApiUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,12 +35,12 @@ public class UrlController {
     // 이거 안 사용할 거 같은데 아닌가?
     @GetMapping("/daangn/short-url/convert")
     @ResponseBody
-    public ShortUrlResult convertShortUrl(@RequestParam(defaultValue = "") String urlStr){
+    public ShortUrlResult convertShortUrl(@RequestParam(defaultValue = "") String urlStr) {
         return urlConverter.getShortenUrl(urlStr.trim(), null);
     }
 
     @GetMapping("/scheme/redirect")
-    public String redirectToOriginUrl(@RequestParam String url){
+    public String redirectToOriginUrl(@RequestParam String url) {
 
         return "redirect:" + urlConverter.getShortenUrl(url.trim(), null).getShortUrl().getSchemeUrl();
     }
@@ -49,16 +50,19 @@ public class UrlController {
             @ApiResponse(responseCode = "201", description = "단축 URL 저장 성공", content = @Content)})
     @ResponseBody
     @GetMapping("/api/v1/url/surveys/{surveyId}")
-    public ResponseEntity<ResponseDto<?>> getSchemeUrl(@PathVariable Long surveyId){
+    public ResponseEntity<ResponseDto<?>> getSchemeUrl(@PathVariable Long surveyId) {
 
         String originUrl = frontUrl + "/survey/" + surveyId;
         String schemeUrl = "";
 
-        if(!urlConverter.existsUrl(originUrl))
+        if (!urlConverter.existsUrl(originUrl))
             schemeUrl = apiUtil.resolveSchemeUrl(frontUrl + "/survey/" + surveyId).getData().getWidget().getEntryTargetUri();
+
+        ShortUrlResult result = urlConverter.getShortenUrl(originUrl, schemeUrl);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_SHORT_URL,
-                        shortUrl + "/scheme/redirect?url=" + urlConverter.getShortenUrl(originUrl, schemeUrl).getShortUrl().getShortUrl()));
+                        new ShortUrlResponse(shortUrl + "/scheme/redirect?url=" + result.getShortUrl().getShortUrl(), result.getShortUrl().getSchemeUrl())));
     }
 }
+
