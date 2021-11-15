@@ -8,6 +8,7 @@ import com.daangn.survey.common.util.shorturl.model.dto.ShortUrlResult;
 import com.daangn.survey.third.karrot.KarrotApiUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,10 +48,10 @@ public class UrlController {
 
     @Operation(summary = "단축 URL 생성", description = "단축 URL을 생성합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "단축 URL 저장 성공", content = @Content)})
+            @ApiResponse(responseCode = "201", description = "단축 URL 저장 성공", content = @Content(schema = @Schema(implementation = ShortUrlResponse.class)))})
     @ResponseBody
     @GetMapping("/api/v1/url/surveys/{surveyId}")
-    public ResponseEntity<ResponseDto<?>> getSchemeUrl(@PathVariable Long surveyId) {
+    public ResponseEntity<ResponseDto<ShortUrlResponse>> getSchemeUrl(@PathVariable Long surveyId) {
 
         String originUrl = frontUrl + "/survey/" + surveyId;
         String schemeUrl = "";
