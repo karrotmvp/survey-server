@@ -1,5 +1,7 @@
 package com.daangn.survey.domain.survey.service;
 
+import com.daangn.survey.common.util.shorturl.model.dto.ShortUrlResult;
+import com.daangn.survey.common.util.shorturl.model.entity.ShortUrl;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.BusinessException;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;

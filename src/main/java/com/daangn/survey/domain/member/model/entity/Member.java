@@ -51,8 +51,8 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Survey> surveys;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<BizProfile> bizProfiles;
+//    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+//    private List<BizProfile> bizProfiles;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Notification> notifications;

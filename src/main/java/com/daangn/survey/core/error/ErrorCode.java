@@ -44,7 +44,8 @@ public enum ErrorCode {
     // Karrot
     KARROT_FORBIDDEN(403, "K001","Karrot Forbidden"),
     KARROT_BAD_REQUEST(400, "K002","Karrot Bad Request"),
-    KARROT_PROFILE_NOT_FOUND(404, "K003","Karrot Profile Not Found")
+    KARROT_PROFILE_NOT_FOUND(404, "K003","Karrot Profile Not Found"),
+    KARROT_SCHEME_RESOLVE_FAILURE(400, "K004", "Karrot Scheme Resolve Failure")
     ;
 
     private final String message;
