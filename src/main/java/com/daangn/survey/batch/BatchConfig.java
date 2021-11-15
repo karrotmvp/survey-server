@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 @EnableBatchProcessing
 @RequiredArgsConstructor
 public class BatchConfig {
@@ -22,7 +22,7 @@ public class BatchConfig {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
-    @Bean
+//    @Bean
     public Step step() {
         return this.stepBuilderFactory.get("step1")
                 .tasklet((contribution, chunkContext) -> {
@@ -31,7 +31,7 @@ public class BatchConfig {
                 }).build();
     }
 
-    @Bean
+//    @Bean
     public Job job(){
         return this.jobBuilderFactory.get("job")
                 .start(step())

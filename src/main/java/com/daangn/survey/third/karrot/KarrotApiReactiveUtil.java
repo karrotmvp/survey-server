@@ -4,6 +4,8 @@ import com.daangn.survey.core.auth.oauth.AbstractAccessToken;
 import com.daangn.survey.core.auth.oauth.SocialResolver;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.KarrotAuthenticationException;
+import com.daangn.survey.third.karrot.member.KarrotBizProfileDetail;
+import com.daangn.survey.third.karrot.member.KarrotUserDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;

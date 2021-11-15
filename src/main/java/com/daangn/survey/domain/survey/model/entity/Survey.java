@@ -38,6 +38,9 @@ public class Survey extends BaseEntity {
     @Column(name = "target", nullable = false)
     private int target;
 
+    @Column(name = "scheme_url", length = 1000)
+    private String schemeUrl;
+
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
 

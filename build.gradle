@@ -66,6 +66,10 @@ dependencies {
 
     // Batch
     implementation 'org.springframework.boot:spring-boot-starter-batch'
+
+    // Hash
+    implementation 'com.google.guava:guava:31.0.1-jre'
+
 }
 
 test {
