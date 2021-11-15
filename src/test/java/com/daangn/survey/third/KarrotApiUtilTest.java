@@ -4,9 +4,11 @@ import com.daangn.survey.third.karrot.member.KarrotAccessToken;
 import com.daangn.survey.third.karrot.KarrotApiUtil;
 import com.daangn.survey.third.karrot.member.KarrotBizProfileDetail;
 import com.daangn.survey.third.karrot.member.KarrotUserDetail;
+import com.daangn.survey.third.karrot.scheme.KarrotSchemeUrl;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +19,9 @@ class KarrotApiUtilTest {
 
     @Autowired
     private KarrotApiUtil karrotApiUtil;
+
+    @Value("${mudda.front-url}")
+    private String frontUrl;
 
     @Test
     @Disabled
@@ -43,6 +48,14 @@ class KarrotApiUtilTest {
         KarrotAccessToken karrotAccessToken = karrotApiUtil.resolveAccessToken(code);
 
         System.out.println(karrotAccessToken.getAccessToken());
+
+    }
+
+    @Test
+    void resolveSchemeUrl(){
+        KarrotSchemeUrl schemeUrl = karrotApiUtil.resolveSchemeUrl(frontUrl + "/survey/23");
+
+        System.out.println(schemeUrl.getData());
 
     }
 

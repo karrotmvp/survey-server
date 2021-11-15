@@ -19,6 +19,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -128,20 +130,24 @@ public class KarrotApiUtil implements SocialResolver {
     public KarrotSchemeUrl resolveSchemeUrl(String toUrl){
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, "application/json");
+        headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.set("X-Api-Key", appApiKey);
 
-        HttpEntity request = new HttpEntity(headers);
+        Map<String, String> params = new HashMap<>();
+        params.put("to", toUrl);
 
-        String url = "/api/v2/widget/entry_target_uri?to=" + toUrl;
+        HttpEntity request = new HttpEntity(params, headers);
+
+        String url = "/api/v2/widget/entry_target_uri";
 
         ResponseEntity<KarrotSchemeUrl> response = restTemplate.exchange(
                 getRequestUrl(oApiUrl, url),
-                HttpMethod.GET,
+                HttpMethod.POST,
                 request,
                 KarrotSchemeUrl.class
         );
 
-        if(response.getBody().getData() == null)
+        if(response.getBody().getData().getWidget() == null)
             throw new KarrotAuthenticationException(ErrorCode.KARROT_SCHEME_RESOLVE_FAILURE);
 
         return response.getBody();

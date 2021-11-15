@@ -23,11 +23,14 @@ public class ShortUrl extends BaseEntity {
     @Column(name = "short_url_id")
     private Long id;
 
-    @Column(name = "short_url")
+    @Column(name = "short_url", length = 1000)
     private String shortUrl;
 
     @Column(name = "origin_url", length = 1000)
     private String originUrl;
+
+    @Column(name = "scheme_url", length = 1000)
+    private String schemeUrl;
 
     @Builder.Default
     @Column(name = "req_count")

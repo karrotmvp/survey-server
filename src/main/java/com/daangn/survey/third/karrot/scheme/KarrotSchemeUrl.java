@@ -10,14 +10,22 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KarrotSchemeUrl {
-    private KarrotWidget data;
+    private KarrotData data;
 
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class KarrotWidget {
-        private String nodeId;
-        private String entryTargetUri;
+    public static class KarrotData {
+        private KarrotWidget widget;
+
+        @Getter
+        @NoArgsConstructor
+        @AllArgsConstructor
+        public static class  KarrotWidget{
+            private String nodeId;
+            private String entryTargetUri;
+        }
     }
+
 }
 
