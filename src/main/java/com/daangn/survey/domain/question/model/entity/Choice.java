@@ -1,6 +1,6 @@
 package com.daangn.survey.domain.question.model.entity;
 
-import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.common.model.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,5 +26,14 @@ public class Choice extends BaseEntity {
 
     @Column(nullable = false)
     private String value;
+
+    public void setOrder(int order){
+        this.number = order;
+    }
+
+    public Choice setQuestion(Question question){
+        this.question = question;
+        return this;
+    }
 
 }

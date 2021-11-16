@@ -1,13 +1,11 @@
 package com.daangn.survey;
 
-import com.amazonaws.services.sqs.model.Message;
-import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.third.messaging.sqs.ChatMessage;
 import com.daangn.survey.third.messaging.sqs.SqsSender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

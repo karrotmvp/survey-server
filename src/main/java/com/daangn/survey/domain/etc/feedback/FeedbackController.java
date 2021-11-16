@@ -1,6 +1,6 @@
-package com.daangn.survey.domain.etc.feedback.controller;
+package com.daangn.survey.domain.etc.feedback;
 
-import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.etc.feedback.model.dto.FeedbackDto;
 import com.daangn.survey.domain.etc.feedback.model.mapper.FeedbackMapper;

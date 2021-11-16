@@ -1,6 +1,6 @@
-package com.daangn.survey.core.auth.controller;
+package com.daangn.survey.core.auth;
 
-import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.core.auth.jwt.component.JwtCreator;
 import com.daangn.survey.core.auth.oauth.SocialResolver;

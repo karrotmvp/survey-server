@@ -15,7 +15,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info().title("DangGeun Survey API")
                         .description("DangGeun Survey Application")
-                        .version("v0.0.1"))
+                        .version("v1"))
                 .externalDocs(new ExternalDocumentation()
                         .description("DangGeun Survey Wiki Documentation")
                         .url("https://github.com/karrotmvp/survey-server"));

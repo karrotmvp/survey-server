@@ -1,6 +1,6 @@
-package com.daangn.survey.domain.etc.notification.controller;
+package com.daangn.survey.domain.etc.notification;
 
-import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.etc.notification.model.dto.NotificationDto;
 import com.daangn.survey.domain.etc.notification.model.mapper.NotificationMapper;

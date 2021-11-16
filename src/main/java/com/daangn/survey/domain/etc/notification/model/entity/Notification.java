@@ -1,6 +1,6 @@
 package com.daangn.survey.domain.etc.notification.model.entity;
 
-import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.common.model.BaseEntity;
 import com.daangn.survey.domain.member.model.entity.Member;
 import lombok.*;
 

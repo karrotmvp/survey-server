@@ -10,12 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface ChoiceResponseRepository extends JpaRepository<ChoiceResponse, Long> {
-    List<ChoiceResponse> findChoiceResponsesByQuestionIdAndChoiceId(Long questionId, Long choiceId);
-
-    int countChoiceResponsesByChoiceId(Long choiceId);
-
-    List<ChoiceResponse> findChoiceResponsesBySurveyResponseId(Long surveyResponseId);
-
     Optional<ChoiceResponse> findChoiceResponseByQuestionIdAndSurveyResponseId(Long questionId, Long surveyResponseId);
 
 }
