@@ -1,6 +1,5 @@
 package com.daangn.survey.domain.aggregation.model.individual;
 
-import com.daangn.survey.admin.dto.QuestionResponseDto;
 import com.daangn.survey.domain.response.model.entity.Answerable;
 import lombok.*;
 
@@ -10,7 +9,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminResponseDetailDto {
+public class IndividualResponseDetailDto {
     private QuestionResponseDto question;
     private Answerable response;
 }

@@ -3,7 +3,7 @@ package com.daangn.survey.admin;
 import com.daangn.survey.admin.dto.AdminMemberDto;
 import com.daangn.survey.admin.dto.AdminSurveyDto;
 import com.daangn.survey.admin.service.AdminService;
-import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.domain.aggregation.service.AggregationService;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.response.service.ResponseService;
@@ -29,39 +29,59 @@ public class AdminController {
     private final AdminService adminService;
     private final AggregationService aggregationService;
 
-
+    /**
+     * Surveys
+     */
     @GetMapping
     public String getSurveys(Model model, @RequestParam(required = false) String filter){
         List<AdminSurveyDto> surveys = filter != null && filter.equalsIgnoreCase("all")
-                                        ? adminService.getAdminSurveyDtos()
+                                        ? adminService.getAdminSurveysWhere(null)
                                         : adminService.getSurveysAboutPublished();
 
         model.addAttribute("surveys", surveys);
         return "admin/surveys";
     }
 
+    @GetMapping("/members/{memberId}")
+    public String memberSurveys(@PathVariable Long memberId, Model model){
+        model.addAttribute("surveys", adminService.getAdminSurveysWhere(memberId));
+        return "admin/surveys";
+    }
+
+    @GetMapping("/surveys/{surveyId}")
+    public String surveyDetail(@PathVariable Long surveyId, Model model){
+        model.addAttribute("survey", surveyService.findBySurveyId(surveyId));
+        return "admin/survey-detail";
+    }
+
+    /**
+     * Members
+     */
     @GetMapping("/biz-profiles")
     public String bizProfiles(Model model, @RequestParam(required = false) String filter){
 
         List<AdminMemberDto> memberDtoList = filter != null && filter.equalsIgnoreCase("counting")
-                ? adminService.getMembersByCondition()
-                : adminService.getAllBizProfiles();
+                ? adminService.getMembersWhere(0, "ROLE_BIZ")
+                : adminService.getMembersWhere(null, "ROLE_BIZ");
 
         model.addAttribute("members", memberDtoList);
         return "admin/biz-profiles";
     }
 
+    /**
+     * Responses
+     */
     @GetMapping("/responses/surveys/{surveyId}")
     public String surveyResponses(@PathVariable Long surveyId, Model model){
 
-        model.addAttribute("responses", adminService.getAdminResponses(surveyId));
+        model.addAttribute("responses", adminService.getAdminResponsesWhere(surveyId));
         return "admin/responses";
     }
 
     @GetMapping("/responses")
     public String getAllSurveyResponses(Model model){
 
-        model.addAttribute("responses", adminService.getAllAdminResponses());
+        model.addAttribute("responses", adminService.getAdminResponsesWhere(null));
         return "admin/responses";
     }
 
@@ -72,18 +92,6 @@ public class AdminController {
         model.addAttribute("responses", aggregationService.getIndividualSurveyResponse(surveyResponse));
 
         return "admin/response-detail";
-    }
-
-    @GetMapping("/members/{memberId}")
-    public String memberSurveys(@PathVariable Long memberId, Model model){
-        model.addAttribute("surveys", adminService.getAdminSurveysByMemberId(memberId));
-        return "admin/surveys";
-    }
-
-    @GetMapping("/surveys/{surveyId}")
-    public String surveyDetail(@PathVariable Long surveyId, Model model){
-        model.addAttribute("survey", surveyService.findBySurveyId(surveyId));
-        return "admin/survey-detail";
     }
 
     @ResponseBody

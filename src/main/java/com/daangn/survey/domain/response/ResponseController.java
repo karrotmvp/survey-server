@@ -1,36 +1,28 @@
-package com.daangn.survey.domain.response.controller;
+package com.daangn.survey.domain.response;
 
-import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.response.model.dto.SurveyResponseDto;
 import com.daangn.survey.domain.response.service.ResponseService;
-import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
-import com.daangn.survey.domain.survey.service.SurveyService;
-import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
 import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
-import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_LIST;
 import static com.daangn.survey.common.message.ResponseMessage.READ_USER_SURVEY_RESPONDED;
 
 @Slf4j

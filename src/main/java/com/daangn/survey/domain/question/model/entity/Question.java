@@ -1,6 +1,6 @@
 package com.daangn.survey.domain.question.model.entity;
 
-import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.common.model.BaseEntity;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import lombok.*;
 

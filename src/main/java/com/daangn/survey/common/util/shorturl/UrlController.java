@@ -1,6 +1,6 @@
-package com.daangn.survey.common.util.shorturl.controller;
+package com.daangn.survey.common.util.shorturl;
 
-import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.common.util.shorturl.component.UrlConvertService;
 import com.daangn.survey.common.util.shorturl.model.dto.ShortUrlResponse;

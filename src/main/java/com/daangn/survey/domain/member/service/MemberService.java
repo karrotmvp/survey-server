@@ -2,10 +2,8 @@ package com.daangn.survey.domain.member.service;
 
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
-import com.daangn.survey.domain.member.model.entity.BizProfile;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.mapper.MemberMapper;
-import com.daangn.survey.domain.member.repository.BizProfileRepository;
 import com.daangn.survey.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final BizProfileRepository bizProfileRepository;
     private final MemberMapper memberMapper;
 
     @Transactional
@@ -29,18 +26,6 @@ public class MemberService {
             return oldMember.get();
         } else
             return memberRepository.save(newMember);
-    }
-
-
-    @Transactional
-    public BizProfile updateBizProfile(String businessId){
-
-        Optional<BizProfile> bizProfile = bizProfileRepository.findBizProfileByBusinessId(businessId);
-
-        if(bizProfile.isPresent())
-            return null; // TODO: bizProfile.get().updateProfile();
-        else
-            return bizProfileRepository.save(BizProfile.builder().businessId(businessId).build());
     }
 
     @Transactional(readOnly = true)

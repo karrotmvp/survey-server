@@ -1,19 +1,15 @@
-package com.daangn.survey.domain.aggregation.controller;
+package com.daangn.survey.domain.aggregation;
 
-import com.daangn.survey.admin.service.AdminService;
-import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.aggregation.model.*;
-import com.daangn.survey.domain.aggregation.model.individual.AdminResponseDetailDto;
+import com.daangn.survey.domain.aggregation.model.individual.IndividualResponseDetailDto;
 import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
 import com.daangn.survey.domain.aggregation.service.AggregationService;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.response.service.ResponseService;
-import com.daangn.survey.domain.survey.model.dto.SurveyDto;
-import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,8 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_LIST;
 
 @Tag(name = "집계 엔드포인트")
 @RequiredArgsConstructor
@@ -72,11 +66,11 @@ public class AggregationController {
     @Operation(summary = "개별 답변 정보 조회", description = "개별 답변 정보를 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "개별 답변 정보 조회 성공",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = AdminResponseDetailDto.class)))),
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = IndividualResponseDetailDto.class)))),
             @ApiResponse(responseCode = "401", description = "개별 답변 정보 조회 실패 (권한 에러)", content = @Content)
     })
     @GetMapping("/individual/{responseId}")
-    public ResponseEntity<ResponseDto<List<AdminResponseDetailDto>>> getIndividualResponse(@PathVariable Long responseId){
+    public ResponseEntity<ResponseDto<List<IndividualResponseDetailDto>>> getIndividualResponse(@PathVariable Long responseId){
        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, aggregationService.getIndividualSurveyResponse(responseService.getSurveyResponse(responseId))));
     }
 }

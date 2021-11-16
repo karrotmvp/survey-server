@@ -1,4 +1,4 @@
-package com.daangn.survey.common.dto;
+package com.daangn.survey.common.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;

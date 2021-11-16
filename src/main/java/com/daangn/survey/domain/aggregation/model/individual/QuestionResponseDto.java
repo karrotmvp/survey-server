@@ -1,4 +1,4 @@
-package com.daangn.survey.admin.dto;
+package com.daangn.survey.domain.aggregation.model.individual;
 
 import com.daangn.survey.domain.question.model.dto.ChoiceDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
