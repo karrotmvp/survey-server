@@ -1,5 +1,6 @@
 package com.daangn.survey.admin.dto;
 
+import com.daangn.survey.domain.survey.model.entity.Target;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,5 +16,10 @@ public class AdminSurveyDto {
     private String title;
     private long responseCount;
     private int target;
+    private String korTarget;
     private LocalDateTime publishedAt;
+
+    public void resolveKorTarget(){
+        this.korTarget = Target.findValue(target);
+    }
 }

@@ -71,17 +71,26 @@ public class AdminService {
 
     @Transactional(readOnly = true)
     public List<AdminSurveyDto> getSurveysAboutPublished(){
-        return queryRepository.getAdminSurveysAboutPublished();
+        List<AdminSurveyDto> surveyDtos = queryRepository.getAdminSurveysAboutPublished();
+        surveyDtos.forEach(AdminSurveyDto::resolveKorTarget);
+
+        return surveyDtos;
     }
 
     @Transactional(readOnly = true)
     public List<AdminSurveyDto> getAdminSurveyDtos(){
-        return queryRepository.getAdminSurveys();
+        List<AdminSurveyDto> surveyDtos = queryRepository.getAdminSurveys();
+        surveyDtos.forEach(AdminSurveyDto::resolveKorTarget);
+
+        return surveyDtos;
     }
 
     @Transactional(readOnly = true)
     public List<AdminSurveyDto> getAdminSurveysByMemberId(Long memberId){
-        return queryRepository.getAdminSurveysByMemberId(memberId);
+        List<AdminSurveyDto> surveyDtos = queryRepository.getAdminSurveysByMemberId(memberId);
+        surveyDtos.forEach(AdminSurveyDto::resolveKorTarget);
+
+        return surveyDtos;
     }
 
     // Responses
