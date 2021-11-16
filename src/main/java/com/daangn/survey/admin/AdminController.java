@@ -3,23 +3,21 @@ package com.daangn.survey.admin;
 import com.daangn.survey.admin.dto.AdminMemberDto;
 import com.daangn.survey.admin.dto.AdminSurveyDto;
 import com.daangn.survey.admin.service.AdminService;
+import com.daangn.survey.common.dto.ResponseDto;
 import com.daangn.survey.domain.aggregation.service.AggregationService;
-import com.daangn.survey.domain.member.model.entity.Member;
-import com.daangn.survey.domain.member.model.mapper.MemberMapper;
-import com.daangn.survey.domain.member.service.MemberService;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.response.service.ResponseService;
-import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.daangn.survey.common.message.ResponseMessage.PUBLISH_SURVEY;
 
 @Controller
 @RequestMapping("/daangn/admin")
@@ -86,6 +84,14 @@ public class AdminController {
     public String surveyDetail(@PathVariable Long surveyId, Model model){
         model.addAttribute("survey", surveyService.findBySurveyId(surveyId));
         return "admin/survey-detail";
+    }
+
+    @ResponseBody
+    @PatchMapping("/surveys/{surveyId}/publish")
+    public ResponseEntity<ResponseDto<?>> patchSurveyToPublished(@PathVariable Long surveyId){
+        surveyService.patchSurveyAboutPublishing(surveyId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, PUBLISH_SURVEY));
     }
 
 }

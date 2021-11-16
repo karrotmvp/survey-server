@@ -1,7 +1,5 @@
 package com.daangn.survey.domain.survey.service;
 
-import com.daangn.survey.common.util.shorturl.model.dto.ShortUrlResult;
-import com.daangn.survey.common.util.shorturl.model.entity.ShortUrl;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.BusinessException;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
@@ -113,7 +111,15 @@ public class SurveyServiceImpl implements SurveyService{
         surveyRepository.delete(survey);
     }
 
+    @Transactional
+    public void patchSurveyAboutPublishing(Long surveyId){
+        Survey survey = findSurvey(surveyId);
+
+        survey.patchAboutPublishing();
+    }
+
     private Survey findSurvey(Long surveyId){
         return surveyRepository.findById(surveyId).orElseThrow(() -> new EntityNotFoundException(ErrorCode.SURVEY_NOT_FOUND));
     }
+
 }
