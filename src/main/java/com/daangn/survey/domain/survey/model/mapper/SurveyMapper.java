@@ -26,6 +26,7 @@ public interface SurveyMapper {
     SurveyDto toDetailDto(Survey survey);
 
     @Mapping(target = "member", source = "member")
+    @Mapping(target = "id", ignore = true)
     Survey toEntity(SurveyDto surveyDto, Member member);
 
     @Mapping(target = "estimatedTime", source = "estimatedTime")

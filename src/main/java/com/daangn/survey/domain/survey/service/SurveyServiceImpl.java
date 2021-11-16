@@ -5,17 +5,10 @@ import com.daangn.survey.core.error.exception.BusinessException;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.mapper.MemberMapper;
-import com.daangn.survey.domain.question.model.dto.ChoiceDto;
-import com.daangn.survey.domain.question.model.dto.QuestionDto;
 import com.daangn.survey.domain.question.model.entity.Choice;
 import com.daangn.survey.domain.question.model.entity.Question;
-import com.daangn.survey.domain.question.model.entity.QuestionType;
-import com.daangn.survey.domain.question.model.entity.QuestionTypeCode;
-import com.daangn.survey.domain.question.model.mapper.ChoiceMapper;
-import com.daangn.survey.domain.question.model.mapper.QuestionMapper;
 import com.daangn.survey.domain.question.repository.ChoiceRepository;
 import com.daangn.survey.domain.question.repository.QuestionRepository;
-import com.daangn.survey.domain.question.service.QuestionService;
 import com.daangn.survey.domain.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
@@ -23,15 +16,11 @@ import com.daangn.survey.domain.survey.model.entity.Survey;
 import com.daangn.survey.domain.survey.model.mapper.SurveyMapper;
 import com.daangn.survey.domain.survey.repository.SurveyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.reducing;
 
 @Service
 @RequiredArgsConstructor
@@ -39,41 +28,29 @@ public class SurveyServiceImpl implements SurveyService{
     private final SurveyRepository surveyRepository;
     private final QuestionRepository questionRepository;
     private final ChoiceRepository choiceRepository;
-    private final QuestionService questionService;
 
     private final SurveyMapper surveyMapper;
-    private final QuestionMapper questionMapper;
-    private final ChoiceMapper choiceMapper;
     private final MemberMapper memberMapper;
 
-    @PreAuthorize("hasRole('ROLE_BIZ')")
+
     @Transactional
-    public void saveSurvey(Member member, SurveyDto surveyDto){
-        List<Question> questions = new LinkedList<>();
-        List<Choice> choices = new LinkedList<>();
+    public void saveSurvey(Member member, SurveyDto surveyDto) {
+        Survey survey = surveyMapper.toEntity(surveyDto, member);
 
-        Survey survey = surveyMapper.entityBuilder(surveyDto, member);
+        List<Question> questions = survey.getQuestions()
+                                        .stream()
+                                        .map(el -> el.setSurvey(survey))
+                                        .collect(Collectors.toList());
 
-        for(int idx = 0; idx < surveyDto.getQuestions().size(); idx++){
+        questions.forEach(el-> el.setOrder(questions.indexOf(el)));
 
-            QuestionDto questionDto = surveyDto.getQuestions().get(idx);
+        List<Choice> choices = survey.getQuestions()
+                .stream()
+                .filter(el -> el.getChoices() != null)
+                .flatMap(el -> el.getChoices().parallelStream().map(el2-> el2.setQuestion(el)))
+                .collect(Collectors.toList());
 
-            QuestionType questionType = questionService.findQuestionType(questionDto.getQuestionType());
-
-            Question question = questionMapper.entityBuilder(questionDto, survey, idx, questionType);
-
-            questions.add(question);
-
-            if(!QuestionTypeCode.CHOICE_QUESTION.getNumber().equals(questionDto.getQuestionType()))
-                continue;
-
-            for (int number = 0; number < questionDto.getChoices().size(); number++) {
-                ChoiceDto choiceDto = questionDto.getChoices().get(number);
-
-                choices.add(choiceMapper.entityBuilder(choiceDto, question,  number));
-            }
-
-        }
+        choices.forEach(el -> el.setOrder(choices.indexOf(el)));
 
         choiceRepository.saveAll(choices);
         questionRepository.saveAll(questions);
@@ -98,7 +75,8 @@ public class SurveyServiceImpl implements SurveyService{
         Survey survey = findSurvey(surveyId);
         // Todo: surveyInfo를 읽어들이고, 거기에 적한 daangnId로 엔티티를 읽어들이고 사용자 정보를 채워야 함
 
-        return surveyMapper.toSurveyBriefDtoWithMember(survey, memberMapper.toBizProfileDtoFromMember(survey.getMember()), survey.getSurveyEstimatedTime());
+        return surveyMapper.toSurveyBriefDtoWithMember(survey,
+                memberMapper.toBizProfileDtoFromMember(survey.getMember()), survey.getSurveyEstimatedTime());
     }
 
     @Transactional

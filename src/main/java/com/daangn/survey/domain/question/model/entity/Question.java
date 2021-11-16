@@ -53,4 +53,12 @@ public class Question extends BaseEntity {
             return choices.isEmpty();
     }
 
+    public void setOrder(int order){
+        this.number = order;
+    }
+
+    public Question setSurvey(Survey survey){
+        this.survey = survey;
+        return this;
+    }
 }

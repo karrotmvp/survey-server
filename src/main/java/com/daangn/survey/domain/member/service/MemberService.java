@@ -30,6 +30,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member findByDaangnId(String daangnId){
+
         return memberRepository.findMemberByDaangnId(daangnId)
                                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
     }

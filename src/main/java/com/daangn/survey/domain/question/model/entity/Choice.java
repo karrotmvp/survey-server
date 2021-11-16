@@ -27,4 +27,13 @@ public class Choice extends BaseEntity {
     @Column(nullable = false)
     private String value;
 
+    public void setOrder(int order){
+        this.number = order;
+    }
+
+    public Choice setQuestion(Question question){
+        this.question = question;
+        return this;
+    }
+
 }
