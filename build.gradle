@@ -49,8 +49,9 @@ dependencies {
     implementation 'com.querydsl:querydsl-core'
 
     // Database
-    runtimeOnly 'com.h2database:h2'
     implementation 'mysql:mysql-connector-java:8.0.25'
+    runtimeOnly 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
     // Logging
     implementation 'io.sentry:sentry-spring-boot-starter:5.2.3'
@@ -58,6 +59,7 @@ dependencies {
 
     // Web
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.5.5'
+
 
     // Event
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
