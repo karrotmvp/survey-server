@@ -15,7 +15,7 @@ class QueryRepositoryTest {
 
     @Test
     void getSurveysAboutPublished() {
-        List<AdminSurveyDto> list = queryRepository.getAdminSurveys();
+        List<AdminSurveyDto> list = queryRepository.getAdminSurveysAboutPublished();
 
         System.out.println(list);
 
