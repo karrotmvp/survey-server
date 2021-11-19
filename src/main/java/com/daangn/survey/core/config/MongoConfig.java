@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @Configuration
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
-    @Value("${SPRING_DATA_MONGODB_URI:#{null}}")
+    @Value("${spring.data.mongodb.uri:#{null}}")
     private String mongoUrl;
 
     @Value("${spring.data.mongodb.database}")
