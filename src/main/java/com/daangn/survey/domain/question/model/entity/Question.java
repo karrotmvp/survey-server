@@ -1,6 +1,6 @@
 package com.daangn.survey.domain.question.model.entity;
 
-import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.common.model.BaseEntity;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import lombok.*;
 
@@ -53,4 +53,12 @@ public class Question extends BaseEntity {
             return choices.isEmpty();
     }
 
+    public void setOrder(int order){
+        this.number = order;
+    }
+
+    public Question setSurvey(Survey survey){
+        this.survey = survey;
+        return this;
+    }
 }

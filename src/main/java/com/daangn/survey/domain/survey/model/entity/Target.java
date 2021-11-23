@@ -1,5 +1,6 @@
 package com.daangn.survey.domain.survey.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -20,6 +21,10 @@ public enum Target {
 
     public static String findValue(int code){
         return Arrays.stream(Target.values()).filter(el -> el.getCode() == code).findFirst().get().getValue();
+    }
 
+    @JsonCreator
+    public static Target from(int code) {
+        return Target.valueOf(findValue(code));
     }
 }

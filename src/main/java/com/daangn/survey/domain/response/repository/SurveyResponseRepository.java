@@ -10,6 +10,4 @@ import java.util.Optional;
 @Repository
 public interface SurveyResponseRepository extends JpaRepository<SurveyResponse, Long> {
     boolean existsSurveyResponseBySurveyIdAndMemberId(Long surveyId, Long memberId);
-    Optional<SurveyResponse> findSurveyResponseBySurveyId(Long surveyId);
-    List<SurveyResponse> findSurveyResponsesBySurveyId(Long surveyId);
 }

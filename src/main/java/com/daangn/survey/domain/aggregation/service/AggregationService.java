@@ -1,11 +1,11 @@
 package com.daangn.survey.domain.aggregation.service;
 
-import com.daangn.survey.admin.dto.QuestionResponseDto;
+import com.daangn.survey.domain.aggregation.model.individual.QuestionResponseDto;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
 import com.daangn.survey.domain.aggregation.model.QuestionAggregation;
 import com.daangn.survey.domain.aggregation.model.SurveyAggregation;
-import com.daangn.survey.domain.aggregation.model.individual.AdminResponseDetailDto;
+import com.daangn.survey.domain.aggregation.model.individual.IndividualResponseDetailDto;
 import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
 import com.daangn.survey.domain.aggregation.repository.AggregateRepository;
 import com.daangn.survey.domain.question.model.entity.Question;
@@ -61,23 +61,23 @@ public class AggregationService {
     }
 
     @Transactional(readOnly = true)
-    public List<AdminResponseDetailDto> getIndividualSurveyResponse(SurveyResponse surveyResponse){
+    public List<IndividualResponseDetailDto> getIndividualSurveyResponse(SurveyResponse surveyResponse){
 
-        List<AdminResponseDetailDto> adminResponses = new LinkedList<>();
+        List<IndividualResponseDetailDto> adminResponses = new LinkedList<>();
 
         for(Question question : surveyResponse.getSurvey().getQuestions()){
-            AdminResponseDetailDto adminResponseDetailDto = AdminResponseDetailDto.builder().build();
+            IndividualResponseDetailDto individualResponseDetailDto = IndividualResponseDetailDto.builder().build();
 
-            QuestionResponseDto questionResponse = QuestionResponseDto.builder().question(question.getText()).questionType(question.getQuestionType().getId()).build();
+            QuestionResponseDto questionResponse = QuestionResponseDto.builder().text(question.getText()).questionType(question.getQuestionType().getId()).build();
 
-            adminResponseDetailDto.setQuestion(questionResponse);
+            individualResponseDetailDto.setQuestion(questionResponse);
 
             switch(QuestionTypeCode.findByNumber(question.getQuestionType().getId())){
                 case TEXT_QUESTION:
 
                     TextResponse textResponse = textResponseRepository.findTextResponseByQuestionIdAndSurveyResponseId(question.getId(), surveyResponse.getId())
                             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
-                    adminResponseDetailDto.setResponse(responseMapper.toDtoFromTextResponse(textResponse));
+                    individualResponseDetailDto.setResponse(responseMapper.toDtoFromTextResponse(textResponse));
                     break;
 
                 case CHOICE_QUESTION:
@@ -86,11 +86,11 @@ public class AggregationService {
 
                     ChoiceResponse choiceResponse = choiceResponseRepository.findChoiceResponseByQuestionIdAndSurveyResponseId(question.getId(), surveyResponse.getId())
                             .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
-                    adminResponseDetailDto.setResponse(responseMapper.toDtoFromChoiceResponse(choiceResponse));
+                    individualResponseDetailDto.setResponse(responseMapper.toDtoFromChoiceResponse(choiceResponse));
                     break;
             }
 
-            adminResponses.add(adminResponseDetailDto);
+            adminResponses.add(individualResponseDetailDto);
         }
 
         return adminResponses;

@@ -1,6 +1,6 @@
 package com.daangn.survey.domain.survey.model.entity;
 
-import com.daangn.survey.common.entity.BaseEntity;
+import com.daangn.survey.common.model.BaseEntity;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.BusinessException;
 import com.daangn.survey.domain.member.model.entity.Member;

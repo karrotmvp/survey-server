@@ -1,6 +1,6 @@
-package com.daangn.survey.domain.survey.controller;
+package com.daangn.survey.domain.survey;
 
-import com.daangn.survey.common.dto.ResponseDto;
+import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.survey.model.dto.SurveyBriefDto;

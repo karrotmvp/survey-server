@@ -12,8 +12,4 @@ import java.util.Optional;
 @Repository
 public interface SurveyRepository extends JpaRepository<Survey, Long> {
     List<Survey> findSurveysByMemberIdOrderByCreatedAtDesc(Long memberId);
-
-    List<Survey> findSurveysByMemberIdOrderByCreatedAt(Long memberId);
-
-    List<Survey> findSurveysByPublishedAtNotNull();
 }

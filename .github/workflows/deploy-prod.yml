@@ -81,6 +81,13 @@ jobs:
           property: 'sentry.dsn'
           value: ${{ secrets.SENTRY_PRODUCTION_DSN }}
 
+#      - name: Set Mongo
+#        uses: christian-draeger/write-properties@1.0.1
+#        with:
+#          path: './src/main/resources/application-prod.properties'
+#          property: 'spring.data.mongodb.uri'
+#          value: ${{ secrets.SPRING_DATA_MONGODB_URI_PROD }}
+
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
         shell: bash
@@ -88,6 +95,17 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build
         shell: bash
+
+      - name: Gradle 빌드 캐싱
+        id: gradle-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2

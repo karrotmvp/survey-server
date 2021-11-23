@@ -9,7 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface TextResponseRepository extends JpaRepository<TextResponse, Long> {
-    List<TextResponse> findTextResponsesByQuestionId(Long questionId);
-    List<TextResponse> findTextResponsesBySurveyResponseId(Long surveyResponseId);
     Optional<TextResponse> findTextResponseByQuestionIdAndSurveyResponseId(Long questionId, Long surveyResponseId);
 }

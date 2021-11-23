@@ -1,4 +1,4 @@
-package com.daangn.survey.common.entity;
+package com.daangn.survey.common.model;
 
 import lombok.Getter;
 import lombok.Setter;

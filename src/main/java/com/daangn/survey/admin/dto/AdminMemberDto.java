@@ -14,31 +14,22 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AdminMemberDto {
 
-    @Schema(description = "멤버 ID")
     private Long memberId;
 
-    @Schema(description = "당근 ID")
     private String daangnId;
 
-    @Schema(description = "당근 이름")
     private String name;
 
-    @Schema(description = "이미지 URL")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String imageUrl;
 
-    @Schema(description = "역할")
     private String role;
 
-    @Schema(description = "설문 수")
     private long surveyCount;
 
-    @Schema(description = "채팅 받기 여부")
     private boolean notifying;
 
-    @Schema(description = "지역")
     private String region;
 
-    @Schema(description = "가입일")
     private LocalDateTime createdAt;
 }
