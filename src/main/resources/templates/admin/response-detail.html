@@ -22,13 +22,13 @@
         <th:block th:switch="${response.question.questionType}" >
             <div th:case="2">
                 <span> 질문 타입 : 주관식</span> <br>
-                질문 내용 : <span th:text="${response.question.question}">질문 내용</span> <br>
+                질문 내용 : <span th:text="${response.question.text}">질문 내용</span> <br>
                 질문 대답 : <span th:text="${response.response.answer}">질문 대답</span>
 
             </div>
             <div th:case="3">
                 <span> 질문 타입 : 객관식</span> <br>
-                질문 내용 : <span th:text="${response.question.question}">질문 내용</span> <br>
+                질문 내용 : <span th:text="${response.question.text}">질문 내용</span> <br>
                 선택지 : <span th:each="choice, index: ${response.question.choices}">
                     </t> <span th:text="${choice.value}">선택지 값</span> /
                 </span> </br>
