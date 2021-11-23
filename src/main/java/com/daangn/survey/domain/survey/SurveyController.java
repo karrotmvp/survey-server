@@ -71,7 +71,7 @@ public class SurveyController {
             @ApiResponse(responseCode = "401", description = "설문 리스트 조회 실패 (권한 에러)", content = @Content(schema = @Schema(hidden = true)))
     })
     @GetMapping("{surveyId}")
-    public ResponseEntity<ResponseDto<?>> getSurveyDetail(@PathVariable Long surveyId){
+    public ResponseEntity<ResponseDto<SurveyDto>> getSurveyDetail(@PathVariable Long surveyId){
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_DETAIL, surveyService.findBySurveyId(surveyId)));
     }
