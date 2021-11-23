@@ -1,16 +1,14 @@
 package com.daangn.survey.domain.aggregation;
 
-import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.common.message.ResponseMessage;
+import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
-import com.daangn.survey.domain.aggregation.model.*;
+import com.daangn.survey.domain.aggregation.model.SurveyAggregation;
 import com.daangn.survey.domain.aggregation.model.individual.IndividualResponseDetailDto;
 import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
 import com.daangn.survey.domain.aggregation.service.AggregationService;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.response.service.ResponseService;
-import com.daangn.survey.mongo.response.ResponseMongoRepository;
-import com.daangn.survey.mongo.response.TestEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,20 +19,21 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @Tag(name = "집계 엔드포인트")
 @RequiredArgsConstructor
-@RequestMapping("/api/v1//aggregation")
+@RequestMapping("/api/v1/aggregation")
 @RestController
 public class AggregationController {
 
     private final ResponseService responseService;
     private final AggregationService aggregationService;
-    private final ResponseMongoRepository mongoRepository;
 
     // TODO: 권한 체크
     @Operation(summary = "답변 통계 조회", description = "설문 결과를 조회합니다.")
@@ -73,11 +72,5 @@ public class AggregationController {
     @GetMapping("/individual/{responseId}")
     public ResponseEntity<ResponseDto<List<IndividualResponseDetailDto>>> getIndividualResponse(@PathVariable Long responseId){
        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, aggregationService.getIndividualSurveyResponse(responseService.getSurveyResponse(responseId))));
-    }
-
-    @PostMapping("/test")
-    public ResponseEntity<ResponseDto<?>> insert(@RequestBody Map<String, Object> requestBody){
-        mongoRepository.insert(TestEntity.builder().data(requestBody).build());
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoRepository.getOne((Integer) requestBody.get("surveyId"))));
     }
 }

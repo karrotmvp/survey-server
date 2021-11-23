@@ -68,7 +68,7 @@ public class AggregationService {
         for(Question question : surveyResponse.getSurvey().getQuestions()){
             IndividualResponseDetailDto individualResponseDetailDto = IndividualResponseDetailDto.builder().build();
 
-            QuestionResponseDto questionResponse = QuestionResponseDto.builder().question(question.getText()).questionType(question.getQuestionType().getId()).build();
+            QuestionResponseDto questionResponse = QuestionResponseDto.builder().text(question.getText()).questionType(question.getQuestionType().getId()).build();
 
             individualResponseDetailDto.setQuestion(questionResponse);
 
