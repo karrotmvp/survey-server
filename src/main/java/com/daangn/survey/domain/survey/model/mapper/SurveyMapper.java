@@ -35,12 +35,4 @@ public interface SurveyMapper {
     @Mapping(target = "createdAt", source = "survey.createdAt")
     @Mapping(target = "bizProfile", source = "bizProfileDto")
     SurveyBriefDto toSurveyBriefDtoWithMember(Survey survey, BizProfileDto bizProfileDto, int estimatedTime);
-
-    default Survey entityBuilder(SurveyDto surveyDto, Member member){
-        return Survey.builder()
-                .member(member)
-                .target(surveyDto.getTarget())
-                .title(surveyDto.getTitle())
-                .build();
-    }
 }

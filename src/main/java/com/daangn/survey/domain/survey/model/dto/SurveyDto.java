@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,4 +31,7 @@ public class SurveyDto {
 
     @Schema(description = "질문들", required = true)
     private List<QuestionDto> questions;
+
+    @Schema(description = "생성일")
+    private LocalDateTime createdAt;
 }
