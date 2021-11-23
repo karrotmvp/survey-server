@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import static org.springframework.data.mongodb.core.aggregation.AggregationUpdate.update;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -31,6 +30,10 @@ public class MongoRepository {
                 .matching(query(where("data.surveyId").is(surveyId)))
                 .apply((new Update().inc("data.responses.0.questionType", 1)))
                 .upsert();
+
+    }
+
+    public void updateAggregateResponse(){
 
     }
 }

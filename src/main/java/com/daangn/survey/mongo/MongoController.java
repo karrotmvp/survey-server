@@ -19,7 +19,6 @@ public class MongoController {
     @PostMapping("/survey")
     public ResponseEntity<ResponseDto<?>> insert(@RequestBody Map<String, Object> requestBody){
 
-        mongoService.insertOne(SurveyMongo.builder().data(requestBody).build());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getOne((Integer) requestBody.get("userId"))));
@@ -28,7 +27,6 @@ public class MongoController {
     @PostMapping("/aggregate-survey")
     public ResponseEntity<ResponseDto<?>> aggregateSurvey(@RequestBody Map<String, Object> requestBody){
 
-        mongoService.insertOne(SurveyMongo.builder().data(requestBody).build());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getOne((Integer) requestBody.get("userId"))));
