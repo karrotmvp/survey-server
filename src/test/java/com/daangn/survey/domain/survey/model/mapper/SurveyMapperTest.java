@@ -5,13 +5,13 @@ import com.daangn.survey.domain.question.model.entity.Choice;
 import com.daangn.survey.domain.question.model.entity.Question;
 import com.daangn.survey.domain.question.model.entity.QuestionType;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
+import com.daangn.survey.domain.survey.model.dto.SurveyRequestDto;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import com.daangn.survey.domain.survey.model.entity.Target;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 
@@ -101,9 +101,9 @@ class SurveyMapperTest {
 
         Gson gson = new Gson();
 
-        SurveyDto surveyDto = gson.fromJson(json, SurveyDto.class);
+        SurveyRequestDto surveyRequestDto = gson.fromJson(json, SurveyRequestDto.class);
 
-        Survey survey = surveyMapper.toEntity(surveyDto, member);
+        Survey survey = surveyMapper.toEntity(surveyRequestDto, member);
 
         System.out.println(survey.toString());
     }

@@ -11,6 +11,7 @@ import com.daangn.survey.domain.question.repository.ChoiceRepository;
 import com.daangn.survey.domain.question.repository.QuestionRepository;
 import com.daangn.survey.domain.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
+import com.daangn.survey.domain.survey.model.dto.SurveyRequestDto;
 import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import com.daangn.survey.domain.survey.model.mapper.SurveyMapper;
@@ -34,8 +35,8 @@ public class SurveyServiceImpl implements SurveyService{
 
 
     @Transactional
-    public void saveSurvey(Member member, SurveyDto surveyDto) {
-        Survey survey = surveyMapper.toEntity(surveyDto, member);
+    public void saveSurvey(Member member, SurveyRequestDto surveyRequestDto) {
+        Survey survey = surveyMapper.toEntity(surveyRequestDto, member);
 
         List<Question> questions = survey.getQuestions()
                                         .stream()

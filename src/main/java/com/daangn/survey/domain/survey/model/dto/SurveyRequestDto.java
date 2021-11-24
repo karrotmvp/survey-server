@@ -1,20 +1,21 @@
 package com.daangn.survey.domain.survey.model.dto;
 
-
 import com.daangn.survey.domain.question.model.dto.QuestionDto;
+import com.daangn.survey.domain.survey.model.entity.Target;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 @Builder
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SurveyDto {
+public class SurveyRequestDto {
     @Schema(description = "설문 ID",
             example = "1", readOnly = true)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -30,7 +31,4 @@ public class SurveyDto {
 
     @Schema(description = "질문들", required = true)
     private List<QuestionDto> questions;
-
-    @Schema(description = "생성일")
-    private LocalDateTime createdAt;
 }
