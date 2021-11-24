@@ -2,10 +2,10 @@ package com.daangn.survey.domain.survey.model.mapper;
 
 import com.daangn.survey.domain.member.model.dto.BizProfileDto;
 import com.daangn.survey.domain.member.model.entity.Member;
-import com.daangn.survey.domain.member.model.mapper.MemberMapper;
 import com.daangn.survey.domain.question.model.mapper.QuestionMapper;
 import com.daangn.survey.domain.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
+import com.daangn.survey.domain.survey.model.dto.SurveyRequestDto;
 import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import org.mapstruct.Mapper;
@@ -28,7 +28,7 @@ public interface SurveyMapper {
     @Mapping(target = "member", source = "member")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    Survey toEntity(SurveyDto surveyDto, Member member);
+    Survey toEntity(SurveyRequestDto surveyRequestDto, Member member);
 
     @Mapping(target = "estimatedTime", source = "estimatedTime")
     @Mapping(target = "questionCount", expression = "java(survey.getQuestions().size())")
