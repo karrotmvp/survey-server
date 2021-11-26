@@ -54,7 +54,6 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_JWT_CUSTOMER, jwt));
     }
 
-    // Todo: @Deprecated
     @Operation(summary = "비즈니스 액세스 토큰 생성", description = "비즈니스 액세스 토큰을 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "액세스 토큰 생성", content = @Content(schema = @Schema(implementation = String.class))),
@@ -69,5 +68,18 @@ public class AuthController {
         String jwt = jwtCreator.createAccessToken(member);
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_JWT_BUSINESS, jwt));
+    }
+
+    @Operation(summary = "일반 액세스 토큰 생성", description = "일반 액세스 토큰을 생성합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "액세스 토큰 생성", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content)})
+    @GetMapping("/general")
+    public ResponseEntity<ResponseDto<?>> createGeneralAccessToken(){
+        Member member = memberService.findByDaangnId("general");
+
+        String jwt = jwtCreator.createAccessToken(member);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.CREATE_JWT_GENERAL, jwt));
     }
 }
