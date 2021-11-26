@@ -1,16 +1,18 @@
-package com.daangn.survey.mongo.response;
+package com.daangn.survey.mongo.aggregate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-public class AnswerMongo {
+public class AggregationMongo {
     private int order;
-    private int questionType;
+    private int count;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String text;
+    private List<String> texts;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String choice;
+    private String answer;
 }

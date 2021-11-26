@@ -10,5 +10,4 @@ import lombok.Setter;
 @Getter @Setter
 public class ChoiceMongo {
     private String value;
-
 }

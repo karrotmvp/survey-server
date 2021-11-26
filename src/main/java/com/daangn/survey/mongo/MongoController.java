@@ -21,30 +21,26 @@ public class MongoController {
     private final Gson gson;
 
     @PostMapping("/survey")
-    public ResponseEntity<ResponseDto<?>> insert(@RequestBody Map<String, Object> requestBody){
+    public ResponseEntity<ResponseDto<?>> insertSurvey(@RequestBody Map<String, Object> requestBody){
         SurveyMongo surveyMongo = gson.fromJson(gson.toJson(requestBody), SurveyMongo.class);
 
-        mongoService.insertOne(surveyMongo);
-
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.insertOne(surveyMongo)));
     }
 
     @PostMapping("/response")
-    public ResponseEntity<ResponseDto<?>> aggregateSurvey(@RequestBody Map<String, Object> requestBody){
+    public ResponseEntity<ResponseDto<?>> insertResponse(@RequestBody Map<String, Object> requestBody){
         ResponseMongo responseMongo = gson.fromJson(gson.toJson(requestBody), ResponseMongo.class);
 
-        mongoService.insertOne(responseMongo);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.insertOne(responseMongo)));
     }
 
-    @PostMapping("/aggregate")
-    public ResponseEntity<ResponseDto<?>> getSurvey(@RequestBody Map<String, Object> requestBody){
-        mongoService.saveSurveyResponseDto();
+    @GetMapping("/aggregate/{surveyId}")
+    public ResponseEntity<ResponseDto<?>> getAggregation(@PathVariable Long surveyId){
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getOne((Integer) requestBody.get("surveyId"))));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getAggregation(surveyId)));
     }
 }
