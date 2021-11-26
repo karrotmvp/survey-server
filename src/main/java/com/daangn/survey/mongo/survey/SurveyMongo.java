@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @Builder
 @Document(collection = "survey")
-public class SurveyMongo extends BaseEntityMongo{
+public class SurveyMongo extends BaseEntityMongo {
 
     @Transient
     public static final String SEQUENCE_NAME = "survey_sequence";

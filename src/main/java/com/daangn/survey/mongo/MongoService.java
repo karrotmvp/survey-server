@@ -16,8 +16,8 @@ public class MongoService {
     }
 
     @Transactional
-    public void insertOne(SurveyMongo surveyMongo){
-        mongoRepository.insert(surveyMongo);
+    public void insertOne(Object obj){
+        mongoRepository.insert(obj);
     }
 
     @Transactional

@@ -1,17 +1,14 @@
 package com.daangn.survey.mongo.survey;
 
-import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter @Setter
-public class ChoiceMongo extends QuestionMongo{
-    private List<String> choices;
+public class ChoiceMongo {
+    private String value;
 
-    ChoiceMongo(@NotNull int questionType, Long questionId, String text, String description) {
-        super(questionType, questionId, text, description);
-    }
 }

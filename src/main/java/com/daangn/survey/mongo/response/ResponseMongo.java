@@ -1,5 +1,6 @@
 package com.daangn.survey.mongo.response;
 
+import com.daangn.survey.mongo.common.BaseEntityMongo;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import lombok.Builder;
@@ -8,29 +9,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Builder
 @Document(collection = "response")
-public class ResponseMongo {
-    @Id
-    private ObjectId id;
+public class ResponseMongo extends BaseEntityMongo {
 
-    private ObjectId surveyId;
+    private Long surveyId;
 
-    private Map<String, Object> answers;
+    private List<AnswerMongo> answers;
 
-    @JsonAnySetter
-    public void add(String key, Object value) {
-        if (null == answers) {
-            answers = new HashMap<>();
-        }
-        answers.put(key, value);
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> get() {
-        return answers;
-    }
 }
 

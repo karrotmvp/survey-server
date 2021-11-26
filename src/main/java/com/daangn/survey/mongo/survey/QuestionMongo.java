@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter @Getter
-public abstract class QuestionMongo {
+public class QuestionMongo {
 
     @NotNull
     private int questionType;
@@ -21,5 +22,6 @@ public abstract class QuestionMongo {
 
     private String description;
 
+    private List<ChoiceMongo> choices;
 }
 
