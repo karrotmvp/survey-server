@@ -49,4 +49,10 @@ public class MongoController {
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getAggregation(surveyId)));
     }
 
+    @GetMapping("/individual/{responseId}")
+    public ResponseEntity<ResponseDto<?>> getIndividualResponse(@PathVariable Long responseId){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getIndividualResponse(responseId)));
+    }
+
 }

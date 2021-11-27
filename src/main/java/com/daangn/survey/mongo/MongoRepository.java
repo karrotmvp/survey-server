@@ -1,6 +1,7 @@
 package com.daangn.survey.mongo;
 
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
+import com.daangn.survey.mongo.response.ResponseMongo;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.mongodb.BasicDBObject;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,13 @@ public class MongoRepository {
         return mongoOps.insert(obj);
     }
 
-    public SurveyMongo getOne(Long surveyId){
+    public SurveyMongo getSurveyMongo(Long surveyId){
 
         return mongoOps.findOne(query(where("_id").is(surveyId)), SurveyMongo.class);
+    }
+
+    public ResponseMongo getResponseMongo(Long responseId){
+        return mongoOps.findOne(query(where("_id").is(responseId)), ResponseMongo.class);
     }
 
     public List<AggregationQuestionMongo> getAggregation(Long surveyId){
@@ -37,18 +42,24 @@ public class MongoRepository {
         MatchOperation matchOperation = Aggregation.match(criteria);
 
         UnwindOperation unwindOperation = unwind("answers");
+
         ProjectionOperation projectionOperation = project("surveyId", "answers").and("_id").as("responseId");
 
-        ConditionalOperators.Cond condOperation = ConditionalOperators.when(Criteria.where("answers.questionType").is(2))
-                .then(new BasicDBObject
-                        ("answer", "$answers.text").append
-                        ("responseId", "$responseId"))
-                .otherwise("$$REMOVE");
+        ConditionalOperators.Cond condOperation = ConditionalOperators
+                                                    .when(Criteria.where("answers.questionType").is(2))
+                                                    .then(new BasicDBObject
+                                                            ("answer", "$answers.text").append
+                                                            ("responseId", "$responseId"))
+                                                    .otherwise("$$REMOVE");
 
-        GroupOperation groupOperation = group("answers.choice", "answers.order").count().as("count").push(condOperation).as("texts");
+        GroupOperation groupOperation = group("answers.choice", "answers.order")
+                                        .count().as("count")
+                                        .push(condOperation).as("texts");
 
         ProjectionOperation projectionOperation1 = project( "count", "texts").and("_id.choice").as("answer").and("_id.order").as("order");
-        GroupOperation groupOperation1 = group("order").push("$$ROOT").as("answers");
+
+        GroupOperation groupOperation1 = group("order")
+                .push("$$ROOT").as("answers");
 
 
         SortOperation sortOperation = sort(Sort.Direction.ASC, "_id");
