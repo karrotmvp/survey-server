@@ -2,6 +2,8 @@ package com.daangn.survey.mongo;
 
 import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.common.model.ResponseDto;
+import com.daangn.survey.core.annotation.CurrentUser;
+import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.survey.model.dto.SurveyRequestDto;
 import com.daangn.survey.mongo.response.ResponseMongo;
 import com.daangn.survey.mongo.survey.SurveyMongo;
@@ -21,17 +23,20 @@ public class MongoController {
     private final Gson gson;
 
     @PostMapping("/survey")
-    public ResponseEntity<ResponseDto<?>> insertSurvey(@RequestBody Map<String, Object> requestBody){
+    public ResponseEntity<ResponseDto<?>> insertSurvey(@CurrentUser Member member, @RequestBody Map<String, Object> requestBody){
         SurveyMongo surveyMongo = gson.fromJson(gson.toJson(requestBody), SurveyMongo.class);
+
+        surveyMongo.setMemberId(member.getId());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.insertOne(surveyMongo)));
     }
 
     @PostMapping("/response")
-    public ResponseEntity<ResponseDto<?>> insertResponse(@RequestBody Map<String, Object> requestBody){
+    public ResponseEntity<ResponseDto<?>> insertResponse(@CurrentUser Member member, @RequestBody Map<String, Object> requestBody){
         ResponseMongo responseMongo = gson.fromJson(gson.toJson(requestBody), ResponseMongo.class);
 
+        responseMongo.setMemberId(member.getId());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.insertOne(responseMongo)));
@@ -43,4 +48,5 @@ public class MongoController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getAggregation(surveyId)));
     }
+
 }
