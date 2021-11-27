@@ -1,7 +1,5 @@
 package com.daangn.survey.mongo;
 
-import com.daangn.survey.mongo.aggregate.AggregationListMongo;
-import com.daangn.survey.mongo.aggregate.AggregationMongo;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.survey.QuestionMongo;
 import com.daangn.survey.mongo.survey.SurveyMongo;
@@ -9,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -30,18 +27,13 @@ public class MongoService {
     @Transactional(readOnly = true)
     public List<AggregationQuestionMongo> getAggregation(Long surveyId){
         SurveyMongo surveyMongo = mongoRepository.getOne(surveyId);
-        List<AggregationListMongo> aggregationListMongos = mongoRepository.getAggregation(surveyId);
 
-        List<AggregationQuestionMongo> result = new LinkedList<>();
+        List<AggregationQuestionMongo> result = mongoRepository.getAggregation(surveyId);
 
-        for(int idx = 0 ; idx < aggregationListMongos.size(); idx++){ // question size로 변경할 것
+        for(int idx = 0 ; idx < result.size(); idx++){ // question size로 변경할 것
             QuestionMongo questionMongo = surveyMongo.getQuestions().get(idx);
-
-            result.add(new AggregationQuestionMongo(
-                    questionMongo.getText(),
-                    questionMongo.getQuestionType(),
-                    aggregationListMongos.get(idx))
-            );
+            result.get(idx).setQuestion(questionMongo.getText());
+            result.get(idx).setQuestionType(questionMongo.getQuestionType());
         }
 
         return result;

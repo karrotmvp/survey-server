@@ -1,7 +1,6 @@
 package com.daangn.survey.mongo;
 
-import com.daangn.survey.mongo.aggregate.AggregationListMongo;
-import com.daangn.survey.mongo.aggregate.AggregationMongo;
+import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.mongodb.BasicDBObject;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
@@ -33,7 +31,7 @@ public class MongoRepository {
         return mongoOps.findOne(query(where("_id").is(surveyId)), SurveyMongo.class);
     }
 
-    public List<AggregationListMongo> getAggregation(Long surveyId){
+    public List<AggregationQuestionMongo> getAggregation(Long surveyId){
 
         Criteria criteria = new Criteria().where("surveyId").is(surveyId);
         MatchOperation matchOperation = Aggregation.match(criteria);
@@ -50,12 +48,12 @@ public class MongoRepository {
         GroupOperation groupOperation = group("answers.choice", "answers.order").count().as("count").push(condOperation).as("texts");
 
         ProjectionOperation projectionOperation1 = project( "count", "texts").and("_id.choice").as("answer").and("_id.order").as("order");
-        GroupOperation groupOperation1 = group("order").push("$$ROOT").as("data");
+        GroupOperation groupOperation1 = group("order").push("$$ROOT").as("answers");
 
 
         SortOperation sortOperation = sort(Sort.Direction.ASC, "_id");
 
-        AggregationResults<AggregationListMongo> aggregate = this.mongoOps.aggregate(
+        AggregationResults<AggregationQuestionMongo> aggregate = this.mongoOps.aggregate(
                 newAggregation(matchOperation,
                                 unwindOperation,
                                 projectionOperation,
@@ -64,7 +62,7 @@ public class MongoRepository {
                                 groupOperation1,
                                 sortOperation
                         ),
-                "response", AggregationListMongo.class
+                "response", AggregationQuestionMongo.class
         );
 
         return aggregate.getMappedResults();
