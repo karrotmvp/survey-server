@@ -2,7 +2,7 @@ package com.daangn.survey;
 
 import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.common.message.ResponseMessage;
-import com.daangn.survey.third.messaging.sqs.ChatMessage;
+import com.daangn.survey.third.messaging.sqs.BizChatMessage;
 import com.daangn.survey.third.messaging.sqs.SqsSender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class SurveyApplication {
     }
 
     @PostMapping("/message")
-    public String send(@RequestBody ChatMessage message) throws JsonProcessingException {
+    public String send(@RequestBody BizChatMessage message) throws JsonProcessingException {
         sqsSender.sendMessage(message);
         return "OK";
     }

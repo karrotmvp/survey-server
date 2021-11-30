@@ -1,7 +1,9 @@
 package com.daangn.survey.third;
 
+import com.amazonaws.services.sqs.model.Message;
 import com.daangn.survey.common.util.csv.CsvUtils;
-import com.daangn.survey.third.messaging.sqs.ChatMessage;
+import com.daangn.survey.third.karrot.chatting.UserChatMessage;
+import com.daangn.survey.third.messaging.sqs.BizChatMessage;
 import com.daangn.survey.third.messaging.sqs.SqsSender;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Disabled;
@@ -10,10 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @SpringBootTest
 public class SqsSenderTest {
@@ -28,9 +29,9 @@ public class SqsSenderTest {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        ChatMessage.Receiver receiver = new ChatMessage.Receiver(0, "BUSINESS_ACCOUNT");
-        ChatMessage.Sender sender = new ChatMessage.Sender(1271155, "BUSINESS_ACCOUNT");
-        ChatMessage message = ChatMessage.builder()
+        BizChatMessage.Receiver receiver = new BizChatMessage.Receiver(0, "BUSINESS_ACCOUNT");
+        BizChatMessage.Sender sender = new BizChatMessage.Sender(1271155, "BUSINESS_ACCOUNT");
+        BizChatMessage message = BizChatMessage.builder()
                 .sender(sender)
                 .receiver(receiver)
                 .title("사장님이 작성해주신 설문에 답변이 도착했어요!")
@@ -63,17 +64,17 @@ public class SqsSenderTest {
 
     @Test
     @Disabled
-    void sendBatchMessage() throws JsonProcessingException {
-        List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId_test.csv");
+    void sendBatchBizChatMessage() throws JsonProcessingException {
+        List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/allen_test.csv");
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        List<ChatMessage> messages = new LinkedList<>();
+        List<Message> messages = new LinkedList<>();
 
-        for(int i = 1 ; i <= 10 ; i++){
+        for(int i = 1 ; i < csv.size() ; i++){
 
-            ChatMessage.Receiver receiver = new ChatMessage.Receiver(Integer.parseInt(csv.get(i).get(0)), "BUSINESS_ACCOUNT");
-            ChatMessage message = ChatMessage.builder()
+            BizChatMessage.Receiver receiver = new BizChatMessage.Receiver(Integer.parseInt(csv.get(i).get(0)), "BUSINESS_ACCOUNT");
+            BizChatMessage message = BizChatMessage.builder()
                     .receiver(receiver)
                     .title("사장님을 위한 설문 서비스, 무따에요!")
                     .content("매장에 대한 의견이 궁금할 때, 무따 서비스로 설문을 작성하고, 우리 동네 이웃의 의견을 들어보세요!\n('무따'는 당근마켓 MVP인턴십 프로그램에서 한시적으로 운영하는 서비스에요. 이용에 참고해주세요.)")
@@ -81,6 +82,29 @@ public class SqsSenderTest {
                     .build();
 
             messages.add(message);
+        }
+
+        sqsSender.sendBatchMessage(messages);
+
+        stopWatch.stop();
+        System.out.println(stopWatch.prettyPrint());
+    }
+
+    @Test
+    void sendBatchUserChatMessage() throws JsonProcessingException {
+        List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/allen_test.csv");
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        List<Message> messages = new LinkedList<>();
+
+        for(int i = 1 ; i < csv.size() ; i++){
+            UserChatMessage.InputMessage.Action.Payload payload = new UserChatMessage.InputMessage.Action.Payload("text", "linkUrl");
+            UserChatMessage.InputMessage.Action action = new UserChatMessage.InputMessage.Action(payload, "type");
+            UserChatMessage.InputMessage inputMessage = new UserChatMessage.InputMessage(Arrays.asList(action), "userId", "text", "title");
+            UserChatMessage userChatMessage = new UserChatMessage(inputMessage);
+
+            messages.add(userChatMessage);
         }
 
         sqsSender.sendBatchMessage(messages);
