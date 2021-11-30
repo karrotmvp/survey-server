@@ -15,6 +15,7 @@ public class ResponseMessage {
     public static final String PUBLISH_SURVEY = "설문을 배포합니다.";
 
     // Auth
+    public static final String CREATE_JWT_GENERAL = "JWT_GENERAL을 생성합니다.";
     public static final String CREATE_JWT_CUSTOMER = "JWT_CUSTOMER를 생성합니다.";
     public static final String CREATE_JWT_BUSINESS = "JWT_BUSINESS를 생성합니다.";
     public static final String SAVE_USER_PROFILE = "유저 프로필을 저장합니다.";
