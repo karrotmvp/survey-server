@@ -44,7 +44,7 @@ public class MongoService {
         ResponseMongo responseMongo = mongoRepository.getResponseMongo(responseId);
         SurveyMongo surveyMongo = mongoRepository.getSurveyMongo(responseMongo.getSurveyId());
 
-        for(int idx = 0 ; idx < responseMongo.getAnswers().size(); idx++){
+        for(int idx = 0 ; idx < responseMongo.getAnswers().size(); idx++){ // 멀티 초이스 고려하기
            result.add(new IndividualQuestionMongo(surveyMongo.getQuestions().get(idx), responseMongo.getAnswers().get(idx)));
         }
 
