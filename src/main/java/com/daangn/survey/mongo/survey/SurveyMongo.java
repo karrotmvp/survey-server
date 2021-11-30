@@ -1,27 +1,23 @@
 package com.daangn.survey.mongo.survey;
 
-import com.daangn.survey.domain.survey.model.entity.Target;
+import com.daangn.survey.mongo.common.BaseEntityMongo;
 import lombok.Builder;
-import org.bson.types.ObjectId;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import java.util.List;
 
+@Getter
+@Setter
 @Builder
 @Document(collection = "survey")
-public class SurveyMongo {
-    @Id
-    private ObjectId id;
+public class SurveyMongo extends BaseEntityMongo {
 
-    private Long surveyId;
+    private Long memberId;
 
     private String title;
 
-    @Enumerated(EnumType.ORDINAL)
-    private Target target;
+    private int target;
 
     private List<QuestionMongo> questions;
 
