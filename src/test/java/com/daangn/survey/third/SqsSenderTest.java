@@ -23,6 +23,7 @@ public class SqsSenderTest {
     private SqsSender sqsSender;
 
     @Test
+    @Disabled
     public void sqsSendTest() throws JsonProcessingException {
         List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId_test.csv");
 
@@ -72,7 +73,6 @@ public class SqsSenderTest {
         List<Message> messages = new LinkedList<>();
 
         for(int i = 1 ; i < csv.size() ; i++){
-
             BizChatMessage.Receiver receiver = new BizChatMessage.Receiver(Integer.parseInt(csv.get(i).get(0)), "BUSINESS_ACCOUNT");
             BizChatMessage message = BizChatMessage.builder()
                     .receiver(receiver)
@@ -82,15 +82,19 @@ public class SqsSenderTest {
                     .build();
 
             messages.add(message);
+            if(i % 10 == 0) {
+                sqsSender.sendBatchMessage(messages);
+                messages.clear();
+            }
         }
 
-        sqsSender.sendBatchMessage(messages);
 
         stopWatch.stop();
         System.out.println(stopWatch.prettyPrint());
     }
 
     @Test
+    @Disabled
     void sendBatchUserChatMessage() throws JsonProcessingException {
         List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/allen_test.csv");
 
@@ -99,14 +103,47 @@ public class SqsSenderTest {
         List<Message> messages = new LinkedList<>();
 
         for(int i = 1 ; i < csv.size() ; i++){
-            UserChatMessage.InputMessage.Action.Payload payload = new UserChatMessage.InputMessage.Action.Payload("text", "linkUrl");
-            UserChatMessage.InputMessage.Action action = new UserChatMessage.InputMessage.Action(payload, "type");
-            UserChatMessage.InputMessage inputMessage = new UserChatMessage.InputMessage(Arrays.asList(action), "userId", "text", "title");
+            UserChatMessage.InputMessage.Action.Payload payload = new UserChatMessage.InputMessage.Action.Payload("설문하러 가기", "towneers://web/ad/user_surveys/5615'");
+            UserChatMessage.InputMessage.Action action = new UserChatMessage.InputMessage.Action(payload, "PRIMARY_BUTTON");
+            UserChatMessage.InputMessage inputMessage = new UserChatMessage.InputMessage(Arrays.asList(action), csv.get(i).get(0), "사장님 설문에 참여해주신 여러분 이야기를 듣고 싶어요!",
+                    "몇일 전, 동네 사장님이 남긴 설문에 답변해주신 분들 대상으로 간단한 설문조사를 진행하고 있어요.\n" +
+                    "설문에 응해주시면, 추첨을 통해 스타벅스 기프티콘을 드려요!", "https://survey-asset-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail.png");
             UserChatMessage userChatMessage = new UserChatMessage(inputMessage);
 
             messages.add(userChatMessage);
-        }
 
+            if(i % 10 == 0) {
+                sqsSender.sendBatchMessage(messages);
+                messages.clear();
+            }
+        }
+        sqsSender.sendBatchMessage(messages);
+
+        stopWatch.stop();
+        System.out.println(stopWatch.prettyPrint());
+    }
+
+    @Test
+    @Disabled
+    void errorMessage() throws JsonProcessingException {
+        List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/allen_test.csv");
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        List<Message> messages = new LinkedList<>();
+
+        for(int i = 1 ; i < csv.size() ; i++){
+            UserChatMessage.InputMessage inputMessage = new UserChatMessage.InputMessage(Arrays.asList(), csv.get(i).get(0), "무따 서비스에서 사죄의 말씀 드립니다",
+                    "무따 서비스 잘못으로 인해 똑같은 채팅을 여러 번 보내게 되었어요.\n\n불편함을 느끼게 해드려서 죄송합니다.\n\n더 나은 서비스가 될 수 있도록 노력하겠습니다.\n\n죄송합니다.","");
+            UserChatMessage userChatMessage = new UserChatMessage(inputMessage);
+
+            messages.add(userChatMessage);
+
+            if(i % 10 == 0) {
+                sqsSender.sendBatchMessage(messages);
+                messages.clear();
+            }
+        }
         sqsSender.sendBatchMessage(messages);
 
         stopWatch.stop();

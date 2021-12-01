@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.util.List;
 
-@Builder
 @Getter @Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class UserChatMessage extends Message {
@@ -23,8 +22,9 @@ public class UserChatMessage extends Message {
     public static class InputMessage {
         private List<Action> actions;
         private String userId;
-        private String text;
         private String title;
+        private String text;
+        private String imageUrl;
 
         @Getter @Setter
         @NoArgsConstructor

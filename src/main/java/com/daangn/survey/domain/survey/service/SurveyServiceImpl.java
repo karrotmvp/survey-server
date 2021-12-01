@@ -74,7 +74,6 @@ public class SurveyServiceImpl implements SurveyService{
     @Transactional(readOnly = true)
     public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
         Survey survey = findSurvey(surveyId);
-        // Todo: surveyInfo를 읽어들이고, 거기에 적한 daangnId로 엔티티를 읽어들이고 사용자 정보를 채워야 함
 
         return surveyMapper.toSurveyBriefDtoWithMember(survey,
                 memberMapper.toBizProfileDtoFromMember(survey.getMember()), survey.getSurveyEstimatedTime());
