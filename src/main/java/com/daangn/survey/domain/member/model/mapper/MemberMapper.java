@@ -22,6 +22,8 @@ public interface MemberMapper {
     @Mapping(target = "region", expression = "java(profile.parseRegion())")
     @Mapping(target = "profileUrl", source = "profile.data.bizProfile.profileUrl")
     @Mapping(target = "bizCategory", source = "profile.data.bizProfile.category.name")
+    @Mapping(target = "followersCount", source = "profile.data.bizProfile.followersCount")
+    @Mapping(target = "coverImageUrls", expression = "java(profile.stringifyCoverImageUrls())")
     Member toMemberEntityFromBiz(KarrotBizProfileDetail profile, String role);
 
     void updateMember(@MappingTarget Member member, Member newMember);
