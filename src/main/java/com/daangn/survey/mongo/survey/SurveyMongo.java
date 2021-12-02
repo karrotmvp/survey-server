@@ -20,7 +20,6 @@ public class SurveyMongo extends BaseEntityMongo {
 
     private int target;
 
-    @DBRef
     private List<QuestionMongo> questions;
 
 //    private Map<String, Object> data;

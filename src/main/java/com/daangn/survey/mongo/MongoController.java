@@ -34,8 +34,8 @@ public class MongoController {
 
     @GetMapping("/survey/{surveyId}")
     public ResponseEntity<ResponseDto<?>> getSurvey(@PathVariable Long surveyId){
-        mongoService.findSurvey(surveyId);
-        return null;
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.findSurvey(surveyId)));
     }
 
     @PostMapping("/response")
