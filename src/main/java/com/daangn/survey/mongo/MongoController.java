@@ -32,6 +32,12 @@ public class MongoController {
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE));
     }
 
+    @GetMapping("/survey/{surveyId}")
+    public ResponseEntity<ResponseDto<?>> getSurvey(@PathVariable Long surveyId){
+        mongoService.findSurvey(surveyId);
+        return null;
+    }
+
     @PostMapping("/response")
     public ResponseEntity<ResponseDto<?>> insertResponse(@CurrentUser Member member, @RequestBody Map<String, Object> requestBody){
         ResponseMongo responseMongo = gson.fromJson(gson.toJson(requestBody), ResponseMongo.class);

@@ -28,6 +28,11 @@ public class MongoService {
     }
 
     @Transactional(readOnly = true)
+    public SurveyMongo findSurvey(Long surveyId){
+        return mongoRepository.getSurveyMongo(surveyId);
+    }
+
+    @Transactional(readOnly = true)
     public List<AggregationQuestionMongo> getAggregation(Long surveyId){
         SurveyMongo surveyMongo = mongoRepository.getSurveyMongo(surveyId);
 
