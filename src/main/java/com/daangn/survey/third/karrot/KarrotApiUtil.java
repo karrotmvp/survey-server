@@ -118,15 +118,6 @@ public class KarrotApiUtil implements SocialResolver {
         }
     }
 
-    private String getRequestUrl(String baseUrl, String url){
-        StringBuffer sb = new StringBuffer();
-
-        sb.append(baseUrl);
-        sb.append(url);
-
-        return sb.toString();
-    }
-
     public KarrotSchemeUrl resolveSchemeUrl(String toUrl){
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, "application/json");
@@ -153,4 +144,12 @@ public class KarrotApiUtil implements SocialResolver {
         return response.getBody();
     }
 
+    private String getRequestUrl(String baseUrl, String url){
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(baseUrl);
+        sb.append(url);
+
+        return sb.toString();
+    }
 }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,6 +31,8 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
             private Region region;
             private String profileUrl;
             private Category category;
+            private int followersCount;
+            private List<String> coverImageUrls;
 
             @Getter
             @NoArgsConstructor
@@ -58,5 +62,13 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
         KarrotBizProfileData.KarrotBizProfile.Region region = this.getData().getBizProfile().getRegion();
 
         return region.getName1() + " " + region.getName2() + " " + region.getName3();
+    }
+
+    public String stringifyCoverImageUrls(){
+        return String.join(",", this.getData().getBizProfile().coverImageUrls);
+    }
+
+    public List<String> getCoverImageUrls(){
+        return this.getData().bizProfile.getCoverImageUrls();
     }
 }
