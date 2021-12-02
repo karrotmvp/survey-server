@@ -2,6 +2,7 @@ package com.daangn.survey.mongo;
 
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.response.ResponseMongo;
+import com.daangn.survey.mongo.response.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.mongodb.BasicDBObject;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,8 @@ public class MongoRepository {
 
     private final MongoOperations mongoOps;
 
-    public Object insert(Object obj){
-        return mongoOps.insert(obj);
+    public void insertResponses(List<ResponseMongo> responses){
+        mongoOps.insertAll(responses);
     }
 
     public void insertSurvey(SurveyMongo surveyMongo){
@@ -37,8 +38,8 @@ public class MongoRepository {
         return mongoOps.findOne(query(where("_id").is(surveyId)), SurveyMongo.class);
     }
 
-    public ResponseMongo getResponseMongo(Long responseId){
-        return mongoOps.findOne(query(where("_id").is(responseId)), ResponseMongo.class);
+    public ResponseMongoDto getResponseMongo(Long responseId){
+        return mongoOps.findOne(query(where("_id").is(responseId)), ResponseMongoDto.class);
     }
 
     public List<AggregationQuestionMongo> getAggregation(Long surveyId){

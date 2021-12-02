@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AnswerMongo {
-    private int order;
+    private Long questionId;
     private int questionType;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String text;

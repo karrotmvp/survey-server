@@ -4,7 +4,7 @@ import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.member.model.entity.Member;
-import com.daangn.survey.mongo.response.ResponseMongo;
+import com.daangn.survey.mongo.response.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -40,12 +40,13 @@ public class MongoController {
 
     @PostMapping("/response")
     public ResponseEntity<ResponseDto<?>> insertResponse(@CurrentUser Member member, @RequestBody Map<String, Object> requestBody){
-        ResponseMongo responseMongo = gson.fromJson(gson.toJson(requestBody), ResponseMongo.class);
+        ResponseMongoDto responseMongoDto = gson.fromJson(gson.toJson(requestBody), ResponseMongoDto.class);
 
-        responseMongo.setMemberId(member.getId());
+        responseMongoDto.setMemberId(member.getId());
+        mongoService.insertResponse(responseMongoDto);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.insertOne(responseMongo)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE));
     }
 
     @GetMapping("/aggregate/{surveyId}")
