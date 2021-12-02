@@ -22,6 +22,11 @@ public class MongoService {
         return mongoRepository.insert(obj);
     }
 
+    @Transactional
+    public void insertSurvey(SurveyMongo survey){
+        mongoRepository.insertSurvey(survey);
+    }
+
     @Transactional(readOnly = true)
     public List<AggregationQuestionMongo> getAggregation(Long surveyId){
         SurveyMongo surveyMongo = mongoRepository.getSurveyMongo(surveyId);

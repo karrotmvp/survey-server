@@ -4,7 +4,6 @@ import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.member.model.entity.Member;
-import com.daangn.survey.domain.survey.model.dto.SurveyRequestDto;
 import com.daangn.survey.mongo.response.ResponseMongo;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.google.gson.Gson;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RequiredArgsConstructor
-@RequestMapping("/mongo")
+@RequestMapping("/api/v1/mongo")
 @RestController
 public class MongoController {
     private final MongoService mongoService;
@@ -27,9 +26,10 @@ public class MongoController {
         SurveyMongo surveyMongo = gson.fromJson(gson.toJson(requestBody), SurveyMongo.class);
 
         surveyMongo.setMemberId(member.getId());
+        mongoService.insertSurvey(surveyMongo);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.insertOne(surveyMongo)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE));
     }
 
     @PostMapping("/response")

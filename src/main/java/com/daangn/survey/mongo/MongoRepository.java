@@ -27,6 +27,11 @@ public class MongoRepository {
         return mongoOps.insert(obj);
     }
 
+    public void insertSurvey(SurveyMongo surveyMongo){
+        mongoOps.insertAll(surveyMongo.getQuestions());
+        mongoOps.insert(surveyMongo);
+    }
+
     public SurveyMongo getSurveyMongo(Long surveyId){
 
         return mongoOps.findOne(query(where("_id").is(surveyId)), SurveyMongo.class);

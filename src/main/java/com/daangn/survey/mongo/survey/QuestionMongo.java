@@ -1,10 +1,12 @@
 package com.daangn.survey.mongo.survey;
 
+import com.daangn.survey.mongo.common.BaseEntityMongo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter @Getter
-public class QuestionMongo {
+@Document(collection = "question")
+public class QuestionMongo extends BaseEntityMongo {
 
     @NotNull
     private int questionType;

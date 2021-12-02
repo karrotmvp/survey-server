@@ -4,6 +4,7 @@ import com.daangn.survey.mongo.common.BaseEntityMongo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class SurveyMongo extends BaseEntityMongo {
 
     private int target;
 
+    @DBRef
     private List<QuestionMongo> questions;
 
 //    private Map<String, Object> data;
