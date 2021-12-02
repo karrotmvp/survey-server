@@ -1,5 +1,6 @@
 package com.daangn.survey.domain.survey.service;
 
+import com.daangn.survey.core.auth.oauth.SocialResolver;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.BusinessException;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
@@ -16,10 +17,12 @@ import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.domain.survey.model.entity.Survey;
 import com.daangn.survey.domain.survey.model.mapper.SurveyMapper;
 import com.daangn.survey.domain.survey.repository.SurveyRepository;
+import com.daangn.survey.third.karrot.member.KarrotBizProfileDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +35,7 @@ public class SurveyServiceImpl implements SurveyService{
 
     private final SurveyMapper surveyMapper;
     private final MemberMapper memberMapper;
+    private final SocialResolver socialResolver;
 
 
     @Transactional
@@ -71,12 +75,24 @@ public class SurveyServiceImpl implements SurveyService{
         return surveyMapper.toDetailDto(findSurvey(surveyId));
     }
 
+    /**
+     * TODO
+     * 비즈프로필 정보를 계속 요청하는 형태
+     */
     @Transactional(readOnly = true)
     public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
         Survey survey = findSurvey(surveyId);
 
-        return surveyMapper.toSurveyBriefDtoWithMember(survey,
-                memberMapper.toBizProfileDtoFromMember(survey.getMember()), survey.getSurveyEstimatedTime());
+        SurveyBriefDto surveyBriefDto = surveyMapper.toSurveyBriefDtoWithMember(
+                                            survey,
+                                            memberMapper.toBizProfileDtoFromMember(survey.getMember()),
+                                            survey.getSurveyEstimatedTime()
+                                        );
+
+        KarrotBizProfileDetail profile = socialResolver.resolveBizProfileDetails(survey.getMember().getDaangnId());
+        surveyBriefDto.setCoverImageUrls(profile.getCoverImageUrls());
+
+        return surveyBriefDto;
     }
 
     @Transactional
