@@ -28,4 +28,7 @@ public class MemberDto {
 
     @Schema(description = "프로필 URL")
     private String profileUrl;
+
+    @Schema(description = "단골 수")
+    private Integer followersCount;
 }

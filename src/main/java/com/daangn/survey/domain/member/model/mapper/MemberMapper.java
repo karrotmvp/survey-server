@@ -3,12 +3,9 @@ package com.daangn.survey.domain.member.model.mapper;
 import com.daangn.survey.domain.member.model.dto.BizProfileDto;
 import com.daangn.survey.domain.member.model.dto.MemberDto;
 import com.daangn.survey.domain.member.model.entity.Member;
-import com.daangn.survey.domain.question.model.mapper.QuestionMapper;
 import com.daangn.survey.third.karrot.member.KarrotBizProfileDetail;
 import com.daangn.survey.third.karrot.member.KarrotUserDetail;
 import org.mapstruct.*;
-
-import java.util.Arrays;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
