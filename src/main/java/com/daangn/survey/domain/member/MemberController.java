@@ -34,8 +34,8 @@ public class MemberController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "사용자 프로필 조회", content = @Content(schema = @Schema(implementation = MemberDto.class)))})
     @GetMapping("/me")
-    public ResponseEntity<ResponseDto<?>> createCustomerAccessToken(@Parameter(description = "Member", hidden = true) @CurrentUser Member member){
+    public ResponseEntity<ResponseDto<MemberDto>> createCustomerAccessToken(@Parameter(description = "Member", hidden = true) @CurrentUser Member member){
 
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_PROFILE, memberMapper.toDto(member)));
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_PROFILE, memberMapper.toMemberDto(member)));
     }
 }

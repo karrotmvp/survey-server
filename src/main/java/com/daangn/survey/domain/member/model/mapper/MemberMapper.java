@@ -1,6 +1,5 @@
 package com.daangn.survey.domain.member.model.mapper;
 
-import com.daangn.survey.admin.dto.AdminMemberDto;
 import com.daangn.survey.domain.member.model.dto.BizProfileDto;
 import com.daangn.survey.domain.member.model.dto.MemberDto;
 import com.daangn.survey.domain.member.model.entity.Member;
@@ -11,7 +10,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface MemberMapper {
-    MemberDto toDto(Member member);
+    MemberDto toMemberDto(Member member);
 
     Member toEntity(MemberDto memberDto);
 
@@ -22,6 +21,8 @@ public interface MemberMapper {
     @Mapping(target = "region", expression = "java(profile.parseRegion())")
     @Mapping(target = "profileUrl", source = "profile.data.bizProfile.profileUrl")
     @Mapping(target = "bizCategory", source = "profile.data.bizProfile.category.name")
+    @Mapping(target = "followersCount", source = "profile.data.bizProfile.followersCount")
+    @Mapping(target = "coverImageUrls", expression = "java(profile.stringifyCoverImageUrls())")
     Member toMemberEntityFromBiz(KarrotBizProfileDetail profile, String role);
 
     void updateMember(@MappingTarget Member member, Member newMember);
@@ -31,5 +32,6 @@ public interface MemberMapper {
     @Mapping(target = "role", source = "role")
     Member toMemberEntityFromUser(KarrotUserDetail profile, String role);
 
+    @Mapping(target = "coverImageUrls", expression = "java(java.util.Arrays.asList(member.getCoverImageUrls().split(\",\")))")
     BizProfileDto toBizProfileDtoFromMember(Member member);
 }
