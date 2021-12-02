@@ -1,17 +1,19 @@
 package com.daangn.survey.domain.member.model.mapper;
 
-import com.daangn.survey.admin.dto.AdminMemberDto;
 import com.daangn.survey.domain.member.model.dto.BizProfileDto;
 import com.daangn.survey.domain.member.model.dto.MemberDto;
 import com.daangn.survey.domain.member.model.entity.Member;
+import com.daangn.survey.domain.question.model.mapper.QuestionMapper;
 import com.daangn.survey.third.karrot.member.KarrotBizProfileDetail;
 import com.daangn.survey.third.karrot.member.KarrotUserDetail;
 import org.mapstruct.*;
 
+import java.util.Arrays;
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface MemberMapper {
-    MemberDto toDto(Member member);
+    MemberDto toMemberDto(Member member);
 
     Member toEntity(MemberDto memberDto);
 
@@ -33,5 +35,6 @@ public interface MemberMapper {
     @Mapping(target = "role", source = "role")
     Member toMemberEntityFromUser(KarrotUserDetail profile, String role);
 
+    @Mapping(target = "coverImageUrls", expression = "java(java.util.Arrays.asList(member.getCoverImageUrls().split(\",\")))")
     BizProfileDto toBizProfileDtoFromMember(Member member);
 }

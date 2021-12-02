@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
@@ -25,4 +27,10 @@ public class BizProfileDto {
 
     @Schema(description = "업종")
     private String bizCategory;
+
+    @Schema(description = "단골 수")
+    private Integer followersCount;
+
+    @Schema(description = "커버 이미지 URLS")
+    private List<String> coverImageUrls;
 }

@@ -6,6 +6,7 @@ import com.daangn.survey.domain.survey.model.entity.Survey;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
 
 
