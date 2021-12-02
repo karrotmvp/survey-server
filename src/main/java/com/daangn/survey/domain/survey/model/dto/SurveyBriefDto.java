@@ -39,4 +39,12 @@ public class SurveyBriefDto {
 
     @Schema(description = "설문 생성일", required = true)
     private LocalDateTime createdAt;
+
+    public boolean isCoverImageNull(){
+        return this.bizProfile.getCoverImageUrls().size() == 0;
+    }
+
+    public void setCoverImageUrls(List<String> coverImageUrls){
+        this.getBizProfile().setCoverImageUrls(coverImageUrls);
+    }
 }
