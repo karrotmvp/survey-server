@@ -57,7 +57,7 @@ public class UrlController {
         String schemeUrl = "";
 
         if (!urlConverter.existsUrl(originUrl))
-            schemeUrl = apiUtil.resolveSchemeUrl(frontUrl + "/survey/" + surveyId).getData().getWidget().getEntryTargetUri();
+            schemeUrl = apiUtil.resolveSchemeUrl(originUrl).getData().getWidget().getEntryTargetUri();
 
         ShortUrlResult result = urlConverter.getShortenUrl(originUrl, schemeUrl);
 
