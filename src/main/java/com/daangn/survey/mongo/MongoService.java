@@ -76,4 +76,22 @@ public class MongoService {
 
         return result;
     }
+
+    @Transactional(readOnly = true)
+    public List<AggregationQuestionMongo> getAggregate(Long surveyId){
+        List<QuestionMongo> questions = mongoRepository.getSurveyMongo(surveyId).getQuestions();
+
+        for(int idx = 0 ; idx < questions.size(); idx++){
+            QuestionMongo question = questions.get(idx);
+
+            AggregationQuestionMongo aggregationQuestion = new AggregationQuestionMongo();
+            aggregationQuestion.setQuestionType(question.getQuestionType());
+            aggregationQuestion.setQuestion(question.getText());
+
+
+            mongoRepository.getTextAnswers(question.getQuestionId());
+        }
+
+        return null;
+    }
 }

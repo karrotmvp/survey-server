@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AnswerMongo {
+public class AnswerMongoDto {
     private Long questionId;
     private int questionType;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)

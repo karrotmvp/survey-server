@@ -10,12 +10,13 @@ import java.util.List;
 @Getter
 @Setter
 public class AggregationMongo {
-//    private int order;
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private int count;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<TextAnswer> texts;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String answer;
+    private String choice;
 
     @Getter @Setter
     @NoArgsConstructor

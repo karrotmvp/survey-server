@@ -18,6 +18,6 @@ public class ResponseMongoDto extends BaseEntityMongo {
 
     private Long memberId;
 
-    private List<AnswerMongo> answers;
+    private List<AnswerMongoDto> answers;
 }
 

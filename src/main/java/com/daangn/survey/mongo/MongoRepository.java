@@ -1,5 +1,6 @@
 package com.daangn.survey.mongo;
 
+import com.daangn.survey.mongo.aggregate.AggregationMongo;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.response.ResponseMongo;
 import com.daangn.survey.mongo.response.ResponseMongoDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -40,6 +42,20 @@ public class MongoRepository {
 
     public ResponseMongoDto getResponseMongo(Long responseId){
         return mongoOps.findOne(query(where("_id").is(responseId)), ResponseMongoDto.class);
+    }
+
+    public List<AggregationMongo> getTextAnswers(Long questionId){
+        Criteria criteria = new Criteria().where("surveyId").is(questionId);
+        MatchOperation matchOperation = Aggregation.match(criteria);
+
+        ProjectionOperation projectionOperation = project( "text").and("_id").as("responseId");
+
+        AggregationResults<AggregationMongo> aggregate = this.mongoOps.aggregate(
+                newAggregation(matchOperation, projectionOperation),
+                "response", AggregationMongo.class
+        );
+
+        return aggregate.getMappedResults();
     }
 
     public List<AggregationQuestionMongo> getAggregation(Long surveyId){

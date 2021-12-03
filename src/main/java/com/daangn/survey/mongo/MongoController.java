@@ -53,7 +53,7 @@ public class MongoController {
     public ResponseEntity<ResponseDto<?>> getAggregation(@PathVariable Long surveyId){
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getAggregation(surveyId)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getAggregate(surveyId)));
     }
 
     @GetMapping("/individual/{responseId}")
