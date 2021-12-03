@@ -49,6 +49,7 @@ public class ResponseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.CREATE_RESPONSE));
     }
 
+    @Deprecated
     @Operation(summary = "유저 답변 이력 조회", description = "유저의 답변 이력을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 답변 이력 조회 성공",

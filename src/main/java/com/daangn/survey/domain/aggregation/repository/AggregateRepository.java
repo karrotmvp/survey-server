@@ -3,7 +3,7 @@ package com.daangn.survey.domain.aggregation.repository;
 import com.daangn.survey.domain.aggregation.model.ChoiceResponseAggregation;
 import com.daangn.survey.domain.aggregation.model.QuestionAggregation;
 import com.daangn.survey.domain.aggregation.model.TextResponseAggregation;
-import com.daangn.survey.domain.question.model.entity.QQuestion;
+import com.daangn.survey.domain.survey.question.model.entity.QQuestion;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.daangn.survey.domain.question.model.entity.QChoice.choice;
-import static com.daangn.survey.domain.question.model.entity.QQuestion.question;
+import static com.daangn.survey.domain.survey.question.model.entity.QChoice.choice;
+import static com.daangn.survey.domain.survey.question.model.entity.QQuestion.question;
 import static com.daangn.survey.domain.response.model.entity.QChoiceResponse.choiceResponse;
 import static com.daangn.survey.domain.response.model.entity.QSurveyResponse.surveyResponse;
 import static com.daangn.survey.domain.response.model.entity.QTextResponse.textResponse;

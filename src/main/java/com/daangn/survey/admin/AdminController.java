@@ -7,7 +7,7 @@ import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.domain.aggregation.service.AggregationService;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.response.service.ResponseService;
-import com.daangn.survey.domain.survey.service.SurveyService;
+import com.daangn.survey.domain.survey.survey.service.SurveyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
