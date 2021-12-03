@@ -1,6 +1,6 @@
 package com.daangn.survey.mongo;
 
-import com.daangn.survey.mongo.aggregate.AggregationMongo;
+import com.daangn.survey.mongo.aggregate.AggregationAnswerMongo;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.response.ResponseMongo;
 import com.daangn.survey.mongo.response.ResponseMongoDto;
@@ -44,20 +44,40 @@ public class MongoRepository {
         return mongoOps.findOne(query(where("_id").is(responseId)), ResponseMongoDto.class);
     }
 
-    public List<AggregationMongo> getTextAnswers(Long questionId){
-        Criteria criteria = new Criteria().where("surveyId").is(questionId);
+    public List<AggregationAnswerMongo.TextAnswerMongo> getTextAnswers(Long questionId){
+        Criteria criteria = new Criteria().where("questionId").is(questionId);
         MatchOperation matchOperation = Aggregation.match(criteria);
 
         ProjectionOperation projectionOperation = project( "text").and("_id").as("responseId");
 
-        AggregationResults<AggregationMongo> aggregate = this.mongoOps.aggregate(
+        AggregationResults<AggregationAnswerMongo.TextAnswerMongo> aggregate = this.mongoOps.aggregate(
                 newAggregation(matchOperation, projectionOperation),
-                "response", AggregationMongo.class
+                "response", AggregationAnswerMongo.TextAnswerMongo.class
         );
 
         return aggregate.getMappedResults();
     }
 
+    public List<AggregationAnswerMongo.ChoiceAnswerMongo> getChoiceAnswers(Long questionId){
+        Criteria criteria = new Criteria().where("questionId").is(questionId);
+        MatchOperation matchOperation = Aggregation.match(criteria);
+
+        GroupOperation groupOperation = group("choice")
+                .count().as("count");
+
+        ProjectionOperation projectionOperation = project( "count").and("_id").as("choice");
+
+        AggregationResults<AggregationAnswerMongo.ChoiceAnswerMongo> aggregate = this.mongoOps.aggregate(
+                newAggregation(matchOperation, groupOperation, projectionOperation),
+                "response", AggregationAnswerMongo.ChoiceAnswerMongo.class
+        );
+
+        return aggregate.getMappedResults();
+    }
+
+    /**
+     * Deprecated
+     */
     public List<AggregationQuestionMongo> getAggregation(Long surveyId){
 
         Criteria criteria = new Criteria().where("surveyId").is(surveyId);

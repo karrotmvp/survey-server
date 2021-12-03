@@ -21,9 +21,6 @@ public class QuestionMongo extends BaseEntityMongo {
     private int questionType;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private Long questionId;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String text;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)

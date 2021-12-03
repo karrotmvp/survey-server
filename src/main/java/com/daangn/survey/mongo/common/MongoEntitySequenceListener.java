@@ -1,6 +1,5 @@
 package com.daangn.survey.mongo.common;
 
-import com.daangn.survey.mongo.survey.SurveyMongo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;

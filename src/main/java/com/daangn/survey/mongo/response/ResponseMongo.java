@@ -13,6 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Document(collection = "response")
 public class ResponseMongo extends BaseEntityMongo {
+    public static String sequenceName = "response_id";
+
+    private Long responseId;
     private Long surveyId;
     private Long memberId;
     private Long questionId;

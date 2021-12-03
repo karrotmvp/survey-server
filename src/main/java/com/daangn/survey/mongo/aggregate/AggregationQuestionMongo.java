@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -14,5 +15,5 @@ import java.util.List;
 public class AggregationQuestionMongo {
     private String question;
     private int questionType;
-    private List<AggregationMongo> answers;
+    private List<AggregationAnswerMongo> answers = new LinkedList<>();
 }

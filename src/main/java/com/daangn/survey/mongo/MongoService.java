@@ -2,6 +2,7 @@ package com.daangn.survey.mongo;
 
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
+import com.daangn.survey.mongo.common.SequenceGeneratorService;
 import com.daangn.survey.mongo.response.ResponseMongo;
 import com.daangn.survey.mongo.response.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.QuestionMongo;
@@ -18,14 +19,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MongoService {
     private final MongoRepository mongoRepository;
+    private final SequenceGeneratorService generatorService;
 
     @Transactional
     public void insertResponse(ResponseMongoDto response){
-
+        Long responseId = generatorService.generateSequence(ResponseMongo.sequenceName);
 
         List<ResponseMongo> responses = response.getAnswers()
                 .stream()
                 .map(el -> ResponseMongo.builder()
+                        .responseId(responseId)
                         .memberId(response.getMemberId())
                         .surveyId(response.getSurveyId())
                         .questionId(el.getQuestionId())
@@ -48,6 +51,9 @@ public class MongoService {
         return mongoRepository.getSurveyMongo(surveyId);
     }
 
+    /**
+     * Deprecated
+     */
     @Transactional(readOnly = true)
     public List<AggregationQuestionMongo> getAggregation(Long surveyId){
         SurveyMongo surveyMongo = mongoRepository.getSurveyMongo(surveyId);
@@ -81,17 +87,23 @@ public class MongoService {
     public List<AggregationQuestionMongo> getAggregate(Long surveyId){
         List<QuestionMongo> questions = mongoRepository.getSurveyMongo(surveyId).getQuestions();
 
+        List<AggregationQuestionMongo> result = new LinkedList<>();
+
         for(int idx = 0 ; idx < questions.size(); idx++){
             QuestionMongo question = questions.get(idx);
 
             AggregationQuestionMongo aggregationQuestion = new AggregationQuestionMongo();
             aggregationQuestion.setQuestionType(question.getQuestionType());
             aggregationQuestion.setQuestion(question.getText());
+            if(question.getQuestionType() == 2)
+                aggregationQuestion.getAnswers().addAll(mongoRepository.getTextAnswers(question.getId()));
 
+            if(question.getQuestionType() == 3)
+                aggregationQuestion.getAnswers().addAll(mongoRepository.getChoiceAnswers(question.getId()));
 
-            mongoRepository.getTextAnswers(question.getQuestionId());
+            result.add(aggregationQuestion);
         }
 
-        return null;
+        return result;
     }
 }
