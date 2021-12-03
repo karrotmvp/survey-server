@@ -2,10 +2,9 @@ package com.daangn.survey.mongo;
 
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
-import com.daangn.survey.mongo.aggregate.individual.IndividualResponseMongo;
 import com.daangn.survey.mongo.common.SequenceGeneratorService;
 import com.daangn.survey.mongo.response.ResponseMongo;
-import com.daangn.survey.mongo.response.ResponseMongoDto;
+import com.daangn.survey.mongo.response.dto.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.QuestionMongo;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import lombok.RequiredArgsConstructor;
@@ -52,41 +51,6 @@ public class MongoService {
         return mongoRepository.getSurveyMongo(surveyId);
     }
 
-    /**
-     * Deprecated
-     */
-    @Transactional(readOnly = true)
-    public List<AggregationQuestionMongo> getAggregation(Long surveyId){
-        SurveyMongo surveyMongo = mongoRepository.getSurveyMongo(surveyId);
-
-        List<AggregationQuestionMongo> result = mongoRepository.getAggregation(surveyId);
-
-        for(int idx = 0 ; idx < result.size(); idx++){ // question size로 변경할 것
-            QuestionMongo questionMongo = surveyMongo.getQuestions().get(idx);
-            result.get(idx).setQuestion(questionMongo.getText());
-            result.get(idx).setQuestionType(questionMongo.getQuestionType());
-        }
-
-        return result;
-    }
-
-    /**
-     * Deprecated
-     */
-    @Transactional(readOnly = true)
-    public List<IndividualQuestionMongo> getIndividualResponse(Long responseId){
-        List<IndividualQuestionMongo> result = new LinkedList<>();
-
-        ResponseMongoDto responseMongoDto = mongoRepository.getResponseMongo(responseId);
-        SurveyMongo surveyMongo = mongoRepository.getSurveyMongo(responseMongoDto.getSurveyId());
-
-        for(int idx = 0; idx < responseMongoDto.getAnswers().size(); idx++){ // 멀티 초이스 고려하기
-//           result.add(new IndividualQuestionMongo(surveyMongo.getQuestions().get(idx), responseMongoDto.getAnswers().get(idx)));
-        }
-
-        return result;
-    }
-
     @Transactional(readOnly = true)
     public List<IndividualQuestionMongo> getIndividualResponseMongo(Long surveyId, Long responseId){
         SurveyMongo survey = mongoRepository.getSurveyMongo(surveyId);
@@ -100,7 +64,7 @@ public class MongoService {
     }
 
     @Transactional(readOnly = true)
-    public List<AggregationQuestionMongo> getAggregate(Long surveyId){
+    public List<AggregationQuestionMongo> getAggregation(Long surveyId){
         List<QuestionMongo> questions = mongoRepository.getSurveyMongo(surveyId).getQuestions();
 
         List<AggregationQuestionMongo> result = new LinkedList<>();
@@ -111,6 +75,7 @@ public class MongoService {
             AggregationQuestionMongo aggregationQuestion = new AggregationQuestionMongo();
             aggregationQuestion.setQuestionType(question.getQuestionType());
             aggregationQuestion.setQuestion(question.getText());
+
             if(question.getQuestionType() == 2)
                 aggregationQuestion.getAnswers().addAll(mongoRepository.getTextAnswers(question.getId()));
 

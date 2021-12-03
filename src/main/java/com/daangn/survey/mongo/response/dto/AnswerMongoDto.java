@@ -1,4 +1,4 @@
-package com.daangn.survey.mongo.response;
+package com.daangn.survey.mongo.response.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

@@ -4,7 +4,6 @@ import com.daangn.survey.mongo.aggregate.AggregationAnswerMongo;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualResponseMongo;
 import com.daangn.survey.mongo.response.ResponseMongo;
-import com.daangn.survey.mongo.response.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.mongodb.BasicDBObject;
 import lombok.RequiredArgsConstructor;
@@ -39,10 +38,6 @@ public class MongoRepository {
     public SurveyMongo getSurveyMongo(Long surveyId){
 
         return mongoOps.findOne(query(where("_id").is(surveyId)), SurveyMongo.class);
-    }
-
-    public ResponseMongoDto getResponseMongo(Long responseId){
-        return mongoOps.findOne(query(where("_id").is(responseId)), ResponseMongoDto.class);
     }
 
     public List<IndividualResponseMongo> getResponse(Long questionId, Long responseId){

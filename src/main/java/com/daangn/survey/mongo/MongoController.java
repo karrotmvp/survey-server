@@ -4,7 +4,7 @@ import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.member.model.entity.Member;
-import com.daangn.survey.mongo.response.ResponseMongoDto;
+import com.daangn.survey.mongo.response.dto.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +53,7 @@ public class MongoController {
     public ResponseEntity<ResponseDto<?>> getAggregation(@PathVariable Long surveyId){
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getAggregate(surveyId)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getAggregation(surveyId)));
     }
 
     @GetMapping("/surveys/{surveyId}/individual/{responseId}")

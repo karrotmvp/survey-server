@@ -1,6 +1,7 @@
-package com.daangn.survey.mongo.response;
+package com.daangn.survey.mongo.response.dto;
 
 import com.daangn.survey.mongo.common.BaseEntityMongo;
+import com.daangn.survey.mongo.response.dto.AnswerMongoDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
