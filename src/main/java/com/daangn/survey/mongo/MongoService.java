@@ -1,5 +1,6 @@
 package com.daangn.survey.mongo;
 
+import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
 import com.daangn.survey.mongo.common.SequenceGeneratorService;
@@ -21,6 +22,18 @@ public class MongoService {
     private final MongoRepository mongoRepository;
     private final SequenceGeneratorService generatorService;
 
+    // Survey
+    @Transactional
+    public void insertSurvey(SurveyMongo survey){
+        mongoRepository.insertSurvey(survey);
+    }
+
+    @Transactional(readOnly = true)
+    public SurveyMongo findSurvey(Long surveyId){
+        return mongoRepository.getSurveyMongo(surveyId);
+    }
+
+    // Response
     @Transactional
     public void insertResponse(ResponseMongoDto response){
         Long responseId = generatorService.generateSequence(ResponseMongo.sequenceName);
@@ -41,28 +54,7 @@ public class MongoService {
         mongoRepository.insertResponses(responses);
     }
 
-    @Transactional
-    public void insertSurvey(SurveyMongo survey){
-        mongoRepository.insertSurvey(survey);
-    }
-
-    @Transactional(readOnly = true)
-    public SurveyMongo findSurvey(Long surveyId){
-        return mongoRepository.getSurveyMongo(surveyId);
-    }
-
-    @Transactional(readOnly = true)
-    public List<IndividualQuestionMongo> getIndividualResponseMongo(Long surveyId, Long responseId){
-        SurveyMongo survey = mongoRepository.getSurveyMongo(surveyId);
-        List<IndividualQuestionMongo> responses = survey.getQuestions()
-                .stream()
-                .map(el -> new IndividualQuestionMongo(el, mongoRepository.getResponse(el.getId(), responseId)))
-                .collect(Collectors.toList());
-
-
-        return responses;
-    }
-
+    // Aggregation
     @Transactional(readOnly = true)
     public List<AggregationQuestionMongo> getAggregation(Long surveyId){
         List<QuestionMongo> questions = mongoRepository.getSurveyMongo(surveyId).getQuestions();
@@ -87,4 +79,24 @@ public class MongoService {
 
         return result;
     }
+
+    @Transactional(readOnly = true)
+    public List<IndividualQuestionMongo> getIndividualResponseMongo(Long surveyId, Long responseId){
+        SurveyMongo survey = mongoRepository.getSurveyMongo(surveyId);
+        List<IndividualQuestionMongo> responses = survey.getQuestions()
+                .stream()
+                .map(el -> new IndividualQuestionMongo(el, mongoRepository.getResponse(el.getId(), responseId)))
+                .collect(Collectors.toList());
+
+
+        return responses;
+    }
+
+    @Transactional(readOnly = true)
+    public SurveyResponsesBrief getResponseBrief(Long surveyId){
+        List<Long> responseIds = mongoRepository.getResponseBrief(surveyId);
+
+        return new SurveyResponsesBrief(responseIds.size(), responseIds);
+    }
+
 }

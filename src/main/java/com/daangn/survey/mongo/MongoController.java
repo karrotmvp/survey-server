@@ -3,6 +3,7 @@ package com.daangn.survey.mongo;
 import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
+import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.mongo.response.dto.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.SurveyMongo;
@@ -60,6 +61,13 @@ public class MongoController {
     public ResponseEntity<ResponseDto<?>> getIndividualResponse(@PathVariable Long surveyId, @PathVariable Long responseId){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getIndividualResponseMongo(surveyId, responseId)));
+    }
+
+    @GetMapping("/{surveyId}/responses/brief")
+    public ResponseEntity<ResponseDto<SurveyResponsesBrief>> getResponsesBrief(@PathVariable Long surveyId){
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_RESPONSES_BRIEF, mongoService.getResponseBrief(surveyId)));
     }
 
 }

@@ -130,4 +130,8 @@ public class MongoRepository {
 
         return aggregate.getMappedResults();
     }
+
+    public List<Long> getResponseBrief(Long surveyId){
+        return mongoOps.findDistinct(query(where("surveyId").is(surveyId)),"responseId", ResponseMongo.class, Long.class);
+    }
 }
