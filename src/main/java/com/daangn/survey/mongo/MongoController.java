@@ -48,7 +48,7 @@ public class MongoController {
 
         surveyMongo.setMemberId(member.getId());
         surveyMongo.setCreatedAt(LocalDateTime.now());
-
+        surveyMongo.setDeleted(false);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.insertSurvey(surveyMongo)));

@@ -27,6 +27,10 @@ public class SurveyMongo extends BaseEntityMongo {
 
     private List<QuestionMongo> questions;
 
+    private LocalDateTime publishedAt;
+
+    private boolean isDeleted;
+
     private LocalDateTime createdAt;
 
     public int getSurveyEstimatedTime(){
