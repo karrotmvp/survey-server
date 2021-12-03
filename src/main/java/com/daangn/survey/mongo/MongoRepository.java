@@ -1,5 +1,6 @@
 package com.daangn.survey.mongo;
 
+import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.mongo.aggregate.AggregationAnswerMongo;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
@@ -32,9 +33,11 @@ public class MongoRepository {
         mongoOps.insertAll(responses);
     }
 
-    public void insertSurvey(SurveyMongo surveyMongo){
+    public Long insertSurvey(SurveyMongo surveyMongo){
         mongoOps.insertAll(surveyMongo.getQuestions());
         mongoOps.insert(surveyMongo);
+
+        return surveyMongo.getId();
     }
 
     public SurveyMongo getSurveyMongo(Long surveyId){
@@ -141,5 +144,9 @@ public class MongoRepository {
 
     public List<Long> getResponseBrief(Long surveyId){
         return mongoOps.findDistinct(query(where("surveyId").is(surveyId)),"responseId", ResponseMongo.class, Long.class);
+    }
+
+    public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
+        return mongoOps.findOne(query(where("surveyId").is(surveyId)), SurveyBriefDto.class, "survey");
     }
 }

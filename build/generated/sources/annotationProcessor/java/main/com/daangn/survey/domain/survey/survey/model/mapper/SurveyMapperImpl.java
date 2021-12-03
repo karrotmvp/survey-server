@@ -11,6 +11,7 @@ import com.daangn.survey.domain.survey.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveyRequestDto;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.domain.survey.survey.model.entity.Survey;
+import com.daangn.survey.mongo.survey.SurveyMongo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-12-03T20:47:26+0900",
+    date = "2021-12-03T21:10:14+0900",
     comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.0.jar, environment: Java 16.0.2 (Amazon.com Inc.)"
 )
 @Component
@@ -95,6 +96,32 @@ public class SurveyMapperImpl implements SurveyMapper {
 
     @Override
     public SurveyBriefDto toSurveyBriefDtoWithMember(Survey survey, BizProfileDto bizProfileDto, int estimatedTime) {
+        if ( survey == null && bizProfileDto == null ) {
+            return null;
+        }
+
+        SurveyBriefDto surveyBriefDto = new SurveyBriefDto();
+
+        if ( survey != null ) {
+            surveyBriefDto.setCreatedAt( survey.getCreatedAt() );
+            surveyBriefDto.setTitle( survey.getTitle() );
+        }
+        if ( bizProfileDto != null ) {
+            surveyBriefDto.setBizProfile( bizProfileDto );
+            List<String> list = bizProfileDto.getCoverImageUrls();
+            if ( list != null ) {
+                surveyBriefDto.setCoverImageUrls( new ArrayList<String>( list ) );
+            }
+        }
+        surveyBriefDto.setEstimatedTime( estimatedTime );
+        surveyBriefDto.setQuestionCount( survey.getQuestions().size() );
+        surveyBriefDto.setTarget( survey.convertTarget() );
+
+        return surveyBriefDto;
+    }
+
+    @Override
+    public SurveyBriefDto toSurveyBriefDtoFromSurveyMongo(SurveyMongo survey, BizProfileDto bizProfileDto, int estimatedTime) {
         if ( survey == null && bizProfileDto == null ) {
             return null;
         }

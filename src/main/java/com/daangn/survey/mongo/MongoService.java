@@ -1,7 +1,14 @@
 package com.daangn.survey.mongo;
 
+import com.daangn.survey.core.auth.oauth.SocialResolver;
+import com.daangn.survey.core.error.ErrorCode;
+import com.daangn.survey.core.error.exception.EntityNotFoundException;
 import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
-import com.daangn.survey.domain.survey.survey.model.dto.SurveySummaryDto;
+import com.daangn.survey.domain.member.model.entity.Member;
+import com.daangn.survey.domain.member.model.mapper.MemberMapper;
+import com.daangn.survey.domain.member.repository.MemberRepository;
+import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
+import com.daangn.survey.domain.survey.survey.model.mapper.SurveyMapper;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
 import com.daangn.survey.mongo.common.SequenceGeneratorService;
@@ -10,6 +17,7 @@ import com.daangn.survey.mongo.response.dto.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.QuestionMongo;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.daangn.survey.mongo.survey.SurveySummaryMongoDto;
+import com.daangn.survey.third.karrot.member.KarrotBizProfileDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +31,15 @@ import java.util.stream.Collectors;
 public class MongoService {
     private final MongoRepository mongoRepository;
     private final SequenceGeneratorService generatorService;
+    private final MemberRepository memberRepository;
+    private final MemberMapper memberMapper;
+    private final SurveyMapper surveyMapper;
+    private final SocialResolver socialResolver;
 
     // Survey
     @Transactional
-    public void insertSurvey(SurveyMongo survey){
-        mongoRepository.insertSurvey(survey);
+    public Long insertSurvey(SurveyMongo survey){
+        return mongoRepository.insertSurvey(survey);
     }
 
     @Transactional(readOnly = true)
@@ -43,6 +55,43 @@ public class MongoService {
                             .map(el -> el.setResponseCount(mongoRepository.getResponseBrief(el.getId()).size()))
                             .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
+        /**
+         *     private Long surveyId;
+         *
+         *     private int estimatedTime;
+         *
+         *     private int questionCount;
+         *
+         *     private String title;
+         *
+         *     private String description;
+         *
+         *     private BizProfileDto bizProfile;
+         *
+         *     private String target;
+         *
+         *     private LocalDateTime createdAt;
+         */
+
+        SurveyMongo survey = mongoRepository.getSurveyMongo(surveyId);
+
+        Member member = memberRepository.findById(survey.getMemberId()).orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
+
+        SurveyBriefDto surveyBriefDto = surveyMapper.toSurveyBriefDtoFromSurveyMongo(
+                survey,
+                memberMapper.toBizProfileDtoFromMember(member),
+                survey.getSurveyEstimatedTime()
+        );
+
+        KarrotBizProfileDetail profile = socialResolver.resolveBizProfileDetails(member.getDaangnId());
+        surveyBriefDto.setCoverImageUrls(profile.getCoverImageUrls());
+
+        return surveyBriefDto;
+    }
+
     // Response
     @Transactional
     public void insertResponse(ResponseMongoDto response){

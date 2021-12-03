@@ -5,6 +5,7 @@ import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
 import com.daangn.survey.domain.member.model.entity.Member;
+import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.mongo.response.dto.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.SurveyMongo;
@@ -22,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_BRIEF;
 import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_LIST;
 
 @RequiredArgsConstructor
@@ -45,10 +47,10 @@ public class MongoController {
 
         surveyMongo.setMemberId(member.getId());
         surveyMongo.setCreatedAt(LocalDateTime.now());
-        mongoService.insertSurvey(surveyMongo);
+
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.insertSurvey(surveyMongo)));
     }
 
     @GetMapping("/survey")
@@ -93,6 +95,12 @@ public class MongoController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_RESPONSES_BRIEF, mongoService.getResponseBrief(surveyId)));
+    }
+
+    @GetMapping("/brief/{surveyId}")
+    public ResponseEntity<ResponseDto<SurveyBriefDto>> getSurveyBrief(@PathVariable Long surveyId){
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, mongoService.findSurveyBriefBySurveyId(surveyId)));
     }
 
 }

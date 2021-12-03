@@ -8,6 +8,7 @@ import com.daangn.survey.domain.survey.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveyRequestDto;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.domain.survey.survey.model.entity.Survey;
+import com.daangn.survey.mongo.survey.SurveyMongo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -36,4 +37,11 @@ public interface SurveyMapper {
     @Mapping(target = "createdAt", source = "survey.createdAt")
     @Mapping(target = "bizProfile", source = "bizProfileDto")
     SurveyBriefDto toSurveyBriefDtoWithMember(Survey survey, BizProfileDto bizProfileDto, int estimatedTime);
+
+    @Mapping(target = "estimatedTime", source = "estimatedTime")
+    @Mapping(target = "questionCount", expression = "java(survey.getQuestions().size())")
+    @Mapping(target = "target", expression = "java(survey.convertTarget())")
+    @Mapping(target = "createdAt", source = "survey.createdAt")
+    @Mapping(target = "bizProfile", source = "bizProfileDto")
+    SurveyBriefDto toSurveyBriefDtoFromSurveyMongo(SurveyMongo survey, BizProfileDto bizProfileDto, int estimatedTime);
 }

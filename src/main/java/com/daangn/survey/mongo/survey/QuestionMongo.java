@@ -28,5 +28,11 @@ public class QuestionMongo extends BaseEntityMongo {
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<ChoiceMongo> choices;
+
+    public int getQuestionEstimatedTime(){
+        if(questionType == 2) return 20;
+        else if(questionType == 3) return 10;
+        return 0;
+    }
 }
 
