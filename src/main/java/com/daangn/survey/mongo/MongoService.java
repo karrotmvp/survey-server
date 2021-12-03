@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,6 +91,7 @@ public class MongoService {
                         .questionType(el.getQuestionType())
                         .choice(el.getChoice())
                         .text(el.getText())
+                        .createdAt(LocalDateTime.now())
                         .build())
                 .collect(Collectors.toList());
 
