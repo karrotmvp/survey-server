@@ -7,7 +7,7 @@ import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.domain.aggregation.service.AggregationService;
 import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.response.service.ResponseService;
-import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
+import com.daangn.survey.domain.survey.service.SurveyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ import static com.daangn.survey.common.message.ResponseMessage.PUBLISH_SURVEY;
 @RequiredArgsConstructor
 public class AdminController {
 
-    private final SurveyServiceImpl surveyService;
+    private final SurveyService surveyService;
     private final ResponseService responseService;
     private final AdminService adminService;
     private final AggregationService aggregationService;
