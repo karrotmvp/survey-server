@@ -4,8 +4,10 @@ import com.daangn.survey.mongo.common.BaseEntityMongo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -21,6 +23,8 @@ public class SurveyMongo extends BaseEntityMongo {
     private int target;
 
     private List<QuestionMongo> questions;
+
+    private LocalDateTime createdAt;
 
 //    private Map<String, Object> data;
 //

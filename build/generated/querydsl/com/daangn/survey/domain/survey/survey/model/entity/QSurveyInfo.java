@@ -16,7 +16,7 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.EntitySerializer")
 public class QSurveyInfo extends EntityPathBase<SurveyInfo> {
 
-    private static final long serialVersionUID = -898373120L;
+    private static final long serialVersionUID = 2097234056L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

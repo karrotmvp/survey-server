@@ -1,6 +1,7 @@
 package com.daangn.survey.mongo;
 
 import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
+import com.daangn.survey.domain.survey.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
 import com.daangn.survey.mongo.common.SequenceGeneratorService;
@@ -8,6 +9,7 @@ import com.daangn.survey.mongo.response.ResponseMongo;
 import com.daangn.survey.mongo.response.dto.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.QuestionMongo;
 import com.daangn.survey.mongo.survey.SurveyMongo;
+import com.daangn.survey.mongo.survey.SurveySummaryMongoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +35,14 @@ public class MongoService {
         return mongoRepository.getSurveyMongo(surveyId);
     }
 
+    @Transactional(readOnly = true)
+    public List<SurveySummaryMongoDto> findSurveysByMemberId(Long memberId){
+
+        return mongoRepository.findSurveysByMemberId(memberId)
+                            .stream()
+                            .map(el -> el.setResponseCount(mongoRepository.getResponseBrief(el.getId()).size()))
+                            .collect(Collectors.toList());
+    }
     // Response
     @Transactional
     public void insertResponse(ResponseMongoDto response){

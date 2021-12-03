@@ -2,10 +2,10 @@ package com.daangn.survey.domain.survey.survey.model.mapper;
 
 import com.daangn.survey.domain.member.model.dto.BizProfileDto;
 import com.daangn.survey.domain.member.model.entity.Member;
+import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.survey.question.model.dto.QuestionDto;
 import com.daangn.survey.domain.survey.question.model.entity.Question;
 import com.daangn.survey.domain.survey.question.model.mapper.QuestionMapper;
-import com.daangn.survey.domain.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveyRequestDto;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-12-03T17:33:39+0900",
+    date = "2021-12-03T20:40:27+0900",
     comments = "version: 1.4.2.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-7.0.jar, environment: Java 16.0.2 (Amazon.com Inc.)"
 )
 @Component
