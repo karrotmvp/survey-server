@@ -2,6 +2,7 @@ package com.daangn.survey.mongo.survey;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 public class SurveySummaryMongoDto {
     @Schema(description = "설문 ID")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @JsonProperty("surveyId")
     private Long id;
 
     @Schema(description = "설문 제목", required = true)
