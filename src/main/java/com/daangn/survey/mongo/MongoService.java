@@ -2,6 +2,7 @@ package com.daangn.survey.mongo;
 
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
+import com.daangn.survey.mongo.aggregate.individual.IndividualResponseMongo;
 import com.daangn.survey.mongo.common.SequenceGeneratorService;
 import com.daangn.survey.mongo.response.ResponseMongo;
 import com.daangn.survey.mongo.response.ResponseMongoDto;
@@ -69,6 +70,9 @@ public class MongoService {
         return result;
     }
 
+    /**
+     * Deprecated
+     */
     @Transactional(readOnly = true)
     public List<IndividualQuestionMongo> getIndividualResponse(Long responseId){
         List<IndividualQuestionMongo> result = new LinkedList<>();
@@ -77,10 +81,22 @@ public class MongoService {
         SurveyMongo surveyMongo = mongoRepository.getSurveyMongo(responseMongoDto.getSurveyId());
 
         for(int idx = 0; idx < responseMongoDto.getAnswers().size(); idx++){ // 멀티 초이스 고려하기
-           result.add(new IndividualQuestionMongo(surveyMongo.getQuestions().get(idx), responseMongoDto.getAnswers().get(idx)));
+//           result.add(new IndividualQuestionMongo(surveyMongo.getQuestions().get(idx), responseMongoDto.getAnswers().get(idx)));
         }
 
         return result;
+    }
+
+    @Transactional(readOnly = true)
+    public List<IndividualQuestionMongo> getIndividualResponseMongo(Long surveyId, Long responseId){
+        SurveyMongo survey = mongoRepository.getSurveyMongo(surveyId);
+        List<IndividualQuestionMongo> responses = survey.getQuestions()
+                .stream()
+                .map(el -> new IndividualQuestionMongo(el, mongoRepository.getResponse(el.getId(), responseId)))
+                .collect(Collectors.toList());
+
+
+        return responses;
     }
 
     @Transactional(readOnly = true)

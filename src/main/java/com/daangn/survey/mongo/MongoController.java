@@ -56,10 +56,10 @@ public class MongoController {
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getAggregate(surveyId)));
     }
 
-    @GetMapping("/individual/{responseId}")
-    public ResponseEntity<ResponseDto<?>> getIndividualResponse(@PathVariable Long responseId){
+    @GetMapping("/surveys/{surveyId}/individual/{responseId}")
+    public ResponseEntity<ResponseDto<?>> getIndividualResponse(@PathVariable Long surveyId, @PathVariable Long responseId){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getIndividualResponse(responseId)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getIndividualResponseMongo(surveyId, responseId)));
     }
 
 }

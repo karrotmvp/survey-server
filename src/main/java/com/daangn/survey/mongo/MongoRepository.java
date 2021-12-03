@@ -2,6 +2,7 @@ package com.daangn.survey.mongo;
 
 import com.daangn.survey.mongo.aggregate.AggregationAnswerMongo;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
+import com.daangn.survey.mongo.aggregate.individual.IndividualResponseMongo;
 import com.daangn.survey.mongo.response.ResponseMongo;
 import com.daangn.survey.mongo.response.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.SurveyMongo;
@@ -42,6 +43,20 @@ public class MongoRepository {
 
     public ResponseMongoDto getResponseMongo(Long responseId){
         return mongoOps.findOne(query(where("_id").is(responseId)), ResponseMongoDto.class);
+    }
+
+    public List<IndividualResponseMongo> getResponse(Long questionId, Long responseId){
+        Criteria criteria = new Criteria().where("questionId").is(questionId).and("responseId").is(responseId);
+        MatchOperation matchOperation = Aggregation.match(criteria);
+
+        ProjectionOperation projectionOperation = project( "questionType", "text", "choice");
+
+        AggregationResults<IndividualResponseMongo> aggregate = this.mongoOps.aggregate(
+                newAggregation(matchOperation, projectionOperation),
+                "response", IndividualResponseMongo.class
+        );
+
+        return aggregate.getMappedResults();
     }
 
     public List<AggregationAnswerMongo.TextAnswerMongo> getTextAnswers(Long questionId){
