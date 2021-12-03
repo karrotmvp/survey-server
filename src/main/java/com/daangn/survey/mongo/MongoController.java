@@ -6,11 +6,12 @@ import com.daangn.survey.core.annotation.CurrentUser;
 import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
-import com.daangn.survey.domain.survey.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.mongo.response.dto.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.daangn.survey.mongo.survey.SurveySummaryMongoDto;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -66,6 +67,13 @@ public class MongoController {
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.findSurvey(surveyId)));
     }
 
+    @GetMapping("/brief/{surveyId}")
+    public ResponseEntity<ResponseDto<SurveyBriefDto>> getSurveyBrief(@PathVariable Long surveyId){
+
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, mongoService.findSurveyBriefBySurveyId(surveyId)));
+    }
+
+    // Response
     @PostMapping("/response")
     public ResponseEntity<ResponseDto<?>> insertResponse(@CurrentUser Member member, @RequestBody Map<String, Object> requestBody){
         ResponseMongoDto responseMongoDto = gson.fromJson(gson.toJson(requestBody), ResponseMongoDto.class);
@@ -77,6 +85,7 @@ public class MongoController {
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE));
     }
 
+    // Aggregation
     @GetMapping("/aggregate/{surveyId}")
     public ResponseEntity<ResponseDto<?>> getAggregation(@PathVariable Long surveyId){
 
@@ -95,12 +104,6 @@ public class MongoController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_RESPONSES_BRIEF, mongoService.getResponseBrief(surveyId)));
-    }
-
-    @GetMapping("/brief/{surveyId}")
-    public ResponseEntity<ResponseDto<SurveyBriefDto>> getSurveyBrief(@PathVariable Long surveyId){
-
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, mongoService.findSurveyBriefBySurveyId(surveyId)));
     }
 
 }

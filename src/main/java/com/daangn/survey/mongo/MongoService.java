@@ -58,23 +58,6 @@ public class MongoService {
 
     @Transactional(readOnly = true)
     public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
-        /**
-         *     private Long surveyId;
-         *
-         *     private int estimatedTime;
-         *
-         *     private int questionCount;
-         *
-         *     private String title;
-         *
-         *     private String description;
-         *
-         *     private BizProfileDto bizProfile;
-         *
-         *     private String target;
-         *
-         *     private LocalDateTime createdAt;
-         */
 
         SurveyMongo survey = mongoRepository.getSurveyMongo(surveyId);
 

@@ -1,7 +1,5 @@
 package com.daangn.survey.mongo;
 
-import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
-import com.daangn.survey.domain.survey.survey.model.dto.SurveySummaryDto;
 import com.daangn.survey.mongo.aggregate.AggregationAnswerMongo;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualResponseMongo;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -29,10 +26,7 @@ public class MongoRepository {
 
     private final MongoOperations mongoOps;
 
-    public void insertResponses(List<ResponseMongo> responses){
-        mongoOps.insertAll(responses);
-    }
-
+    // Survey
     public Long insertSurvey(SurveyMongo surveyMongo){
         mongoOps.insertAll(surveyMongo.getQuestions());
         mongoOps.insert(surveyMongo);
@@ -51,6 +45,11 @@ public class MongoRepository {
         return surveySummaries;
     }
 
+    // Response
+    public void insertResponses(List<ResponseMongo> responses){
+        mongoOps.insertAll(responses);
+    }
+
     public List<IndividualResponseMongo> getResponse(Long questionId, Long responseId){
         Criteria criteria = new Criteria().where("questionId").is(questionId).and("responseId").is(responseId);
         MatchOperation matchOperation = Aggregation.match(criteria);
@@ -65,6 +64,7 @@ public class MongoRepository {
         return aggregate.getMappedResults();
     }
 
+    // Aggregation
     public List<AggregationAnswerMongo.TextAnswerMongo> getTextAnswers(Long questionId){
         Criteria criteria = new Criteria().where("questionId").is(questionId);
         MatchOperation matchOperation = Aggregation.match(criteria);
@@ -94,6 +94,10 @@ public class MongoRepository {
         );
 
         return aggregate.getMappedResults();
+    }
+
+    public List<Long> getResponseBrief(Long surveyId){
+        return mongoOps.findDistinct(query(where("surveyId").is(surveyId)),"responseId", ResponseMongo.class, Long.class);
     }
 
     /**
@@ -140,13 +144,5 @@ public class MongoRepository {
         );
 
         return aggregate.getMappedResults();
-    }
-
-    public List<Long> getResponseBrief(Long surveyId){
-        return mongoOps.findDistinct(query(where("surveyId").is(surveyId)),"responseId", ResponseMongo.class, Long.class);
-    }
-
-    public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
-        return mongoOps.findOne(query(where("surveyId").is(surveyId)), SurveyBriefDto.class, "survey");
     }
 }
