@@ -48,6 +48,9 @@ public class MongoService {
         return mongoRepository.getSurveyMongo(surveyId);
     }
 
+    // 성능 최악인데 이걸 어떻게 해결할 수 있을까?
+    // 1. bulk?
+    // 2. data loader
     @Transactional(readOnly = true)
     public List<SurveySummaryMongoDto> findSurveysByMemberId(Long memberId){
 
@@ -88,7 +91,6 @@ public class MongoService {
                         .memberId(response.getMemberId())
                         .surveyId(response.getSurveyId())
                         .questionId(el.getQuestionId())
-                        .questionType(el.getQuestionType())
                         .choice(el.getChoice())
                         .text(el.getText())
                         .createdAt(LocalDateTime.now())
