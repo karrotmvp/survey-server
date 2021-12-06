@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -15,18 +16,16 @@ import java.util.List;
 @NoArgsConstructor
 @Setter @Getter
 @Document(collection = "question")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class QuestionMongo extends BaseEntityMongo {
 
     @NotNull
     private int questionType;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String text;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String description;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<ChoiceMongo> choices;
 
     public int getQuestionEstimatedTime(){

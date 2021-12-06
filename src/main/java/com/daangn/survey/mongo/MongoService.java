@@ -18,6 +18,7 @@ import com.daangn.survey.mongo.response.dto.ResponseMongoDto;
 import com.daangn.survey.mongo.survey.QuestionMongo;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.daangn.survey.mongo.survey.SurveySummaryMongoDto;
+import com.daangn.survey.mongo.survey.dto.SurveyMongoDto;
 import com.daangn.survey.third.karrot.member.KarrotBizProfileDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,8 +46,8 @@ public class MongoService {
     }
 
     @Transactional(readOnly = true)
-    public SurveyMongo findSurvey(Long surveyId){
-        return mongoRepository.getSurveyMongo(surveyId);
+    public SurveyMongoDto findSurvey(Long surveyId){
+        return mongoRepository.getSurveyMongoDto(surveyId);
     }
 
     // 성능 최악인데 이걸 어떻게 해결할 수 있을까?
@@ -78,7 +79,7 @@ public class MongoService {
     @Transactional(readOnly = true)
     public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
 
-        SurveyMongo survey = mongoRepository.getSurveyMongo(surveyId);
+        SurveyMongo survey = mongoRepository.findSurveyMongo(surveyId);
 
         Member member = memberRepository.findById(survey.getMemberId()).orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
 
@@ -118,7 +119,7 @@ public class MongoService {
     // Aggregation
     @Transactional(readOnly = true)
     public List<AggregationQuestionMongo> getAggregation(Long surveyId){
-        List<QuestionMongo> questions = mongoRepository.getSurveyMongo(surveyId).getQuestions();
+        List<QuestionMongo> questions = mongoRepository.findSurveyMongo(surveyId).getQuestions();
 
         List<AggregationQuestionMongo> result = new LinkedList<>();
 
@@ -143,7 +144,7 @@ public class MongoService {
 
     @Transactional(readOnly = true)
     public List<IndividualQuestionMongo> getIndividualResponseMongo(Long surveyId, Long responseId){
-        SurveyMongo survey = mongoRepository.getSurveyMongo(surveyId);
+        SurveyMongoDto survey = mongoRepository.getSurveyMongoDto(surveyId);
         List<IndividualQuestionMongo> responses = survey.getQuestions()
                 .stream()
                 .map(el -> new IndividualQuestionMongo(el, mongoRepository.getResponse(el.getId(), responseId)))
