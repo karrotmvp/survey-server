@@ -10,6 +10,7 @@ import com.daangn.survey.domain.member.repository.MemberRepository;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.survey.model.mapper.SurveyMapper;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
+import com.daangn.survey.mongo.aggregate.SurveyResponseCountMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
 import com.daangn.survey.mongo.common.SequenceGeneratorService;
 import com.daangn.survey.mongo.response.ResponseMongo;
@@ -54,10 +55,24 @@ public class MongoService {
     @Transactional(readOnly = true)
     public List<SurveySummaryMongoDto> findSurveysByMemberId(Long memberId){
 
-        return mongoRepository.findSurveysByMemberId(memberId)
-                            .stream()
-                            .map(el -> el.setResponseCount(mongoRepository.getResponseBrief(el.getId()).size()))
-                            .collect(Collectors.toList());
+        List<SurveySummaryMongoDto> surveys = mongoRepository.findSurveysByMemberId(memberId);
+
+        List<Long> surveyIds = surveys.stream().map(el -> el.getId()).collect(Collectors.toList());
+
+        List<SurveyResponseCountMongo> counts = mongoRepository.getSurveyResponseCountList(surveyIds);
+
+        int idx = 0;
+
+        for(SurveySummaryMongoDto survey: surveys){
+            SurveyResponseCountMongo count = counts.get(idx);
+
+            if(survey.isSurveyId(count.getSurveyId())){
+                survey.setResponseCount(count.getCount());
+                idx++;
+            }
+        }
+
+        return surveys;
     }
 
     @Transactional(readOnly = true)

@@ -3,6 +3,7 @@ package com.daangn.survey.mongo.response;
 import com.daangn.survey.mongo.common.BaseEntityMongo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class ResponseMongo extends BaseEntityMongo {
 
     private Long memberId;
 
+    @Indexed
     private Long questionId;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)

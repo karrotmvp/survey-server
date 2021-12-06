@@ -35,5 +35,9 @@ public class SurveySummaryMongoDto {
         this.responseCount = count;
         return this;
     }
+
+    public boolean isSurveyId(Long id){
+        return this.getId().equals(id);
+    }
 }
 

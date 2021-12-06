@@ -2,14 +2,18 @@ package com.daangn.survey.mongo;
 
 import com.daangn.survey.mongo.aggregate.AggregationAnswerMongo;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
+import com.daangn.survey.mongo.aggregate.SurveyResponseCountMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualResponseMongo;
 import com.daangn.survey.mongo.response.ResponseMongo;
 import com.daangn.survey.mongo.survey.SurveyMongo;
 import com.daangn.survey.mongo.survey.SurveySummaryMongoDto;
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.model.Facet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
@@ -100,6 +104,23 @@ public class MongoRepository {
         return mongoOps.findDistinct(query(where("surveyId").is(surveyId)),"responseId", ResponseMongo.class, Long.class);
     }
 
+    public List<SurveyResponseCountMongo> getSurveyResponseCountList(List<Long> surveyIds){
+        Criteria criteria = new Criteria().where("surveyId").in(surveyIds);
+        MatchOperation matchOperation = Aggregation.match(criteria);
+
+        GroupOperation groupOperation = group("surveyId").addToSet("responseId").as("responseSet");
+
+        ProjectionOperation projectionOperation = project().and("_id").as("surveyId").andExclude("_id").and("responseSet").size().as("count");;
+
+        SortOperation sortOperation = sort(Sort.Direction.ASC, "surveyId");
+
+        AggregationResults<SurveyResponseCountMongo> aggregate = this.mongoOps.aggregate(
+                newAggregation(matchOperation, groupOperation, projectionOperation, sortOperation),
+                "response", SurveyResponseCountMongo.class
+        );
+
+        return aggregate.getMappedResults();
+    }
     /**
      * Deprecated
      */
