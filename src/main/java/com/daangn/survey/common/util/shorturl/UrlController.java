@@ -53,11 +53,11 @@ public class UrlController {
     @GetMapping("/api/v1/url/surveys/{surveyId}")
     public ResponseEntity<ResponseDto<ShortUrlResponse>> getSchemeUrl(@PathVariable Long surveyId) {
 
-        String originUrl = frontUrl + "/survey/" + surveyId;
+        String originUrl = frontUrl + "/survey/" + surveyId + "?ref=url";
         String schemeUrl = "";
 
         if (!urlConverter.existsUrl(originUrl))
-            schemeUrl = apiUtil.resolveSchemeUrl(frontUrl + "/survey/" + surveyId).getData().getWidget().getEntryTargetUri();
+            schemeUrl = apiUtil.resolveSchemeUrl(originUrl).getData().getWidget().getEntryTargetUri();
 
         ShortUrlResult result = urlConverter.getShortenUrl(originUrl, schemeUrl);
 

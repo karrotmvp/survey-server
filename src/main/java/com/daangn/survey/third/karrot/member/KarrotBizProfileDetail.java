@@ -67,4 +67,8 @@ public class KarrotBizProfileDetail extends AbstractUserDetail {
     public String stringifyCoverImageUrls(){
         return String.join(",", this.getData().getBizProfile().coverImageUrls);
     }
+
+    public List<String> getCoverImageUrls(){
+        return this.getData().bizProfile.getCoverImageUrls();
+    }
 }

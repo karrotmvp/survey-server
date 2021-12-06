@@ -7,7 +7,7 @@ import com.daangn.survey.domain.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.model.dto.SurveyDto;
 import com.daangn.survey.domain.survey.model.dto.SurveyRequestDto;
 import com.daangn.survey.domain.survey.model.dto.SurveySummaryDto;
-import com.daangn.survey.domain.survey.service.SurveyServiceImpl;
+import com.daangn.survey.domain.survey.service.SurveyService;
 import com.google.gson.Gson;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -34,7 +34,7 @@ import static com.daangn.survey.common.message.ResponseMessage.*;
 @RequestMapping("/api/v1/surveys")
 @RequiredArgsConstructor
 public class SurveyController {
-    private final SurveyServiceImpl surveyService;
+    private final SurveyService surveyService;
 
     @Operation(summary = "설문 생성", description = "설문과 질문들을 저장합니다.")
     @ApiResponses(value = {
@@ -47,9 +47,7 @@ public class SurveyController {
 
         SurveyRequestDto surveyRequestDto = gson.fromJson(gson.toJson(requestBody), SurveyRequestDto.class);
 
-        surveyService.saveSurvey(member, surveyRequestDto);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.CREATED, CREATE_SURVEY));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseDto.of(HttpStatus.CREATED, CREATE_SURVEY, surveyService.saveSurvey(member, surveyRequestDto)));
     }
 
     @Operation(summary = "설문 리스트 조회", description = "설문 리스트를 조회합니다.")
@@ -85,7 +83,7 @@ public class SurveyController {
             @ApiResponse(responseCode = "401", description = "설문 리스트 조회 실패 (권한 에러)", content = @Content(schema = @Schema(hidden = true)))
     })
     @GetMapping("/brief/{surveyId}")
-    public ResponseEntity<ResponseDto<?>> getSurveyBrief(@PathVariable Long surveyId){
+    public ResponseEntity<ResponseDto<SurveyBriefDto>> getSurveyBrief(@PathVariable Long surveyId){
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, surveyService.findSurveyBriefBySurveyId(surveyId)));
     }
