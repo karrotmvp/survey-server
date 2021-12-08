@@ -63,8 +63,6 @@ public class AggregationController {
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_RESPONSES_BRIEF, aggregationService.getSurveyResponsesBrief(surveyId)));
     }
 
-
-
     @Operation(summary = "개별 답변 정보 조회", description = "개별 답변 정보를 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "개별 답변 정보 조회 성공",

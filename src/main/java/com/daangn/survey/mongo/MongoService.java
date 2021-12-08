@@ -10,7 +10,6 @@ import com.daangn.survey.domain.member.repository.MemberRepository;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.domain.survey.survey.model.mapper.SurveyMapper;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
-import com.daangn.survey.mongo.aggregate.SurveyResponseCountMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
 import com.daangn.survey.mongo.common.SequenceGeneratorService;
 import com.daangn.survey.mongo.response.ResponseMongo;
@@ -21,12 +20,17 @@ import com.daangn.survey.mongo.survey.SurveySummaryMongoDto;
 import com.daangn.survey.mongo.survey.dto.SurveyMongoDto;
 import com.daangn.survey.third.karrot.member.KarrotBizProfileDetail;
 import lombok.RequiredArgsConstructor;
+import org.dataloader.BatchLoader;
+import org.dataloader.DataLoader;
+import org.dataloader.DataLoaderFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,24 +58,37 @@ public class MongoService {
     // 1. bulk?
     // 2. data loader
     @Transactional(readOnly = true)
-    public List<SurveySummaryMongoDto> findSurveysByMemberId(Long memberId){
+    public List<SurveySummaryMongoDto> findSurveysByMemberId(Long memberId) {
 
         List<SurveySummaryMongoDto> surveys = mongoRepository.findSurveysByMemberId(memberId);
 
-        List<Long> surveyIds = surveys.stream().map(el -> el.getId()).collect(Collectors.toList());
+        BatchLoader<SurveySummaryMongoDto, SurveySummaryMongoDto> userBatchLoader =
+                surveys1 -> CompletableFuture.supplyAsync(() -> mongoRepository.getResponses(surveys1)
+        );
 
-        List<SurveyResponseCountMongo> counts = mongoRepository.getSurveyResponseCountList(surveyIds);
+        DataLoader<SurveySummaryMongoDto, SurveySummaryMongoDto> userLoader = DataLoaderFactory.newDataLoader(userBatchLoader);
 
-        int idx = 0;
+        surveys.stream().map(userLoader::load).collect(Collectors.toList());
 
-        for(SurveySummaryMongoDto survey: surveys){
-            SurveyResponseCountMongo count = counts.get(idx);
+        userLoader.dispatchAndJoin();
 
-            if(survey.isSurveyId(count.getSurveyId())){
-                survey.setResponseCount(count.getCount());
-                idx++;
-            }
-        }
+//        List<Long> surveyIds = surveys.stream().map(el -> el.getId()).collect(Collectors.toList());
+
+//        List<SurveyResponseCountMongo> counts = mongoRepository.getSurveyResponseCountList(surveyIds);
+
+//        int idx = 0;
+
+//        for(SurveySummaryMongoDto survey: surveys){
+//            SurveyResponseCountMongo count = counts.get(idx);
+//
+//            if(survey.isSurveyId(count.getSurveyId())){
+//                survey.setResponseCount(count.getCount());
+//                idx++;
+//            }
+//
+//            if(idx >= counts.size())
+//                break;
+//        }
 
         return surveys;
     }
