@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -131,9 +132,9 @@ public class MongoRepository {
 
         surveys.stream()
                 .forEach(survey -> {
-                    Optional<AggregationResponseSetMongo> optional =list.stream()
-                            .filter(el -> el.getId().equals(survey.getId()))
-                            .findFirst();
+                    Optional<AggregationResponseSetMongo> optional = list.stream()
+                                                                        .filter(el -> el.getId().equals(survey.getId()))
+                                                                        .findFirst();
 
                     if(optional.isPresent())
                         survey.setResponseCount(optional.get().getSet().size());

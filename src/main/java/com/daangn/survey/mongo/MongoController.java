@@ -7,7 +7,6 @@ import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrie
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
-import com.daangn.survey.mongo.aggregate.SurveyResponseCountMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
 import com.daangn.survey.mongo.response.dto.ResponseMongoDto;
 import com.daangn.survey.mongo.response.dto.ResponseMongoRequestDto;
@@ -36,7 +35,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_BRIEF;
 import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_LIST;
@@ -71,8 +69,8 @@ public class MongoController {
         surveyMongo.setCreatedAt(LocalDateTime.now());
         surveyMongo.setDeleted(false);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.insertSurvey(surveyMongo)));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.CREATE_SURVEY, mongoService.insertSurvey(surveyMongo)));
     }
 
     @Operation(summary = "설문 리스트 조회", description = "설문 리스트를 조회합니다.")
@@ -100,7 +98,7 @@ public class MongoController {
     @GetMapping("/survey/{surveyId}")
     public ResponseEntity<ResponseDto<SurveyMongoDto>> getSurvey(@PathVariable Long surveyId){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.findSurvey(surveyId)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_SURVEY_DETAIL, mongoService.findSurvey(surveyId)));
     }
 
     @Operation(summary = "설문 요약 조회", description = "설문 요약 정보를 조회합니다.")
@@ -130,8 +128,8 @@ public class MongoController {
         responseMongoDto.setMemberId(member.getId());
         mongoService.insertResponse(responseMongoDto);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ResponseDto.of(HttpStatus.CREATED, ResponseMessage.CREATE_RESPONSE));
     }
 
     // Aggregation
@@ -145,7 +143,7 @@ public class MongoController {
     public ResponseEntity<ResponseDto<List<AggregationQuestionMongo>>> getAggregation(@PathVariable Long surveyId){
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getAggregation(surveyId)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_AGGREGATION, mongoService.getAggregation(surveyId)));
     }
 
     @Operation(summary = "개별 답변 정보 조회", description = "개별 답변 정보를 조회합니다.")
@@ -157,7 +155,7 @@ public class MongoController {
     @GetMapping("/surveys/{surveyId}/individual/{responseId}")
     public ResponseEntity<ResponseDto<List<IndividualQuestionMongo>>> getIndividualResponse(@PathVariable Long surveyId, @PathVariable Long responseId){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, mongoService.getIndividualResponseMongo(surveyId, responseId)));
+                .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_INDIVIDUAL, mongoService.getIndividualResponseMongo(surveyId, responseId)));
     }
 
     @Operation(summary = "답변 요약 정보 조회", description = "설문 답변 요약 정보를 조회합니다.")

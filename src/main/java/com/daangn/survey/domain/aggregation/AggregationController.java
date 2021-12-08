@@ -71,6 +71,6 @@ public class AggregationController {
     })
     @GetMapping("/individual/{responseId}")
     public ResponseEntity<ResponseDto<List<IndividualResponseDetailDto>>> getIndividualResponse(@PathVariable Long responseId){
-       return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.EXAMPLE, aggregationService.getIndividualSurveyResponse(responseService.getSurveyResponse(responseId))));
+       return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_INDIVIDUAL, aggregationService.getIndividualSurveyResponse(responseService.getSurveyResponse(responseId))));
     }
 }
