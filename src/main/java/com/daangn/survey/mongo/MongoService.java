@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -72,7 +73,8 @@ public class MongoService {
 
         userLoader.dispatchAndJoin();
 
-        return surveys;
+        return surveys.stream().sorted(Comparator.comparing(SurveySummaryMongoDto::getCreatedAt).reversed()).collect(Collectors.toList());
+
     }
 
     @Transactional(readOnly = true)
