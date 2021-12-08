@@ -72,24 +72,6 @@ public class MongoService {
 
         userLoader.dispatchAndJoin();
 
-//        List<Long> surveyIds = surveys.stream().map(el -> el.getId()).collect(Collectors.toList());
-
-//        List<SurveyResponseCountMongo> counts = mongoRepository.getSurveyResponseCountList(surveyIds);
-
-//        int idx = 0;
-
-//        for(SurveySummaryMongoDto survey: surveys){
-//            SurveyResponseCountMongo count = counts.get(idx);
-//
-//            if(survey.isSurveyId(count.getSurveyId())){
-//                survey.setResponseCount(count.getCount());
-//                idx++;
-//            }
-//
-//            if(idx >= counts.size())
-//                break;
-//        }
-
         return surveys;
     }
 
