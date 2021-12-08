@@ -7,6 +7,7 @@ import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrie
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
+import com.daangn.survey.mongo.aggregate.SurveyResponseCountMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
 import com.daangn.survey.mongo.response.dto.ResponseMongoDto;
 import com.daangn.survey.mongo.response.dto.ResponseMongoRequestDto;
@@ -35,6 +36,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_BRIEF;
 import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_LIST;
@@ -80,9 +82,9 @@ public class MongoController {
             @ApiResponse(responseCode = "401", description = "설문 리스트 조회 실패 (권한 에러)", content = @Content)
     })
     @GetMapping("/survey")
-    public ResponseEntity<ResponseDto<List<SurveySummaryMongoDto>>> getSurveys(
+    public ResponseEntity<ResponseDto<List<?>>> getSurveys(
             @Parameter(description = "Member", hidden = true) @CurrentUser Member member
-    ){
+    ) {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_LIST, mongoService.findSurveysByMemberId(member.getId())));

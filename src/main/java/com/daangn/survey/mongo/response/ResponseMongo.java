@@ -24,7 +24,6 @@ public class ResponseMongo extends BaseEntityMongo {
 
     private Long memberId;
 
-    @Indexed
     private Long questionId;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
