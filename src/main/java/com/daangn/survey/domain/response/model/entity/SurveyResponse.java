@@ -2,7 +2,7 @@ package com.daangn.survey.domain.response.model.entity;
 
 import com.daangn.survey.common.model.BaseEntity;
 import com.daangn.survey.domain.member.model.entity.Member;
-import com.daangn.survey.domain.survey.model.entity.Survey;
+import com.daangn.survey.domain.survey.survey.model.entity.Survey;
 import lombok.*;
 
 import javax.persistence.*;

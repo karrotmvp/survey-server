@@ -1,6 +1,6 @@
 package com.daangn.survey.admin.dto;
 
-import com.daangn.survey.domain.survey.model.entity.Target;
+import com.daangn.survey.domain.survey.survey.model.entity.Target;
 import lombok.*;
 
 import java.time.LocalDateTime;

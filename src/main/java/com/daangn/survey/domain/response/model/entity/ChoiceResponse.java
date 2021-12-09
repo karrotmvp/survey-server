@@ -1,8 +1,8 @@
 package com.daangn.survey.domain.response.model.entity;
 
 import com.daangn.survey.common.model.BaseEntity;
-import com.daangn.survey.domain.question.model.entity.Choice;
-import com.daangn.survey.domain.question.model.entity.Question;
+import com.daangn.survey.domain.survey.question.model.entity.Choice;
+import com.daangn.survey.domain.survey.question.model.entity.Question;
 import lombok.*;
 
 import javax.persistence.*;

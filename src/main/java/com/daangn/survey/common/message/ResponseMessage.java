@@ -36,6 +36,7 @@ public class ResponseMessage {
     // Aggregation
     public static final String READ_AGGREGATION = "설문 집계 결과를 조회합니다.";
     public static final String READ_RESPONSES_BRIEF = "설문 응답 요약 정보를 조회합니다.";
+    public static final String READ_INDIVIDUAL = "개별 답변을 조회합니다.";
 
     // ShortUrl
     public static final String READ_SHORT_URL = "단축 URL을 읽습니다.";

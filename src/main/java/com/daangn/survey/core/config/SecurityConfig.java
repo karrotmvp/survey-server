@@ -19,7 +19,8 @@ import org.springframework.web.cors.CorsUtils;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String[] EXCLUDED_URLS = {
-        "/", "/api/v1/auth/**", "/swagger-ui.html", "/daangn/**", "/api/v1/surveys/brief/**", "/message", "/aggregation"
+        "/", "/api/v1/auth/**", "/swagger-ui.html", "/daangn/**", "/api/v1/surveys/brief/**", "/message", "/aggregation",
+            "/api/v1/mongo/surveys/brief/**"
     };
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
