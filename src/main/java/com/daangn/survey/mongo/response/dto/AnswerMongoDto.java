@@ -10,7 +10,5 @@ public class AnswerMongoDto {
     private Long questionId;
     private int questionType;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String text;
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String choice;
+    private String value;
 }

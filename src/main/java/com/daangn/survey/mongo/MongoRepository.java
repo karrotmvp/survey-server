@@ -67,7 +67,7 @@ public class MongoRepository {
         Criteria criteria = new Criteria().where("questionId").is(questionId).and("responseId").is(responseId);
         MatchOperation matchOperation = Aggregation.match(criteria);
 
-        ProjectionOperation projectionOperation = project( "questionType", "text", "choice");
+        ProjectionOperation projectionOperation = project( "questionType", "value");
 
         AggregationResults<IndividualResponseMongo> aggregate = this.mongoOps.aggregate(
                 newAggregation(matchOperation, projectionOperation),
@@ -82,7 +82,7 @@ public class MongoRepository {
         Criteria criteria = new Criteria().where("questionId").is(questionId);
         MatchOperation matchOperation = Aggregation.match(criteria);
 
-        ProjectionOperation projectionOperation = project( "text").and("_id").as("responseId");
+        ProjectionOperation projectionOperation = project( "value").and("_id").as("responseId");
 
         AggregationResults<AggregationAnswerMongo.TextAnswerMongo> aggregate = this.mongoOps.aggregate(
                 newAggregation(matchOperation, projectionOperation),
@@ -96,7 +96,7 @@ public class MongoRepository {
         Criteria criteria = new Criteria().where("questionId").is(questionId);
         MatchOperation matchOperation = Aggregation.match(criteria);
 
-        GroupOperation groupOperation = group("choice")
+        GroupOperation groupOperation = group("value")
                 .count().as("count");
 
         ProjectionOperation projectionOperation = project( "count").and("_id").as("choice");

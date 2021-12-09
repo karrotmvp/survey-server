@@ -7,7 +7,5 @@ import lombok.Setter;
 @Getter @Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class IndividualResponseMongo {
-    private String text;
-
-    private String choice;
+    private String value;
 }
