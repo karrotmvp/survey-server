@@ -1,10 +1,12 @@
-package com.daangn.survey.common.util.log;
+package com.daangn.survey.core.log.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public enum LogType {
-    ShortUrl("ShortUrl"),
+    SHORT_URL("ShortUrl"),
     ;
 
     private String type;

@@ -5,6 +5,8 @@ import com.daangn.survey.common.message.ResponseMessage;
 import com.daangn.survey.common.util.shorturl.component.UrlConvertService;
 import com.daangn.survey.common.util.shorturl.model.dto.ShortUrlResponse;
 import com.daangn.survey.common.util.shorturl.model.dto.ShortUrlResult;
+import com.daangn.survey.core.log.annotation.UserLogging;
+import com.daangn.survey.core.log.model.LogType;
 import com.daangn.survey.third.karrot.KarrotApiUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,18 +39,9 @@ public class UrlController {
     @Value("${mudda.short-url}")
     private String shortUrl;
 
-    // 이거 안 사용할 거 같은데 아닌가?
-    @GetMapping("/daangn/short-url/convert")
-    @ResponseBody
-    public ShortUrlResult convertShortUrl(@RequestParam(defaultValue = "") String urlStr) {
-        return urlConverter.getShortenUrl(urlStr.trim(), null);
-    }
-
+    @UserLogging(type = LogType.SHORT_URL)
     @GetMapping("/scheme/redirect")
     public String redirectToOriginUrl(@RequestParam String url, HttpServletRequest request) {
-
-        log.info(request.getHeader("referer"));
-        log.info(request.getHeader("user-agent"));
 
         return "redirect:" + urlConverter.getShortenUrl(url.trim(), null).getShortUrl().getSchemeUrl();
     }
