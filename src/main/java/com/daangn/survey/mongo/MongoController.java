@@ -66,7 +66,7 @@ public class MongoController {
         SurveyMongo surveyMongo = gson.fromJson(gson.toJson(requestBody), SurveyMongo.class);
 
         surveyMongo.setMemberId(member.getId());
-        surveyMongo.setCreatedAt(LocalDateTime.now());
+        surveyMongo.setCreatedAt(LocalDateTime.now().plusHours(9L));
         surveyMongo.setDeleted(false);
 
         return ResponseEntity.status(HttpStatus.CREATED)

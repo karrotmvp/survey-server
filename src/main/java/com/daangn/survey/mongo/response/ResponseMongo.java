@@ -27,10 +27,7 @@ public class ResponseMongo extends BaseEntityMongo {
     private Long questionId;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String text;
-
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String choice;
+    private String value;
 
     private LocalDateTime createdAt;
 }

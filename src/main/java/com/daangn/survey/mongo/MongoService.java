@@ -108,8 +108,7 @@ public class MongoService {
                         .memberId(response.getMemberId())
                         .surveyId(response.getSurveyId())
                         .questionId(el.getQuestionId())
-                        .choice(el.getChoice())
-                        .text(el.getText())
+                        .value(el.getValue())
                         .createdAt(LocalDateTime.now())
                         .build())
                 .collect(Collectors.toList());

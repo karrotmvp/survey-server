@@ -7,12 +7,12 @@ public abstract class AggregationAnswerMongo {
     @Getter
     public class TextAnswerMongo extends AggregationAnswerMongo {
         private Long responseId;
-        private String text;
+        private String value;
     }
 
     @Getter
     public class ChoiceAnswerMongo extends AggregationAnswerMongo {
-        private String choice;
+        private String value;
         private int count;
     }
 }
