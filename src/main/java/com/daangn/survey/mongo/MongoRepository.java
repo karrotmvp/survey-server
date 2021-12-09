@@ -99,7 +99,7 @@ public class MongoRepository {
         GroupOperation groupOperation = group("value")
                 .count().as("count");
 
-        ProjectionOperation projectionOperation = project( "count").and("_id").as("choice");
+        ProjectionOperation projectionOperation = project( "count").and("_id").as("value");
 
         AggregationResults<AggregationAnswerMongo.ChoiceAnswerMongo> aggregate = this.mongoOps.aggregate(
                 newAggregation(matchOperation, groupOperation, projectionOperation),
