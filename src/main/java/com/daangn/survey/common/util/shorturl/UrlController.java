@@ -13,13 +13,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Tag(name = "단축 URL")
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class UrlController {
@@ -41,7 +45,10 @@ public class UrlController {
     }
 
     @GetMapping("/scheme/redirect")
-    public String redirectToOriginUrl(@RequestParam String url) {
+    public String redirectToOriginUrl(@RequestParam String url, HttpServletRequest request) {
+
+        log.info(request.getHeader("referer"));
+        log.info(request.getHeader("user-agent"));
 
         return "redirect:" + urlConverter.getShortenUrl(url.trim(), null).getShortUrl().getSchemeUrl();
     }
