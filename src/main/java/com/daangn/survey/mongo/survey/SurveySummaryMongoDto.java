@@ -26,7 +26,7 @@ public class SurveySummaryMongoDto {
     private int responseCount;
 
     @Schema(description = "설문 대상", required = true)
-    private String target;
+    private int target;
 
     @Schema(description = "설문 생성일", required = true)
     private LocalDateTime createdAt;

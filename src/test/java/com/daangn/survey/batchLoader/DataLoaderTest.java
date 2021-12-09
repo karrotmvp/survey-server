@@ -169,7 +169,8 @@ public class DataLoaderTest {
          * 1. forEach로 불렀음에도, 한 번에 요청을 모아서 호출하는 게 신기하다.
          */
         Arrays.asList(1L, 2L, 3L, 4L, 5L).forEach(el -> {
-            userLoader.load(el).thenAccept(user -> {
+            userLoader.load(el)
+                    .thenAccept(user -> {
                 System.out.println("user = " + user);
 
                 userLoader.load(user.getInvitedByID())
