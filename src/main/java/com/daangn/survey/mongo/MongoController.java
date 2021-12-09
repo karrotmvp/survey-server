@@ -58,7 +58,7 @@ public class MongoController {
     @Operation(summary = "설문 생성", description = "설문과 질문들을 저장합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "설문 저장 성공", content = @Content)})
-    @PostMapping("/survey")
+    @PostMapping("/surveys")
     public ResponseEntity<ResponseDto<?>> insertSurvey(
             @Parameter(description = "Member", hidden = true) @CurrentUser Member member,
             @Parameter(description = "requestBody", schema = @Schema(implementation = SurveyMongoRequestDto.class)) @RequestBody Map<String, Object> requestBody
@@ -79,7 +79,7 @@ public class MongoController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = SurveySummaryMongoDto.class)))),
             @ApiResponse(responseCode = "401", description = "설문 리스트 조회 실패 (권한 에러)", content = @Content)
     })
-    @GetMapping("/survey")
+    @GetMapping("/surveys")
     public ResponseEntity<ResponseDto<List<?>>> getSurveys(
             @Parameter(description = "Member", hidden = true) @CurrentUser Member member
     ) {
@@ -95,7 +95,7 @@ public class MongoController {
             @ApiResponse(responseCode = "404", description = "설문 엔티티 조회 실패", content = @Content),
             @ApiResponse(responseCode = "401", description = "설문 리스트 조회 실패 (권한 에러)", content = @Content(schema = @Schema(hidden = true)))
     })
-    @GetMapping("/survey/{surveyId}")
+    @GetMapping("/surveys/{surveyId}")
     public ResponseEntity<ResponseDto<SurveyMongoDto>> getSurvey(@PathVariable Long surveyId){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ResponseDto.of(HttpStatus.OK, ResponseMessage.READ_SURVEY_DETAIL, mongoService.findSurvey(surveyId)));
@@ -108,7 +108,7 @@ public class MongoController {
             @ApiResponse(responseCode = "404", description = "설문 엔티티 조회 실패", content = @Content),
             @ApiResponse(responseCode = "401", description = "설문 리스트 조회 실패 (권한 에러)", content = @Content(schema = @Schema(hidden = true)))
     })
-    @GetMapping("/brief/{surveyId}")
+    @GetMapping("/surveys/brief/{surveyId}")
     public ResponseEntity<ResponseDto<SurveyBriefDto>> getSurveyBrief(@PathVariable Long surveyId){
 
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, mongoService.findSurveyBriefBySurveyId(surveyId)));
@@ -118,7 +118,7 @@ public class MongoController {
     @Operation(summary = "답변 저장", description = "답변을 저장합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "답변 저장 성공", content = @Content)})
-    @PostMapping("/response")
+    @PostMapping("/responses")
     public ResponseEntity<ResponseDto<?>> insertResponse(
             @Parameter(description = "Member", hidden = true) @CurrentUser Member member,
             @Parameter(description = "requestBody", schema = @Schema(implementation = ResponseMongoRequestDto.class)) @RequestBody Map<String, Object> requestBody
@@ -139,7 +139,7 @@ public class MongoController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = AggregationQuestionMongo.class)))),
             @ApiResponse(responseCode = "401", description = "답변 결과 조회 실패 (권한 에러)", content = @Content)
     })
-    @GetMapping("/aggregate/{surveyId}")
+    @GetMapping("/aggregate/surveys/{surveyId}")
     public ResponseEntity<ResponseDto<List<AggregationQuestionMongo>>> getAggregation(@PathVariable Long surveyId){
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -164,7 +164,7 @@ public class MongoController {
                     content = @Content(schema = @Schema(implementation = SurveyResponsesBrief.class))),
             @ApiResponse(responseCode = "401", description = "요약 정보 조회 실패 (권한 에러)", content = @Content)
     })
-    @GetMapping("/{surveyId}/responses/brief")
+    @GetMapping("/surveys/{surveyId}/responses/brief")
     public ResponseEntity<ResponseDto<SurveyResponsesBrief>> getResponsesBrief(@PathVariable Long surveyId){
 
         return ResponseEntity.status(HttpStatus.OK)
