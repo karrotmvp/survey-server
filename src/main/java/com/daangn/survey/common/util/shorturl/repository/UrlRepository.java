@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface UrlRepository extends JpaRepository<ShortUrl, Long> {
     ShortUrl findFirstByShortUrlOrOriginUrlOrderByCreatedAt(String shortUrl, String originUrl);
     boolean existsByShortUrlOrOriginUrl(String shortUrl, String originUrl);
+    ShortUrl findShortUrlByShortUrl(String shortUrl);
 }

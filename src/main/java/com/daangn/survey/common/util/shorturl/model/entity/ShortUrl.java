@@ -47,4 +47,11 @@ public class ShortUrl extends BaseEntity {
     public void setShortUrl(String url){
         this.shortUrl = url;
     }
+
+    public Long resolveSurveyId(){
+        int startIndex = this.originUrl.lastIndexOf('/');
+        int lastIndex = this.originUrl.lastIndexOf('?');
+
+        return Long.parseLong(this.originUrl.substring(startIndex + 1, lastIndex));
+    }
 }
