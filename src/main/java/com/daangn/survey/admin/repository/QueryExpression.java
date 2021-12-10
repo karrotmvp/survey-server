@@ -4,8 +4,8 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import io.micrometer.core.instrument.util.StringUtils;
 
 import static com.daangn.survey.domain.member.model.entity.QMember.member;
-import static com.daangn.survey.domain.response.model.entity.QSurveyResponse.surveyResponse;
-import static com.daangn.survey.domain.survey.survey.model.entity.QSurvey.survey;
+import static com.daangn.survey.domain.deprecated.response.model.entity.QSurveyResponse.surveyResponse;
+import static com.daangn.survey.domain.deprecated.survey.survey.model.entity.QSurvey.survey;
 
 public class QueryExpression {
     public static BooleanExpression eqRole(String role) {

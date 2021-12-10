@@ -17,13 +17,13 @@ public class ShortUrlLog {
     private Long surveyId;
     private String url;
     private String userAgent;
-    private String referer;
+    private String referrer;
 
-    public ShortUrlLog(Long surveyId, String url, String userAgent, String referer) {
+    public ShortUrlLog(Long surveyId, String url, String userAgent, String referrer) {
         this.logType = LogType.SHORT_URL;
         this.surveyId = surveyId;
         this.url = url;
         this.userAgent = userAgent;
-        this.referer = referer;
+        this.referrer = referrer;
     }
 }

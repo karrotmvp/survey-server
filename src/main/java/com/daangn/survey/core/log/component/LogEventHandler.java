@@ -10,9 +10,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-
 @RequiredArgsConstructor
 @Component
 public class LogEventHandler {
@@ -29,7 +26,7 @@ public class LogEventHandler {
                 shortUrl.resolveSurveyId(),
                 event.getUrl(),
                 event.getUserAgent(),
-                event.getReferer()
+                event.getReferrer()
         ));
     }
 }
