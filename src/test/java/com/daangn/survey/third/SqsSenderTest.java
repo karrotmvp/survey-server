@@ -58,12 +58,13 @@ public class SqsSenderTest {
     @Test
     @Disabled
     public void csv읽기(){
-        List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId.csv");
+        List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId_test.csv");
 
         System.out.println(csv);
     }
 
     @Test
+    @Disabled
     void sendBatchBizChatMessage() throws JsonProcessingException {
         List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId_test.csv");
 
@@ -77,8 +78,8 @@ public class SqsSenderTest {
             BizChatMessage message = BizChatMessage.builder()
                     .sender(sender)
                     .receiver(receiver)
-                    .title("사장님을 위한 설문 서비스, 무따가 정식 오픈했어요!")
-                    .content("매장에 대한 우리 동네 이웃 의견이 궁금할 때, 무따 서비스로 설문을 작성하고, 비즈프로필 소식이나 SNS에 공유해보세요!\n\n 무따로 우리 동네 이웃의 의견을 들어보세요.")
+                    .title("사장님을 위한 설문 서비스, \'무따\'가 정식 오픈했어요!")
+                    .content("매장에 대한 우리 동네 이웃 의견이 궁금할 때, \'무따\' 서비스로 설문을 작성하고, 비즈프로필 소식이나 SNS에 공유해보세요!\n\n \'무따\'로 우리 동네 이웃의 의견을 들어보세요.")
                     .image("https://survey-asset-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail.png")
                     .build();
 
