@@ -9,6 +9,7 @@ import com.daangn.survey.domain.deprecated.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.deprecated.response.service.ResponseService;
 import com.daangn.survey.domain.deprecated.survey.survey.service.SurveyService;
 import com.daangn.survey.mongo.MongoService;
+import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,11 +88,12 @@ public class AdminController {
         return "admin/responses";
     }
 
-    @GetMapping("/responses/{responseId}")
-    public String getResponseDetail(@PathVariable Long responseId, Model model){
-        SurveyResponse surveyResponse = responseService.getSurveyResponse(responseId);
-        model.addAttribute("survey", surveyService.findBySurveyId(surveyResponse.getSurvey().getId()));
-        model.addAttribute("responses", aggregationService.getIndividualSurveyResponse(surveyResponse));
+    @GetMapping("/surveys/{surveyId}/individual/{responseId}")
+    public String getResponseDetail(@PathVariable Long surveyId, @PathVariable Long responseId, Model model){
+        List<IndividualQuestionMongo> aggregates = mongoService.getIndividualResponseMongo(surveyId, responseId);
+
+        model.addAttribute("survey", mongoService.findSurvey(surveyId));
+        model.addAttribute("aggregates", aggregates);
 
         return "admin/response-detail";
     }
