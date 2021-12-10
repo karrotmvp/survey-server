@@ -35,7 +35,7 @@ public class LogEventAspect implements ApplicationEventPublisherAware {
                 for(Object arg : joinPoint.getArgs()){
                     if(arg instanceof HttpServletRequest) {
                         HttpServletRequest request = (HttpServletRequest) arg;
-                        referrer = request.getHeader("referer");
+                        referrer = request.getHeader("Referer");
                         userAgent = request.getHeader("user-agent");
                     }
                     if(arg instanceof String){

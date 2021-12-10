@@ -43,6 +43,8 @@ public class UrlController {
     @GetMapping("/scheme/redirect")
     public String redirectToOriginUrl(@RequestParam String url, HttpServletRequest request) {
 
+        log.info(request.getHeader("Referer"));
+
         return "redirect:" + urlConverter.getShortenUrl(url.trim(), null).getShortUrl().getSchemeUrl();
     }
 
