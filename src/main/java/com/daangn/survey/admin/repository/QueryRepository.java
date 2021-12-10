@@ -141,4 +141,28 @@ public class QueryRepository {
                 .where(QueryExpression.eqSurveyIdAboutSurveyResponse(surveyId))
                 .fetch();
     }
+
+    public List<AdminResponseDto> getMemberInfosAboutResponses(List<AdminResponseDto> responses){
+        List<Long> memberIds = responses.stream().map(AdminResponseDto::getMemberId).collect(Collectors.toList());
+
+        List<AdminMemberDto> memberInfos = queryFactory.select(Projections.fields(AdminMemberDto.class,
+                        member.id.as("memberId"),
+                        member.name
+                ))
+                .from(member)
+                .where(member.id.in(memberIds))
+                .fetch();
+
+        responses.stream()
+                .forEach(response -> {
+                    Optional<AdminMemberDto> optional = memberInfos.stream()
+                            .filter(el -> el.getMemberId().equals(response.getMemberId()))
+                            .findFirst();
+
+                    if(optional.isPresent())
+                        response.setMember(optional.get().getName());
+                });
+
+        return responses;
+    }
 }

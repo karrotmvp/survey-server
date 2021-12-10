@@ -34,14 +34,13 @@ public class AdminService {
      * Surveys
      */
     @Transactional(readOnly = true)
-    public List<AdminSurveyDto> getSurveys(){
+    public List<AdminSurveyDto> getMongoSurveys(){
         List<AdminSurveyDto> surveys = mongoAdminRepository.getSurveys();
         surveys.forEach(el -> el.resolveKorTarget());
 
         getResponseCount(surveys);
         getMemberInfo(surveys);
 
-        System.out.println();
         return surveys;
     }
 
@@ -56,6 +55,7 @@ public class AdminService {
         responseCountDataLoader.dispatchAndJoin();
     }
 
+    // todo: 데이터 로더는 따로 뺄 수 있을 듯?
     public void getMemberInfo(List<AdminSurveyDto> surveys){
         BatchLoader<AdminSurveyDto, AdminSurveyDto> memberBatchLoader =
                 surveys1 -> CompletableFuture.supplyAsync(() -> queryRepository.getMemberInfos(surveys1));
@@ -75,6 +75,7 @@ public class AdminService {
         return surveyDtos;
     }
 
+    @Deprecated
     @Transactional(readOnly = true)
     public List<AdminSurveyDto> getAdminSurveysWhere(Long memberId){
         List<AdminSurveyDto> surveyDtos = queryRepository.getAdminSurveysWhere(memberId);
@@ -86,8 +87,26 @@ public class AdminService {
     /**
      * Responses
      */
+    @Deprecated
     @Transactional(readOnly = true)
     public List<AdminResponseDto> getAdminResponsesWhere(Long surveyId){
         return queryRepository.getAdminResponsesWhere(surveyId);
+    }
+
+    // todo: 데이터 로더는 따로 뺄 수 있을 듯?
+    @Transactional(readOnly = true)
+    public List<AdminResponseDto> getMongoResponses(Long surveyId){
+        List<AdminResponseDto> responses = mongoAdminRepository.getMongoResponses(surveyId);
+
+        BatchLoader<AdminResponseDto, AdminResponseDto> memberBatchLoader =
+                responses1 -> CompletableFuture.supplyAsync(() -> queryRepository.getMemberInfosAboutResponses(responses1));
+
+        DataLoader<AdminResponseDto, AdminResponseDto> memberDataLoader = DataLoaderFactory.newDataLoader(memberBatchLoader);
+
+        responses.stream().map(memberDataLoader::load).collect(Collectors.toList());
+
+        memberDataLoader.dispatchAndJoin();
+
+        return responses;
     }
 }

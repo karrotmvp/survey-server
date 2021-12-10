@@ -37,7 +37,7 @@ public class AdminController {
     @GetMapping
     public String getSurveys(Model model, @RequestParam(required = false) String filter){
         List<AdminSurveyDto> surveys = filter != null && filter.equalsIgnoreCase("all")
-                                        ? adminService.getSurveys()
+                                        ? adminService.getMongoSurveys()
                                         : adminService.getSurveysAboutPublished();
 
         model.addAttribute("surveys", surveys);
@@ -76,7 +76,7 @@ public class AdminController {
     @GetMapping("/responses/surveys/{surveyId}")
     public String surveyResponses(@PathVariable Long surveyId, Model model){
 
-        model.addAttribute("responses", adminService.getAdminResponsesWhere(surveyId));
+        model.addAttribute("responses", adminService.getMongoResponses(surveyId));
         return "admin/responses";
     }
 
