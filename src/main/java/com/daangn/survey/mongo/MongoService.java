@@ -108,7 +108,7 @@ public class MongoService {
                         .surveyId(response.getSurveyId())
                         .questionId(el.getQuestionId())
                         .value(el.getValue())
-                        .createdAt(LocalDateTime.now())
+                        .createdAt(LocalDateTime.now().plusHours(9L))
                         .build())
                 .collect(Collectors.toList());
 
