@@ -1,6 +1,7 @@
 package com.daangn.survey.admin.service;
 
 import com.daangn.survey.admin.dto.*;
+import com.daangn.survey.admin.repository.MongoAdminRepository;
 import com.daangn.survey.admin.repository.QueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminService {
     private final QueryRepository queryRepository;
-
+    private final MongoAdminRepository mongoAdminRepository;
 
     /**
      * Members
@@ -26,6 +27,12 @@ public class AdminService {
     /**
      * Surveys
      */
+    @Transactional(readOnly = true)
+    public List<AdminSurveyDto> getSurveys(){
+        List<AdminSurveyDto> surveys = mongoAdminRepository.getSurveys();
+        return surveys;
+    }
+
     @Transactional(readOnly = true)
     public List<AdminSurveyDto> getSurveysAboutPublished(){
         List<AdminSurveyDto> surveyDtos = queryRepository.getAdminSurveysAboutPublished();

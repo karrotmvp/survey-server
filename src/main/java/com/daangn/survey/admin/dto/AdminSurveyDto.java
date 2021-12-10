@@ -1,6 +1,7 @@
 package com.daangn.survey.admin.dto;
 
 import com.daangn.survey.domain.deprecated.survey.survey.model.entity.Target;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminSurveyDto {
-    private long surveyId;
+    private long id;
     private String writer;
     private String title;
     private long responseCount;
