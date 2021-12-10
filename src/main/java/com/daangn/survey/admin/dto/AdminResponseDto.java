@@ -14,4 +14,6 @@ public class AdminResponseDto {
     private String surveyTitle;
     private String member;
     private LocalDateTime createdAt;
+    private Long surveyId;
+    private Long memberId;
 }
