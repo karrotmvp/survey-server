@@ -3,12 +3,12 @@ package com.daangn.survey.mongo;
 import com.daangn.survey.core.auth.oauth.SocialResolver;
 import com.daangn.survey.core.error.ErrorCode;
 import com.daangn.survey.core.error.exception.EntityNotFoundException;
-import com.daangn.survey.domain.aggregation.model.individual.SurveyResponsesBrief;
+import com.daangn.survey.domain.deprecated.aggregation.model.individual.SurveyResponsesBrief;
 import com.daangn.survey.domain.member.model.entity.Member;
 import com.daangn.survey.domain.member.model.mapper.MemberMapper;
 import com.daangn.survey.domain.member.repository.MemberRepository;
-import com.daangn.survey.domain.survey.survey.model.dto.SurveyBriefDto;
-import com.daangn.survey.domain.survey.survey.model.mapper.SurveyMapper;
+import com.daangn.survey.domain.deprecated.survey.survey.model.dto.SurveyBriefDto;
+import com.daangn.survey.domain.deprecated.survey.survey.model.mapper.SurveyMapper;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
 import com.daangn.survey.mongo.common.SequenceGeneratorService;
@@ -31,7 +31,6 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 @Service

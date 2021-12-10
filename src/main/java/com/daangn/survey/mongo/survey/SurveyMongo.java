@@ -1,13 +1,12 @@
 package com.daangn.survey.mongo.survey;
 
-import com.daangn.survey.domain.survey.survey.model.entity.Target;
+import com.daangn.survey.domain.deprecated.survey.survey.model.entity.Target;
 import com.daangn.survey.mongo.common.BaseEntityMongo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
 

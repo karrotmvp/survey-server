@@ -58,7 +58,7 @@ public class SqsSenderTest {
     @Test
     @Disabled
     public void csv읽기(){
-        List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId.csv");
+        List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId_test.csv");
 
         System.out.println(csv);
     }
@@ -66,28 +66,31 @@ public class SqsSenderTest {
     @Test
     @Disabled
     void sendBatchBizChatMessage() throws JsonProcessingException {
-        List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/allen_test.csv");
+        List<List<String>> csv = CsvUtils.readToList("/Users/allen/Desktop/businessId_test.csv");
 
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         List<Message> messages = new LinkedList<>();
 
         for(int i = 1 ; i < csv.size() ; i++){
+            BizChatMessage.Sender sender = new BizChatMessage.Sender(1271155, "BUSINESS_ACCOUNT");
             BizChatMessage.Receiver receiver = new BizChatMessage.Receiver(Integer.parseInt(csv.get(i).get(0)), "BUSINESS_ACCOUNT");
             BizChatMessage message = BizChatMessage.builder()
+                    .sender(sender)
                     .receiver(receiver)
-                    .title("사장님을 위한 설문 서비스, 무따에요!")
-                    .content("매장에 대한 의견이 궁금할 때, 무따 서비스로 설문을 작성하고, 우리 동네 이웃의 의견을 들어보세요!\n('무따'는 당근마켓 MVP인턴십 프로그램에서 한시적으로 운영하는 서비스에요. 이용에 참고해주세요.)")
+                    .title("사장님을 위한 설문 서비스, \'무따\'가 정식 오픈했어요!")
+                    .content("매장에 대한 우리 동네 이웃 의견이 궁금할 때, \'무따\' 서비스로 설문을 작성하고, 비즈프로필 소식이나 SNS에 공유해보세요!\n\n \'무따\'로 우리 동네 이웃의 의견을 들어보세요.")
                     .image("https://survey-asset-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail.png")
                     .build();
 
             messages.add(message);
+
             if(i % 10 == 0) {
                 sqsSender.sendBatchMessage(messages);
                 messages.clear();
             }
         }
-
+        sqsSender.sendBatchMessage(messages);
 
         stopWatch.stop();
         System.out.println(stopWatch.prettyPrint());

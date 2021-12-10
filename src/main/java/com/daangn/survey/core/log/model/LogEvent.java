@@ -8,5 +8,5 @@ import lombok.Getter;
 public class LogEvent {
     private String url;
     private String userAgent;
-    private String referer;
+    private String referrer;
 }

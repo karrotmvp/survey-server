@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter @Setter
@@ -17,13 +18,15 @@ public class ShortUrlLog {
     private Long surveyId;
     private String url;
     private String userAgent;
-    private String referer;
+    private String referrer;
+    private LocalDateTime createdAt;
 
-    public ShortUrlLog(Long surveyId, String url, String userAgent, String referer) {
+    public ShortUrlLog(Long surveyId, String url, String userAgent, String referrer) {
         this.logType = LogType.SHORT_URL;
         this.surveyId = surveyId;
         this.url = url;
         this.userAgent = userAgent;
-        this.referer = referer;
+        this.referrer = referrer;
+        this.createdAt = LocalDateTime.now().plusHours(9L);
     }
 }
