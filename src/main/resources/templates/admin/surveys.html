@@ -22,13 +22,13 @@
         </tr>
         <tr th:each="survey , index: ${surveys}">
             <td th:text="${index.index + 1}">#</td>
-            <td th:text="${survey.surveyId}">설문 ID</td>
-            <td><a th:href="@{/daangn/admin/surveys/{surveyId}(surveyId=${survey.surveyId})}" th:text="${survey.title}">설문 제목</a></td>
+            <td th:text="${survey.id}">설문 ID</td>
+            <td><a th:href="@{/daangn/admin/surveys/{surveyId}(surveyId=${survey.id})}" th:text="${survey.title}">설문 제목</a></td>
             <td th:text="${survey.writer}">작성자</td>
-            <td><a th:href="@{/daangn/admin/responses/surveys/{surveyId}(surveyId=${survey.surveyId})}" th:text="${survey.responseCount}">답변 수</a></td>
+            <td><a th:href="@{/daangn/admin/responses/surveys/{surveyId}(surveyId=${survey.id})}" th:text="${survey.responseCount}">답변 수</a></td>
             <td th:text="${survey.korTarget}">설문 대상</td>
             <td th:text="${#temporals.format(survey.publishedAt, 'yyyy-MM-dd   HH:mm')}">배포날짜</td>
-            <td><button type="button" class="btn btn-secondary btn-sm" th:data-surveyId="${survey.surveyId}" onclick="patchSurveyToPublished(this.getAttribute('data-surveyId'))">배포</button></td>
+            <td><button type="button" class="btn btn-secondary btn-sm" th:data-surveyId="${survey.id}" onclick="patchSurveyToPublished(this.getAttribute('data-surveyId'))">배포</button></td>
         </tr>
     </table>
 </div>

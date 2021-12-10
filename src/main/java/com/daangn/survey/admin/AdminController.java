@@ -8,6 +8,8 @@ import com.daangn.survey.domain.deprecated.aggregation.service.AggregationServic
 import com.daangn.survey.domain.deprecated.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.deprecated.response.service.ResponseService;
 import com.daangn.survey.domain.deprecated.survey.survey.service.SurveyService;
+import com.daangn.survey.mongo.MongoService;
+import com.daangn.survey.mongo.aggregate.individual.IndividualQuestionMongo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,7 @@ public class AdminController {
     private final ResponseService responseService;
     private final AdminService adminService;
     private final AggregationService aggregationService;
+    private final MongoService mongoService;
 
     /**
      * Surveys
@@ -35,7 +38,7 @@ public class AdminController {
     @GetMapping
     public String getSurveys(Model model, @RequestParam(required = false) String filter){
         List<AdminSurveyDto> surveys = filter != null && filter.equalsIgnoreCase("all")
-                                        ? adminService.getAdminSurveysWhere(null)
+                                        ? adminService.getMongoSurveys()
                                         : adminService.getSurveysAboutPublished();
 
         model.addAttribute("surveys", surveys);
@@ -50,7 +53,7 @@ public class AdminController {
 
     @GetMapping("/surveys/{surveyId}")
     public String surveyDetail(@PathVariable Long surveyId, Model model){
-        model.addAttribute("survey", surveyService.findBySurveyId(surveyId));
+        model.addAttribute("survey", mongoService.findSurvey(surveyId));
         return "admin/survey-detail";
     }
 
@@ -74,7 +77,7 @@ public class AdminController {
     @GetMapping("/responses/surveys/{surveyId}")
     public String surveyResponses(@PathVariable Long surveyId, Model model){
 
-        model.addAttribute("responses", adminService.getAdminResponsesWhere(surveyId));
+        model.addAttribute("responses", adminService.getMongoResponses(surveyId));
         return "admin/responses";
     }
 
@@ -85,11 +88,12 @@ public class AdminController {
         return "admin/responses";
     }
 
-    @GetMapping("/responses/{responseId}")
-    public String getResponseDetail(@PathVariable Long responseId, Model model){
-        SurveyResponse surveyResponse = responseService.getSurveyResponse(responseId);
-        model.addAttribute("survey", surveyService.findBySurveyId(surveyResponse.getSurvey().getId()));
-        model.addAttribute("responses", aggregationService.getIndividualSurveyResponse(surveyResponse));
+    @GetMapping("/surveys/{surveyId}/individual/{responseId}")
+    public String getResponseDetail(@PathVariable Long surveyId, @PathVariable Long responseId, Model model){
+        List<IndividualQuestionMongo> aggregates = mongoService.getIndividualResponseMongo(surveyId, responseId);
+
+        model.addAttribute("survey", mongoService.findSurvey(surveyId));
+        model.addAttribute("aggregates", aggregates);
 
         return "admin/response-detail";
     }
