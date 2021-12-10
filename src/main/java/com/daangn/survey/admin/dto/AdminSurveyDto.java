@@ -3,6 +3,7 @@ package com.daangn.survey.admin.dto;
 import com.daangn.survey.domain.deprecated.survey.survey.model.entity.Target;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.data.annotation.Transient;
 
 import java.time.LocalDateTime;
 
@@ -12,12 +13,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminSurveyDto {
-    private long id;
+    private Long id;
+
     private String writer;
+
+    private Long memberId;
+
     private String title;
+
     private long responseCount;
+
     private int target;
+
     private String korTarget;
+
     private LocalDateTime publishedAt;
 
     public void resolveKorTarget(){
