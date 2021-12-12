@@ -5,7 +5,6 @@ import com.daangn.survey.admin.dto.AdminSurveyDto;
 import com.daangn.survey.admin.service.AdminService;
 import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.domain.deprecated.aggregation.service.AggregationService;
-import com.daangn.survey.domain.deprecated.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.deprecated.response.service.ResponseService;
 import com.daangn.survey.domain.deprecated.survey.survey.service.SurveyService;
 import com.daangn.survey.mongo.MongoService;
@@ -27,9 +26,7 @@ import static com.daangn.survey.common.message.ResponseMessage.PUBLISH_SURVEY;
 public class AdminController {
 
     private final SurveyService surveyService;
-    private final ResponseService responseService;
     private final AdminService adminService;
-    private final AggregationService aggregationService;
     private final MongoService mongoService;
 
     /**
@@ -106,4 +103,14 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, PUBLISH_SURVEY));
     }
 
+    /**
+     * user log
+     */
+
+    @GetMapping("/surveys/{surveyId}/user-log")
+    public String getUserLogFromSurvey(@PathVariable Long surveyId, Model model){
+        model.addAttribute("userLogs", adminService.getUserLogsFromSurvey(surveyId));
+
+        return "admin/survey-user-logs";
+    }
 }

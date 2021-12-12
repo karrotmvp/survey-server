@@ -3,6 +3,9 @@ package com.daangn.survey.admin.service;
 import com.daangn.survey.admin.dto.*;
 import com.daangn.survey.admin.repository.MongoAdminRepository;
 import com.daangn.survey.admin.repository.QueryRepository;
+import com.daangn.survey.common.util.shorturl.model.entity.ShortUrl;
+import com.daangn.survey.common.util.shorturl.repository.UrlRepository;
+import com.daangn.survey.core.log.model.ShortUrlLog;
 import com.daangn.survey.mongo.survey.SurveySummaryMongoDto;
 import lombok.RequiredArgsConstructor;
 import org.dataloader.BatchLoader;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class AdminService {
     private final QueryRepository queryRepository;
     private final MongoAdminRepository mongoAdminRepository;
+    private final UrlRepository urlRepository;
 
     /**
      * Members
@@ -108,5 +112,17 @@ public class AdminService {
         memberDataLoader.dispatchAndJoin();
 
         return responses;
+    }
+
+    /**
+     * user log
+     */
+    @Transactional(readOnly = true)
+    public AdminUserLogDto getUserLogsFromSurvey(Long surveyId){
+        List<ShortUrlLog> shortUrlLogs = mongoAdminRepository.getUserLogs(surveyId);
+
+        ShortUrl shorturl = urlRepository.findShortUrlByShortUrl(shortUrlLogs.get(0).getUrl());
+
+        return new AdminUserLogDto(shortUrlLogs, shorturl.getReqCount());
     }
 }

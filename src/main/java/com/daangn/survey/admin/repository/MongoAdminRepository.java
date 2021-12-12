@@ -2,12 +2,14 @@ package com.daangn.survey.admin.repository;
 
 import com.daangn.survey.admin.dto.AdminResponseDto;
 import com.daangn.survey.admin.dto.AdminSurveyDto;
+import com.daangn.survey.core.log.model.ShortUrlLog;
 import com.daangn.survey.mongo.aggregate.AggregationResponseSetMongo;
-import com.daangn.survey.mongo.survey.SurveyMongo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 
 @RequiredArgsConstructor
@@ -79,5 +83,14 @@ public class MongoAdminRepository {
         );
 
         return aggregate.getMappedResults();
+    }
+
+    /**
+     * user log
+     */
+    public List<ShortUrlLog> getUserLogs(Long surveyId){
+        Query query = new Query(where("surveyId").is(surveyId));
+
+        return mongoTemplate.find(query.with(Sort.by(Sort.Direction.ASC, "createdAt")), ShortUrlLog.class);
     }
 }
