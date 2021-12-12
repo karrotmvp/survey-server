@@ -34,10 +34,10 @@ public class AdminController {
      */
     @GetMapping
     public String getSurveys(Model model, @RequestParam(required = false) String filter){
-        List<AdminSurveyDto> surveys = filter != null && filter.equalsIgnoreCase("all")
-                                        ? adminService.getMongoSurveys()
-                                        : adminService.getSurveysAboutPublished();
-
+        List<AdminSurveyDto> surveys = adminService.getMongoSurveys();
+        // filter != null && filter.equalsIgnoreCase("all")
+        // ? adminService.getMongoSurveys()
+        // : adminService.getSurveysAboutPublished();
         model.addAttribute("surveys", surveys);
         return "admin/surveys";
     }
@@ -81,7 +81,7 @@ public class AdminController {
     @GetMapping("/responses")
     public String getAllSurveyResponses(Model model){
 
-        model.addAttribute("responses", adminService.getAdminResponsesWhere(null));
+        model.addAttribute("responses", adminService.getMongoResponses(null));
         return "admin/responses";
     }
 

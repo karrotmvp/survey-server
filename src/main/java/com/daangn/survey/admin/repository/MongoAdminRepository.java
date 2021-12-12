@@ -69,16 +69,20 @@ public class MongoAdminRepository {
      * Responses
      */
     public List<AdminResponseDto> getMongoResponses(Long surveyId){
-        Criteria criteria = new Criteria().where("surveyId").is(surveyId);
+        Criteria criteria = new Criteria();
+
+        if(surveyId != null) criteria = new Criteria().where("surveyId").is(surveyId);
 
         MatchOperation matchOperation = Aggregation.match(criteria);
 
-        GroupOperation groupOperation = group("responseId").first("surveyId").as("surveyId").first("memberId").as("memberId");
+        GroupOperation groupOperation = group("responseId").first("surveyId").as("surveyId").first("memberId").as("memberId").first("createdAt").as("createdAt");
 
-        ProjectionOperation projectionOperation = project( "surveyId", "memberId").and("_id").as("responseId");
+        ProjectionOperation projectionOperation = project( "surveyId", "memberId", "createdAt").and("_id").as("responseId");
+
+        SortOperation sortOperation = sort(Sort.Direction.ASC, "createdAt");
 
         AggregationResults<AdminResponseDto> aggregate = this.mongoTemplate.aggregate(
-                newAggregation(matchOperation, groupOperation, projectionOperation),
+                newAggregation(matchOperation, groupOperation, projectionOperation, sortOperation),
                 "response", AdminResponseDto.class
         );
 
