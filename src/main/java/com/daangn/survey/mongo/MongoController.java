@@ -114,12 +114,15 @@ public class MongoController {
                 .body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, mongoService.findSurveyBriefBySurveyId(surveyId)));
     }
 
+    @Operation(summary = "설문 삭제", description = "설문을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "설문 삭제 성공", content = @Content)})
     @DeleteMapping("/surveys/{surveyId}")
     public ResponseEntity<ResponseDto<?>> deleteSurvey(@PathVariable Long surveyId){
         mongoService.deleteSurvey(surveyId);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(ResponseDto.of(HttpStatus.OK, DELETE_SURVEY));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(ResponseDto.of(HttpStatus.NO_CONTENT, DELETE_SURVEY));
     }
 
     // Response
