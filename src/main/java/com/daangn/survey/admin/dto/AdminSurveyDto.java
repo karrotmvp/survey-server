@@ -29,6 +29,8 @@ public class AdminSurveyDto {
 
     private LocalDateTime publishedAt;
 
+    private LocalDateTime createdAt;
+
     public void resolveKorTarget(){
         this.korTarget = Target.findValue(target);
     }

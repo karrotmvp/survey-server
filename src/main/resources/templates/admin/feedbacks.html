@@ -13,15 +13,13 @@
         <tr>
             <th>#</th>
             <th>작성자</th>
-            <th>질문</th>
             <th>답변</th>
             <th>날짜</th>
         </tr>
         <tr th:each="feedback , index: ${feedbacks}">
             <td th:text="${index.index + 1}">#</td>
-            <td th:text="${feedback.name}">작성자</td>
-            <td th:text="${#strings.abbreviate(feedback.question,10)}">질문</td>
-            <td th:text="${feedback.answer}">답변</td>
+            <td th:text="${feedback.name}" >작성자</td>
+            <td th:text="${feedback.answer}" width="70%">답변</td>
             <td th:text="${#temporals.format(feedback.createdAt, 'yyyy-MM-dd   HH:mm')}">날짜</td>
         </tr>
     </table>
