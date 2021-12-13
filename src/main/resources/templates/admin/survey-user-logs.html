@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="./fragments/header.html::fragment-header"></div>
+
+</head>
+<body>
+<div th:replace="./fragments/nav.html :: fragment-nav"></div>
+<div class="section">
+<!--    <h1>설문 디테일</h1>-->
+<!--    설문 제목 : <span th:text="${survey.title}">설문 제목</span> <br>-->
+<!--    설문 대상 : <th:block th:switch="${survey.target}">-->
+<!--    <span th:case="1">모든 이웃</span>-->
+<!--    <span th:case="2">비즈프로필 방문 이웃</span>-->
+<!--    <span th:case="3">단골</span>-->
+<!--</th:block>-->
+<!--    <br><br>-->
+    <div>
+        설문 ID: <span th:text="${userLogs.shortUrlLogs[0].surveyId}"></span>
+        <br>
+    </div>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>user agent</th>
+            <th>referrer</th>
+            <th>created at</th>
+        </tr>
+        <tr th:each="log , index: ${userLogs.shortUrlLogs}">
+            <td th:text="${index.index + 1}">#</td>
+            <td th:text="${log.userAgent}">작성자</td>
+            <td th:text="${log.referrer}">설문 대상</td>
+            <td th:text="${#temporals.format(log.createdAt, 'yyyy-MM-dd   HH:mm')}">배포날짜</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

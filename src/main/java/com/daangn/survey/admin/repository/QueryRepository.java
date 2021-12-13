@@ -1,12 +1,12 @@
 package com.daangn.survey.admin.repository;
 
+import com.daangn.survey.admin.dto.AdminFeedbackDto;
 import com.daangn.survey.admin.dto.AdminMemberDto;
 import com.daangn.survey.admin.dto.AdminResponseDto;
 import com.daangn.survey.admin.dto.AdminSurveyDto;
-import com.daangn.survey.domain.member.model.entity.QMember;
 import com.daangn.survey.domain.deprecated.response.model.entity.QSurveyResponse;
 import com.daangn.survey.domain.deprecated.survey.survey.model.entity.QSurvey;
-import com.daangn.survey.mongo.aggregate.AggregationResponseSetMongo;
+import com.daangn.survey.domain.member.model.entity.QMember;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.daangn.survey.domain.etc.feedback.model.entity.QFeedback.feedback;
 import static com.daangn.survey.domain.member.model.entity.QMember.member;
 
 @RequiredArgsConstructor
@@ -164,5 +165,23 @@ public class QueryRepository {
                 });
 
         return responses;
+    }
+
+    /**
+     * Feedback
+     */
+    public List<AdminFeedbackDto> getFeedbacks(){
+         List<AdminFeedbackDto> list = queryFactory.select(Projections.fields(AdminFeedbackDto.class,
+                feedback.question,
+                feedback.answer,
+                feedback.createdAt,
+                member.name
+                ))
+                .from(feedback)
+                .innerJoin(feedback.member, member)
+                .fetch();
+
+        System.out.println("");
+        return list;
     }
 }

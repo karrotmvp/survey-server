@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <div th:replace="./fragments/header.html::fragment-header"></div>
+
+</head>
+<body>
+<div th:replace="./fragments/nav.html :: fragment-nav"></div>
+<div class="section">
+    <h1>피드백 목록</h1>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>작성자</th>
+            <th>답변</th>
+            <th>날짜</th>
+        </tr>
+        <tr th:each="feedback , index: ${feedbacks}">
+            <td th:text="${index.index + 1}">#</td>
+            <td th:text="${feedback.name}" >작성자</td>
+            <td th:text="${feedback.answer}" width="70%">답변</td>
+            <td th:text="${#temporals.format(feedback.createdAt, 'yyyy-MM-dd   HH:mm')}">날짜</td>
+        </tr>
+    </table>
+</div>
+</body>
