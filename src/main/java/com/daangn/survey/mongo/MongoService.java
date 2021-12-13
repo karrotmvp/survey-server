@@ -51,7 +51,11 @@ public class MongoService {
 
     @Transactional(readOnly = true)
     public SurveyMongoDto findSurvey(Long surveyId){
-        return mongoRepository.getSurveyMongoDto(surveyId);
+        SurveyMongoDto survey = mongoRepository.getSurveyMongoDto(surveyId);
+
+        if(survey == null) throw new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND);
+
+        return survey;
     }
 
     // 성능 최악인데 이걸 어떻게 해결할 수 있을까?
@@ -80,6 +84,8 @@ public class MongoService {
     public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
 
         SurveyMongo survey = mongoRepository.findSurveyMongo(surveyId);
+
+        if(survey == null) throw new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND);
 
         Member member = memberRepository.findById(survey.getMemberId()).orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
 
