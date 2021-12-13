@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.daangn.survey.common.message.ResponseMessage.PUBLISH_SURVEY;
 
@@ -33,12 +34,19 @@ public class AdminController {
      * Surveys
      */
     @GetMapping
-    public String getSurveys(Model model, @RequestParam(required = false) String filter){
+    public String getSurveys(
+            Model model,
+            @RequestParam(required = false, defaultValue = "") String filter
+    ){
         List<AdminSurveyDto> surveys = adminService.getMongoSurveys();
-        // filter != null && filter.equalsIgnoreCase("all")
-        // ? adminService.getMongoSurveys()
-        // : adminService.getSurveysAboutPublished();
-        model.addAttribute("surveys", surveys);
+
+        switch (filter){
+            case "answered":
+                surveys = surveys.stream().filter(survey -> survey.getResponseCount() > 0).collect(Collectors.toList());
+            default:
+                model.addAttribute("surveys", surveys);
+        }
+
         return "admin/surveys";
     }
 

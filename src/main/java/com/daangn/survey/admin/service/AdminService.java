@@ -8,6 +8,7 @@ import com.daangn.survey.common.util.shorturl.repository.UrlRepository;
 import com.daangn.survey.core.log.model.ShortUrlLog;
 import com.daangn.survey.mongo.survey.SurveySummaryMongoDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.dataloader.BatchLoader;
 import org.dataloader.DataLoader;
 import org.dataloader.DataLoaderFactory;

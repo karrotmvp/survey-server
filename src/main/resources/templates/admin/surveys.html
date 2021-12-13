@@ -7,6 +7,7 @@
 </head>
 <body>
 <div th:replace="./fragments/nav.html :: fragment-nav"></div>
+<a href="/daangn/admin?filter=answered">설문 필터링</a>
 <div class="section">
     <h1>설문 목록</h1>
     <table>
@@ -33,7 +34,13 @@
     </table>
 </div>
 </body>
-<script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var surveys = /*[[ ${surveys} ]]*/;
+
+    /*]]*/
+
     function patchSurveyToPublished(surveyId) {
         fetch(location.origin + '/daangn/admin/surveys/' + surveyId + "/publish", {
             method: 'PATCH',
