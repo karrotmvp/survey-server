@@ -1,7 +1,5 @@
 package com.daangn.survey.mongo;
 
-import com.daangn.survey.core.error.ErrorCode;
-import com.daangn.survey.core.error.exception.EntityNotFoundException;
 import com.daangn.survey.mongo.aggregate.AggregationAnswerMongo;
 import com.daangn.survey.mongo.aggregate.AggregationQuestionMongo;
 import com.daangn.survey.mongo.aggregate.AggregationResponseSetMongo;
@@ -15,7 +13,6 @@ import com.mongodb.BasicDBObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
@@ -65,8 +62,6 @@ public class MongoRepository {
         update.set("isDeleted", true);
 
         mongoOps.findAndModify(query(where("_id").is(surveyId)), update, SurveyMongo.class);
-
-        System.out.println();
     }
 
     // Response

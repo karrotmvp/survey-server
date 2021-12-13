@@ -53,6 +53,8 @@ public class MongoService {
     public SurveyMongoDto findSurvey(Long surveyId){
         SurveyMongoDto survey = mongoRepository.getSurveyMongoDto(surveyId);
 
+        survey.calculateCreatedAt();
+
         if(survey == null) throw new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND);
 
         return survey;
@@ -76,7 +78,10 @@ public class MongoService {
 
         userLoader.dispatchAndJoin();
 
-        return surveys.stream().sorted(Comparator.comparing(SurveySummaryMongoDto::getCreatedAt).reversed()).collect(Collectors.toList());
+        return surveys.stream()
+                .map(SurveySummaryMongoDto::calculateCreatedAt)
+                .sorted(Comparator.comparing(SurveySummaryMongoDto::getCreatedAt).reversed()).collect(Collectors.toList());
+
 
     }
 
