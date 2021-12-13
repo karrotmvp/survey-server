@@ -113,4 +113,14 @@ public class AdminController {
 
         return "admin/survey-user-logs";
     }
+
+    /**
+     * Feedback
+     */
+    @GetMapping("/feedbacks")
+    public String getFeedbacks(Model model){
+        model.addAttribute("feedbacks", adminService.getFeedbacks());
+
+        return "admin/feedbacks";
+    }
 }

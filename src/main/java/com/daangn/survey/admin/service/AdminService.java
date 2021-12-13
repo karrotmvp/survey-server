@@ -125,4 +125,13 @@ public class AdminService {
 
         return new AdminUserLogDto(shortUrlLogs, shorturl.getReqCount());
     }
+
+    /**
+     * Feedback
+     */
+
+    @Transactional(readOnly = true)
+    public List<AdminFeedbackDto> getFeedbacks(){
+        return queryRepository.getFeedbacks();
+    }
 }
