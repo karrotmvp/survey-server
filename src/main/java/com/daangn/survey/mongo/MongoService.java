@@ -130,10 +130,10 @@ public class MongoService {
             aggregationQuestion.setQuestion(question.getText());
 
             if(question.getQuestionType() == 2)
-                aggregationQuestion.getAnswers().addAll(mongoRepository.getTextAnswers(question.getId()));
+                aggregationQuestion.getAnswers().addAll(mongoRepository.getTextAnswers(surveyId, question.getId()));
 
             if(question.getQuestionType() == 3)
-                aggregationQuestion.getAnswers().addAll(mongoRepository.getChoiceAnswers(question.getId()));
+                aggregationQuestion.getAnswers().addAll(mongoRepository.getChoiceAnswers(surveyId, question.getId()));
 
             result.add(aggregationQuestion);
         }

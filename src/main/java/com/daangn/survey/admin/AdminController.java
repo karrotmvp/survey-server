@@ -5,7 +5,6 @@ import com.daangn.survey.admin.dto.AdminSurveyDto;
 import com.daangn.survey.admin.service.AdminService;
 import com.daangn.survey.common.model.ResponseDto;
 import com.daangn.survey.domain.deprecated.aggregation.service.AggregationService;
-import com.daangn.survey.domain.deprecated.response.model.entity.SurveyResponse;
 import com.daangn.survey.domain.deprecated.response.service.ResponseService;
 import com.daangn.survey.domain.deprecated.survey.survey.service.SurveyService;
 import com.daangn.survey.mongo.MongoService;
@@ -18,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.daangn.survey.common.message.ResponseMessage.PUBLISH_SURVEY;
 
@@ -27,21 +27,26 @@ import static com.daangn.survey.common.message.ResponseMessage.PUBLISH_SURVEY;
 public class AdminController {
 
     private final SurveyService surveyService;
-    private final ResponseService responseService;
     private final AdminService adminService;
-    private final AggregationService aggregationService;
     private final MongoService mongoService;
 
     /**
      * Surveys
      */
     @GetMapping
-    public String getSurveys(Model model, @RequestParam(required = false) String filter){
-        List<AdminSurveyDto> surveys = filter != null && filter.equalsIgnoreCase("all")
-                                        ? adminService.getMongoSurveys()
-                                        : adminService.getSurveysAboutPublished();
+    public String getSurveys(
+            Model model,
+            @RequestParam(required = false, defaultValue = "") String filter
+    ){
+        List<AdminSurveyDto> surveys = adminService.getMongoSurveys();
 
-        model.addAttribute("surveys", surveys);
+        switch (filter){
+            case "answered":
+                surveys = surveys.stream().filter(survey -> survey.getResponseCount() > 0).collect(Collectors.toList());
+            default:
+                model.addAttribute("surveys", surveys);
+        }
+
         return "admin/surveys";
     }
 
@@ -84,7 +89,7 @@ public class AdminController {
     @GetMapping("/responses")
     public String getAllSurveyResponses(Model model){
 
-        model.addAttribute("responses", adminService.getAdminResponsesWhere(null));
+        model.addAttribute("responses", adminService.getMongoResponses(null));
         return "admin/responses";
     }
 
@@ -106,4 +111,24 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, PUBLISH_SURVEY));
     }
 
+    /**
+     * user log
+     */
+
+    @GetMapping("/surveys/{surveyId}/user-log")
+    public String getUserLogFromSurvey(@PathVariable Long surveyId, Model model){
+        model.addAttribute("userLogs", adminService.getUserLogsFromSurvey(surveyId));
+
+        return "admin/survey-user-logs";
+    }
+
+    /**
+     * Feedback
+     */
+    @GetMapping("/feedbacks")
+    public String getFeedbacks(Model model){
+        model.addAttribute("feedbacks", adminService.getFeedbacks());
+
+        return "admin/feedbacks";
+    }
 }
