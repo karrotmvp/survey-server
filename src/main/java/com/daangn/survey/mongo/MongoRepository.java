@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,7 +32,6 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 public class MongoRepository {
 
     private final MongoOperations mongoOps;
-    private final MongoTemplate mongoTemplate;
 
     // Survey
     public Long insertSurvey(SurveyMongo surveyMongo){
@@ -43,18 +43,28 @@ public class MongoRepository {
 
     public SurveyMongoDto getSurveyMongoDto(Long surveyId){
 
-        return mongoOps.findOne(query(where("_id").is(surveyId)), SurveyMongoDto.class, "survey");
+        return mongoOps.findOne(query(where("_id").is(surveyId).and("isDeleted").is(false)), SurveyMongoDto.class, "survey");
     }
 
     public SurveyMongo findSurveyMongo(Object surveyId){
 
-        return mongoOps.findOne(query(where("_id").is(surveyId)), SurveyMongo.class);
+        return mongoOps.findOne(query(where("_id").is(surveyId).and("isDeleted").is(false)), SurveyMongo.class);
     }
 
     public List<SurveySummaryMongoDto> findSurveysByMemberId(Long memberId){
-        List<SurveySummaryMongoDto> surveySummaries = mongoOps.find(query(where("memberId").is(memberId)), SurveySummaryMongoDto.class, "survey");
+        List<SurveySummaryMongoDto> surveySummaries = mongoOps.find(query(where("memberId").is(memberId).and("isDeleted").is(false)), SurveySummaryMongoDto.class, "survey");
 
         return surveySummaries;
+    }
+
+    public void deleteSurvey(Long surveyId){
+
+        Update update = new Update();
+        update.set("isDeleted", true);
+
+        mongoOps.findAndModify(query(where("_id").is(surveyId)), update, SurveyMongo.class);
+
+        System.out.println();
     }
 
     // Response

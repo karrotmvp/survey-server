@@ -95,6 +95,11 @@ public class MongoService {
         return surveyBriefDto;
     }
 
+    @Transactional
+    public void deleteSurvey(Long surveyId){
+        mongoRepository.deleteSurvey(surveyId);
+    }
+
     // Response
     @Transactional
     public void insertResponse(ResponseMongoDto response){
