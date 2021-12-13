@@ -77,8 +77,8 @@ public class MongoRepository {
     }
 
     // Aggregation
-    public List<AggregationAnswerMongo.TextAnswerMongo> getTextAnswers(Long questionId){
-        Criteria criteria = new Criteria().where("questionId").is(questionId);
+    public List<AggregationAnswerMongo.TextAnswerMongo> getTextAnswers(Long surveyId, Long questionId){
+        Criteria criteria = new Criteria().where("questionId").is(questionId).and("surveyId").is(surveyId);
         MatchOperation matchOperation = Aggregation.match(criteria);
 
         ProjectionOperation projectionOperation = project( "value").and("_id").as("responseId");
@@ -91,8 +91,8 @@ public class MongoRepository {
         return aggregate.getMappedResults();
     }
 
-    public List<AggregationAnswerMongo.ChoiceAnswerMongo> getChoiceAnswers(Long questionId){
-        Criteria criteria = new Criteria().where("questionId").is(questionId);
+    public List<AggregationAnswerMongo.ChoiceAnswerMongo> getChoiceAnswers(Long surveyId, Long questionId){
+        Criteria criteria = new Criteria().where("questionId").is(questionId).and("surveyId").is(surveyId);
         MatchOperation matchOperation = Aggregation.match(criteria);
 
         GroupOperation groupOperation = group("value")
