@@ -36,7 +36,7 @@ public class MongoAdminRepository {
     }
 
     public List<AdminSurveyDto> getResponseCounts(List<AdminSurveyDto> surveys){
-        Criteria criteria = new Criteria().where("surveyId").in(surveys.stream().map(el -> el.getId()).collect(Collectors.toList())).and("isDeleted").is(true);
+        Criteria criteria = new Criteria().where("surveyId").in(surveys.stream().map(el -> el.getId()).collect(Collectors.toList()));
 
         MatchOperation matchOperation = Aggregation.match(criteria);
 
