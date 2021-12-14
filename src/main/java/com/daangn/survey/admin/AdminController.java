@@ -69,7 +69,7 @@ public class AdminController {
     public String bizProfiles(Model model, @RequestParam(required = false) String filter){
 
         List<AdminMemberDto> memberDtoList = filter != null && filter.equalsIgnoreCase("counting")
-                ? adminService.getMembersWhere(0, "ROLE_BIZ")
+                ? adminService.getMembersWhere(null, "ROLE_BIZ").stream().filter(el -> el.getSurveyCount() > 0).collect(Collectors.toList())
                 : adminService.getMembersWhere(null, "ROLE_BIZ");
 
         model.addAttribute("members", memberDtoList);
