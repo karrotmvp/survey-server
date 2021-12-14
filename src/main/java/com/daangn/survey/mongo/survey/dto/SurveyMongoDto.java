@@ -21,4 +21,8 @@ public class SurveyMongoDto {
     private List<QuestionMongoDto> questions;
 
     private LocalDateTime createdAt;
+
+    public void calculateCreatedAt(){
+        this.createdAt = createdAt.minusHours(9L);
+    }
 }

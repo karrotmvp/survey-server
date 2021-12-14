@@ -30,13 +30,13 @@ public class MongoAdminRepository {
      * Surveys
      */
     public List<AdminSurveyDto> getSurveys(){
-        List<AdminSurveyDto> surveys = mongoTemplate.findAll(AdminSurveyDto.class, "survey");
+        List<AdminSurveyDto> surveys = mongoTemplate.find(Query.query(where("isDeleted").is(false)), AdminSurveyDto.class, "survey");
 
         return surveys;
     }
 
     public List<AdminSurveyDto> getResponseCounts(List<AdminSurveyDto> surveys){
-        Criteria criteria = new Criteria().where("surveyId").in(surveys.stream().map(el -> el.getId()).collect(Collectors.toList()));
+        Criteria criteria = new Criteria().where("surveyId").in(surveys.stream().map(el -> el.getId()).collect(Collectors.toList())).and("isDeleted").is(true);
 
         MatchOperation matchOperation = Aggregation.match(criteria);
 

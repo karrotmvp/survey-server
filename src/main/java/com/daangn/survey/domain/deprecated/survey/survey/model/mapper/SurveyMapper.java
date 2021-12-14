@@ -41,7 +41,7 @@ public interface SurveyMapper {
     @Mapping(target = "estimatedTime", source = "estimatedTime")
     @Mapping(target = "questionCount", expression = "java(survey.getQuestions().size())")
     @Mapping(target = "target", expression = "java(survey.convertTarget())")
-    @Mapping(target = "createdAt", source = "survey.createdAt")
+    @Mapping(target = "createdAt", expression = "java(survey.getCreatedAt().minusHours(9L))")
     @Mapping(target = "bizProfile", source = "bizProfileDto")
     SurveyBriefDto toSurveyBriefDtoFromSurveyMongo(SurveyMongo survey, BizProfileDto bizProfileDto, int estimatedTime);
 }

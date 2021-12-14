@@ -36,8 +36,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_BRIEF;
-import static com.daangn.survey.common.message.ResponseMessage.READ_SURVEY_LIST;
+import static com.daangn.survey.common.message.ResponseMessage.*;
 
 @Tag(name = "몽고 엔드포인트")
 @RequiredArgsConstructor
@@ -111,7 +110,19 @@ public class MongoController {
     @GetMapping("/surveys/brief/{surveyId}")
     public ResponseEntity<ResponseDto<SurveyBriefDto>> getSurveyBrief(@PathVariable Long surveyId){
 
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, mongoService.findSurveyBriefBySurveyId(surveyId)));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ResponseDto.of(HttpStatus.OK, READ_SURVEY_BRIEF, mongoService.findSurveyBriefBySurveyId(surveyId)));
+    }
+
+    @Operation(summary = "설문 삭제", description = "설문을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "설문 삭제 성공", content = @Content)})
+    @DeleteMapping("/surveys/{surveyId}")
+    public ResponseEntity<ResponseDto<?>> deleteSurvey(@PathVariable Long surveyId){
+        mongoService.deleteSurvey(surveyId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(ResponseDto.of(HttpStatus.NO_CONTENT, DELETE_SURVEY));
     }
 
     // Response

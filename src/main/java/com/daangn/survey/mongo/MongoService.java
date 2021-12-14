@@ -51,7 +51,13 @@ public class MongoService {
 
     @Transactional(readOnly = true)
     public SurveyMongoDto findSurvey(Long surveyId){
-        return mongoRepository.getSurveyMongoDto(surveyId);
+        SurveyMongoDto survey = mongoRepository.getSurveyMongoDto(surveyId);
+
+        survey.calculateCreatedAt();
+
+        if(survey == null) throw new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND);
+
+        return survey;
     }
 
     // 성능 최악인데 이걸 어떻게 해결할 수 있을까?
@@ -72,7 +78,10 @@ public class MongoService {
 
         userLoader.dispatchAndJoin();
 
-        return surveys.stream().sorted(Comparator.comparing(SurveySummaryMongoDto::getCreatedAt).reversed()).collect(Collectors.toList());
+        return surveys.stream()
+                .map(SurveySummaryMongoDto::calculateCreatedAt)
+                .sorted(Comparator.comparing(SurveySummaryMongoDto::getCreatedAt).reversed()).collect(Collectors.toList());
+
 
     }
 
@@ -80,6 +89,8 @@ public class MongoService {
     public SurveyBriefDto findSurveyBriefBySurveyId(Long surveyId){
 
         SurveyMongo survey = mongoRepository.findSurveyMongo(surveyId);
+
+        if(survey == null) throw new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND);
 
         Member member = memberRepository.findById(survey.getMemberId()).orElseThrow(() -> new EntityNotFoundException(ErrorCode.ENTITY_NOT_FOUND));
 
@@ -93,6 +104,11 @@ public class MongoService {
         surveyBriefDto.setCoverImageUrls(profile.getCoverImageUrls());
 
         return surveyBriefDto;
+    }
+
+    @Transactional
+    public void deleteSurvey(Long surveyId){
+        mongoRepository.deleteSurvey(surveyId);
     }
 
     // Response

@@ -36,8 +36,9 @@ public class SurveySummaryMongoDto {
         return this;
     }
 
-    public boolean isSurveyId(Long id){
-        return this.getId().equals(id);
+    public SurveySummaryMongoDto calculateCreatedAt(){
+        this.createdAt = createdAt.minusHours(9L);
+        return this;
     }
 }
 
