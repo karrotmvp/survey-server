@@ -52,7 +52,7 @@ public class AdminController {
 
     @GetMapping("/members/{memberId}")
     public String memberSurveys(@PathVariable Long memberId, Model model){
-        model.addAttribute("surveys", adminService.getAdminSurveysWhere(memberId));
+        model.addAttribute("surveys", mongoService.findSurveysByMemberId(memberId));
         return "admin/surveys";
     }
 
