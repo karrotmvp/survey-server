@@ -34,10 +34,10 @@ public class AdminService {
     public List<AdminMemberDto> getMembersWhere(Integer number, String role){
         List<AdminMemberDto> members = queryRepository.getUsersWhere(role);
 
-        BatchLoader<AdminMemberDto, AdminMemberDto> responseCountBatchLoader =
+        BatchLoader<AdminMemberDto, AdminMemberDto> surveyCountBatchLoader =
                 surveys1 -> CompletableFuture.supplyAsync(() -> mongoAdminRepository.getSurveyCounts(surveys1));
 
-        DataLoader<AdminMemberDto, AdminMemberDto> responseCountDataLoader = DataLoaderFactory.newDataLoader(responseCountBatchLoader);
+        DataLoader<AdminMemberDto, AdminMemberDto> responseCountDataLoader = DataLoaderFactory.newDataLoader(surveyCountBatchLoader);
 
         members.stream().map(responseCountDataLoader::load).collect(Collectors.toList());
 
