@@ -16,6 +16,7 @@
             <th>설문 ID</th>
             <th>제목</th>
             <th>답변 수</th>
+            <th>작성자</th>
             <th>설문 대상</th>
             <th>날짜</th>
 <!--            <th>배포하기</th>-->
@@ -25,6 +26,7 @@
             <td><a th:href="@{/daangn/admin/surveys/{surveyId}/user-log(surveyId=${survey.id})}" th:text="${survey.id}">설문 ID</a></td>
             <td><a th:href="@{/daangn/admin/surveys/{surveyId}(surveyId=${survey.id})}" th:text="${survey.title}">설문 제목</a></td>
             <td><a th:href="@{/daangn/admin/responses/surveys/{surveyId}(surveyId=${survey.id})}" th:text="${survey.responseCount}">답변 수</a></td>
+            <td th:text="${survey.writer}">작성자</a></td>
             <td>
                 <th:block th:switch="${survey.target}">
                 <span th:case="1">모든 이웃</span>

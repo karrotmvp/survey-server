@@ -25,6 +25,8 @@ public class SurveySummaryMongoDto {
     @Schema(description = "설문 응답 개수", required = true)
     private int responseCount;
 
+    private String writer;
+
     @Schema(description = "설문 대상", required = true)
     private int target;
 
