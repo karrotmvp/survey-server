@@ -27,24 +27,20 @@ public class QueryRepository {
     /**
      * Members
      */
-    public List<AdminMemberDto> getUsersWhere(Integer number, String role){
+    public List<AdminMemberDto> getUsersWhere(String role){
         QMember member = QMember.member;
-        QSurvey survey = QSurvey.survey;
 
         return queryFactory
                 .select(Projections.fields(AdminMemberDto.class,
                         member.id.as("memberId"),
                         member.daangnId.as("daangnId"),
                         member.name,
-                        survey.member.id.count().as("surveyCount"),
                         member.region,
                         member.imageUrl
                 ))
                 .from(member)
-                .leftJoin(survey).on(member.id.eq(survey.member.id))
-                .groupBy(QMember.member.id)
                 .orderBy(member.createdAt.asc())
-                .where(QueryExpression.hasSurveys(number), QueryExpression.eqRole(role))
+                .where(QueryExpression.eqRole(role))
                 .fetch();
 
     }

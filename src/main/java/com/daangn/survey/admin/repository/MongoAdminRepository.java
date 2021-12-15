@@ -1,6 +1,8 @@
 package com.daangn.survey.admin.repository;
 
+import com.daangn.survey.admin.dto.AdminMemberDto;
 import com.daangn.survey.admin.dto.AdminResponseDto;
+import com.daangn.survey.admin.dto.AdminSurveyCountDto;
 import com.daangn.survey.admin.dto.AdminSurveyDto;
 import com.daangn.survey.core.log.model.ShortUrlLog;
 import com.daangn.survey.mongo.aggregate.AggregationResponseSetMongo;
@@ -25,6 +27,35 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 public class MongoAdminRepository {
 
     private final MongoTemplate mongoTemplate;
+    /**
+     * Members
+     */
+    public List<AdminMemberDto> getSurveyCounts(List<AdminMemberDto> members){
+        Criteria criteria = new Criteria().where("memberId").in(members.stream().map(el -> el.getMemberId()).collect(Collectors.toList()));
+
+        MatchOperation matchOperation = Aggregation.match(criteria);
+
+        GroupOperation groupOperation = group("memberId").count().as("count");
+
+        AggregationResults<AdminSurveyCountDto> aggregate = this.mongoTemplate.aggregate(
+                newAggregation(matchOperation, groupOperation),
+                "survey", AdminSurveyCountDto.class
+        );
+
+        List<AdminSurveyCountDto> list = aggregate.getMappedResults();
+
+        members.stream()
+                .forEach(member -> {
+                    Optional<AdminSurveyCountDto> optional = list.stream()
+                            .filter(el -> el.getId().equals(member.getMemberId()))
+                            .findFirst();
+
+                    if(optional.isPresent())
+                        member.setSurveyCount(optional.get().getCount());
+                });
+
+        return members;
+    }
 
     /**
      * Surveys

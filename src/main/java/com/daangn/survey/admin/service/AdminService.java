@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.dataloader.BatchLoader;
 import org.dataloader.DataLoader;
 import org.dataloader.DataLoaderFactory;
+import org.dataloader.MappedBatchLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,18 @@ public class AdminService {
      */
     @Transactional(readOnly = true)
     public List<AdminMemberDto> getMembersWhere(Integer number, String role){
-        return queryRepository.getUsersWhere(number, role);
+        List<AdminMemberDto> members = queryRepository.getUsersWhere(role);
+
+        BatchLoader<AdminMemberDto, AdminMemberDto> responseCountBatchLoader =
+                surveys1 -> CompletableFuture.supplyAsync(() -> mongoAdminRepository.getSurveyCounts(surveys1));
+
+        DataLoader<AdminMemberDto, AdminMemberDto> responseCountDataLoader = DataLoaderFactory.newDataLoader(responseCountBatchLoader);
+
+        members.stream().map(responseCountDataLoader::load).collect(Collectors.toList());
+
+        responseCountDataLoader.dispatchAndJoin();
+
+        return members;
 
     }
 
