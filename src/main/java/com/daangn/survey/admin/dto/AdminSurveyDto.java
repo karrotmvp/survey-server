@@ -1,6 +1,7 @@
 package com.daangn.survey.admin.dto;
 
 import com.daangn.survey.domain.deprecated.survey.survey.model.entity.Target;
+import com.daangn.survey.mongo.survey.SurveySummaryMongoDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.annotation.Transient;
@@ -33,5 +34,9 @@ public class AdminSurveyDto {
 
     public void resolveKorTarget(){
         this.korTarget = Target.findValue(target);
+    }
+
+    public void calculateCreatedAt(){
+        this.createdAt = createdAt.minusHours(9L);
     }
 }
