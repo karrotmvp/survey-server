@@ -53,7 +53,10 @@ public class AdminService {
     @Transactional(readOnly = true)
     public List<AdminSurveyDto> getMongoSurveys(){
         List<AdminSurveyDto> surveys = mongoAdminRepository.getSurveys();
-        surveys.forEach(el -> el.resolveKorTarget());
+        surveys.forEach(el -> {
+            el.calculateCreatedAt();
+            el.resolveKorTarget();
+        });
 
         getResponseCount(surveys);
         getMemberInfo(surveys);
